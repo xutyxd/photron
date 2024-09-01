@@ -1,0 +1,41 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Photron",
+        "summary": "A server to manage resources splitting into chunks for parallel download",
+        "version": "0.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://photron.hexag0n.app",
+            "description": "Production server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Crosscutting",
+            "description": "Operation related to a crosscutting actions"
+        },
+        {
+            "name": "Files",
+            "description": "Operation related to files"
+        },
+        {
+            "name": "Folders",
+            "description": "Operation related to folders"
+        },
+        {
+            "name": "Tags",
+            "description": "Operation related to tags"
+        },
+        {
+            "name": "Users",
+            "description": "Operation related to users" 
+        }
+    ],
+    "paths": {
+        "/health-check": {
+            "$ref": "./crosscutting/health-check/paths/health-check.path.json"
+        }
+    }
+}
