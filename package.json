@@ -1,0 +1,67 @@
+{
+  "name": "photron",
+  "version": "1.0.0",
+  "description": "A server to manage resources splitting into chunks for parallel download",
+  "main": "src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./mjs/index.js",
+      "require": "./cjs/index.js"
+    }
+  },
+  "files": [
+    "cjs",
+    "mjs"
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "openapi:bundle": "redocly bundle src/openapi/definition.json --output src/openapi/specification.json",
+    "openapi:docs": "redocly build-docs src/openapi/specification.json --output public/index.html",
+    "openapi:types": "openapi-typescript src/openapi/specification.json -o src/openapi/specification.d.ts",
+    "server:build:commonjs": "rm -fr server/cjs/* && tsc -p tsconfig-server-cjs.json && bash cjs-formatter.sh",
+    "server:build:mjs": "rm -fr server/mjs/* && tsc -p tsconfig-server-mjs.json && bash mjs-formatter.sh",
+    "server:build": "npm run server:build:commonjs && npm run server:build:mjs && ./fixup.sh",
+    "package:build": "",
+    "start": "npm run server:build && node ./server/cjs/index.js",
+    "clean": "npm prune --production",
+    "test:ts": "tsc --noEmit",
+    "test:units": "node --test --require ts-node/register tests/units/**/*.spec.ts",
+    "test:units:coverage": "c8 npm run test:units",
+    "test:functionals": "cucumber-js tests/functionals"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xutyxd/photron.git"
+  },
+  "author": "XutyXD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xutyxd/photron/issues"
+  },
+  "homepage": "https://github.com/xutyxd/photron#readme",
+  "keywords": [
+    "typescript",
+    "hybrid",
+    "mjs",
+    "cjs",
+    "openapi",
+    "server"
+  ],
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.3.1",
+    "@redocly/cli": "^1.9.0",
+    "@semantic-release/github": "^9.0.6",
+    "@semantic-release/npm": "^11.0.0",
+    "c8": "^9.1.0",
+    "openapi-typescript": "^6.7.4",
+    "semantic-release": "^22.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "inversify": "^6.0.2",
+    "openapi-fetch": "^0.12.0",
+    "reflect-metadata": "^0.2.2",
+    "server-over-express": "^1.6.1"
+  }
+}
