@@ -25,6 +25,7 @@ coverage
 
 # API keys and secrets
 .env
+src/server/configuration/cookies.keys.json
 src/server/configuration/oauth2.keys.json
 
 # Dependency directory
