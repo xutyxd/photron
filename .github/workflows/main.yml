@@ -31,7 +31,12 @@ jobs:
           npm ci --cache .npm
           . ./keys-from-env.sh
         id: cache-deps
-      
+      - name: Setup environment
+        env:
+          OAUTH2_KEYS: ${{ secrets.OAUTH2_KEYS  }}
+          COOKIES_KEYS: ${{ secrets.COOKIES_KEYS  }}
+        run: |
+          . ./keys-from-env.sh
       - name: Generate openapi
         run: |
           npm run openapi:bundle
