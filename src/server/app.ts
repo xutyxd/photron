@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { Container } from "inversify";
 import { HTTPServer } from "server-over-express";
 
