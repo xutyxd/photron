@@ -1,14 +1,14 @@
 import { Container } from "inversify";
 import { HTTPServer } from "server-over-express";
 
-
 import { AuthContainer } from "./auth";
+import { SetAuthAction } from "./auth/actions/set-auth.action";
 import { AuthController } from "./auth/auth.controller";
 import { ConfigurationContainer } from "./configuration";
+import { ConfigurationService } from "./configuration/services/configuration.service";
 import { HealthCheckContainer } from "./crosscutting/healt-check";
 import { HealthCheckController } from "./crosscutting/healt-check/health-check.controller";
 import { Response } from "./crosscutting/responses/response.class";
-import { ConfigurationService } from "./configuration/services/configuration.service";
 
 const App = class {
     public server: HTTPServer;
@@ -18,6 +18,9 @@ const App = class {
 
         // Containers
         const appContainer = Container.merge(ConfigurationContainer, HealthCheckContainer, AuthContainer);
+        // Actions
+        // Actions pre-request
+        const setAuthAction = appContainer.get(SetAuthAction);
         // Services
         const configurationService = appContainer.get(ConfigurationService);
         // Controllers
@@ -30,9 +33,12 @@ const App = class {
             key: "Access-Control-Allow-origin",
             value: "*"
         });
-
         // Set keys for cookies
         httpServer.keys = configurationService.keys.cookies;
+        // Set actions
+        // Set actions before request
+        httpServer.request.before.add(setAuthAction);
+        // Set actions after request
         // Set controllers
         httpServer.controllers.add(healthCheckController);
         httpServer.controllers.add(authController);

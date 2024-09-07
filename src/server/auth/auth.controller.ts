@@ -1,15 +1,14 @@
-import { OAuth2Client } from "google-auth-library";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import { ConfigurationService } from "../configuration/services/configuration.service";
 import { RedirectResponse } from "../crosscutting/responses/redirect-response.class";
+import { AuthService } from "./services/auth.service";
 
 @injectable()
 export class AuthController implements IHTTPController {
     public path = 'auth';
     public handlers: IHTTPControllerHandler<unknown>[];
 
-    constructor(@inject(ConfigurationService) private readonly configurationService: ConfigurationService) {
+    constructor(@inject(AuthService) private readonly authService: AuthService) {
         this.handlers = [
             {
                 path: { method: HttpMethodEnum.GET, relative: 'google' },
@@ -26,27 +25,12 @@ export class AuthController implements IHTTPController {
         ]
     }
 
-    private getClient() {
-        const keys = this.configurationService.keys.oauth;
-        const oAuth2Client = new OAuth2Client(
-            keys.web.client_id,
-            keys.web.client_secret,
-            keys.web.redirect_uris[0]
-        );
-
-        return oAuth2Client;
-    }
-
     public authenticate(request: HTTPRequest, context: IHTTPContextData) {
 
         let result: RedirectResponse;
         
         try {
-            const client = this.getClient();
-            const url = client.generateAuthUrl({
-                access_type: 'offline',
-                scope: ['openid', 'email', 'profile'],
-            });
+            const url = this.authService.authenticate();
 
             result = new RedirectResponse(url, context);
         } catch (error) {
@@ -64,19 +48,9 @@ export class AuthController implements IHTTPController {
         try {
             // Get the code from the request
             const code = request.query.code as string;
-            const client = this.getClient();
-            // Get the token
-            const response = await client.getToken(code);
+            const credentials = await this.authService.callback(code);
 
-            client.setCredentials(response.tokens);
-            const userinfo = await client.request({
-                url: 'https://www.googleapis.com/oauth2/v3/userinfo',
-                params: {
-                    access_token: response.tokens.access_token,
-                },
-            });
-
-            context.cookies.set('access_token', response.tokens.access_token, { signed: true, maxAge: 3600 * 24 * 7, httpOnly: true });
+            context.cookies.set('access_token', credentials.access_token, { signed: true, maxAge: 3600 * 24 * 7, httpOnly: true });
             result = new RedirectResponse('http://localhost:4200', context);
         } catch (error) {
             console.log('Error: ', error);
@@ -91,15 +65,7 @@ export class AuthController implements IHTTPController {
         let result;
 
         try {
-            const client = this.getClient();
-            const access_token = context.cookies.get('access_token');
-
-            client.setCredentials({ access_token });
-            const userinfo = await client.request({
-                url: 'https://www.googleapis.com/oauth2/v3/userinfo'
-            });
-    
-            result = userinfo.data;
+            result = context.user;
         } catch (error) {
             console.log('Error: ', error);
             throw new Error('Error trying to authenticate with Google');
