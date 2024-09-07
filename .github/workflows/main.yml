@@ -29,7 +29,6 @@ jobs:
         run: |
           npm install
           npm ci --cache .npm
-          . ./keys-from-env.sh
         id: cache-deps
       - name: Setup environment
         env:
