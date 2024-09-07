@@ -12,7 +12,7 @@ export class Response implements IHTTPResponse {
         this.code = context.code;
     }
 
-    public reply(): unknown {
+    public reply() {
         const { code, headers, response, timestamp } = this;
 
         const reply = {
