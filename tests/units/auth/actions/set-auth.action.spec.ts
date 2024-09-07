@@ -60,8 +60,8 @@ describe('SetAuthAction', () => {
                 response = e as Response;
             }
 
-            const replied = response.reply();
-            console.log(replied);
+            const replied = response.reply() as { code: number, response: string };
+
             assert.equal(response instanceof Response, true);
             assert.equal(replied.code, 401);
             assert.equal(replied.response, 'Authorization header not found');
@@ -88,7 +88,7 @@ describe('SetAuthAction', () => {
                 response = e as Response;
             }
 
-            const replied = response.reply();
+            const replied = response.reply() as { code: number, response: string };
 
             assert.equal(response instanceof Response, true);
             assert.equal(replied.code, 200);
@@ -114,7 +114,7 @@ describe('SetAuthAction', () => {
                 response = e as Response;
             }
 
-            const replied = response.reply();
+            const replied = response.reply() as { code: number};
 
             assert.equal(response instanceof Response, true);
             assert.equal(replied.code, 200);
