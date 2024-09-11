@@ -8,7 +8,7 @@ import { IHTTPContextData } from "server-over-express";
 import { SetAuthAction } from "../../../../src/server/auth/actions/set-auth.action";
 import { AuthService } from "../../../../src/server/auth/services/auth.service";
 import { ConfigurationService } from "../../../../src/server/configuration/services/configuration.service";
-import { Response } from "../../../../src/server/crosscutting/responses/response.class";
+import { Response } from "../../../../src/server/crosscutting/common/responses/response.class";
 
 describe('SetAuthAction', () => {
 
