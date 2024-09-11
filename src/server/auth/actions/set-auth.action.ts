@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HTTPRequest, IHTTPContextData, IHTTPIntermediateAction } from "server-over-express";
-import { Response } from "../../crosscutting/responses/response.class";
+import { Response } from "../../crosscutting/common/responses/response.class";
 import { AuthService } from "../services/auth.service";
 
 @injectable()

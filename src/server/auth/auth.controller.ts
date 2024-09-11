@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import { RedirectResponse } from "../crosscutting/responses/redirect-response.class";
+import { RedirectResponse } from "../crosscutting/common/responses/redirect-response.class";
 import { AuthService } from "./services/auth.service";
 
 @injectable()
