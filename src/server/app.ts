@@ -25,7 +25,11 @@ const App = class {
         const start = new Date().getTime();
 
         // Containers
-        const appContainer = Container.merge(ConfigurationContainer, HealthCheckContainer, AuthContainer, CommonContainer, FolderContainer);
+        const [container, ...containers] = [ConfigurationContainer, HealthCheckContainer, AuthContainer, CommonContainer, FolderContainer];
+        // Merge containers
+        const appContainer = Container.merge(container, ...containers);
+        // Skip base class checks
+        appContainer.options = { skipBaseClassChecks: true };
         // Actions
         // Actions pre-request
         const setAuthAction = appContainer.get(SetAuthAction);

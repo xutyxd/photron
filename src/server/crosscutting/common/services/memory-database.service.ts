@@ -6,7 +6,7 @@ import { IRecordModel } from "../interfaces/record-model.interface";
 export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<T & IRecordModel> {
 
     private connected: boolean = false;
-    private data: { [where: string]: T[] } = {};
+    private data: { [from: string]: T[] | undefined } = {};
 
     constructor() { }
 
@@ -23,46 +23,58 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         }
     }
 
-    public async insert(where: string, data: T): Promise<T> {
+    public async insert(from: string, data: T): Promise<T> {
 
         if (!this.connected) {
             throw new Error('Database not connected');
         }
 
-        this.data[where] ??= [];
-        this.data[where].push({
+        this.data[from] ??= [];
+        this.data[from].push({
             ...data,
-            id: this.data[where].length + 1
+            id: this.data[from].length + 1
         });
 
         return data;
     }
 
-    public async get(where: string, id: T['id']): Promise<T | undefined> {
+    public async get(from: string, id: T['id']): Promise<T | undefined> {
 
         if (!this.connected) {
             throw new Error('Database not connected');
         }
 
-        console.log('Data: ', this.data[where]);
-        return this.data[where].find((item) => item.id === id);
+        console.log('Data: ', this.data[from]);
+        return this.data[from]?.find((item) => item.id === id);
     }
 
-    public async update(where: string, id: T['id'], data: T): Promise<T> {
+    public async list(from: string, wheres: string[]): Promise<T[]> {
 
         if (!this.connected) {
             throw new Error('Database not connected');
         }
 
-        const element = await this.get(where, id);
+        console.log('Data: ', this.data[from]);
+        return this.data[from]?.filter((item) => wheres.every((where) => item)) || [];
+    }
 
-        if (!element) {
+    public async update(from: string, id: T['id'], data: T): Promise<T> {
+
+        if (!this.connected) {
+            throw new Error('Database not connected');
+        }
+
+        const element = await this.get(from, id);
+
+        // Find index of the element
+        const index = this.data[from]?.findIndex((item) => item.id === id);
+
+        if (!this.data[from] || !element || index === undefined) {
             throw new Error('Item not found');
         }
-        // Find index of the element
-        const index = this.data[where].findIndex((item) => item.id === id);
+
         // Update the element avoiding mutating the original id
-        this.data[where][index] = {
+        this.data[from][index] = {
             ...element,
             ...data,
             id: element.id
@@ -71,21 +83,21 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         return data;
     }
 
-    public async delete(where: string, id: T['id']): Promise<T> {
+    public async delete(from: string, id: T['id']): Promise<T> {
 
         if (!this.connected) {
             throw new Error('Database not connected');
         }
 
-        const element = await this.get(where, id);
+        const element = await this.get(from, id);
+        // Find index of the element
+        const index = this.data[from]?.findIndex((item) => item.id === id);
 
-        if (!element) {
+        if (!this.data[from] || !element || index === undefined) {
             throw new Error('Item not found');
         }
-        // Find index of the element
-        const index = this.data[where].findIndex((item) => item.id === id);
         // Delete the element
-        this.data[where].splice(index, 1);
+        this.data[from].splice(index, 1);
 
         return element;
     }

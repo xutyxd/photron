@@ -21,8 +21,8 @@ export class Folder extends Record implements IFolder {
         this.description = folder.description;
     }
 
-    public toModel(): IFolderModel {
-        return new FolderModel(this);
+    public toModel() {
+        return new FolderModel(this).export();
     }
 
     public static fromModel(folder: IFolderModel): Folder {

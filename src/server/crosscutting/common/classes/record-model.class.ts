@@ -14,4 +14,13 @@ export class RecordModel implements IRecordModel {
         this.created_at = record.createdAt || new Date().getTime();
         this.updated_at = record.updatedAt || new Date().getTime();
     }
+
+    public export() {
+        return {
+            id: this.id,
+            uuid: this.uuid,
+            created_at: this.created_at,
+            updated_at: this.updated_at
+        };
+    }
 }

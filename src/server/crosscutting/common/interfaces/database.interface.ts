@@ -8,8 +8,9 @@ export interface IDatabase<T extends IRecordModel> {
         close(): Promise<void>;
     };
     // CRUD
-    insert(where: string, data: Omit<T, keyof IRecordModel>): Promise<T>;
-    get(where: string, id: T['id']): Promise<T | undefined>;
-    update(where: string, id: T['id'], data: Partial<T>): Promise<T>;
-    delete(where: string, id: T['id']): Promise<T>;
+    insert(from: string, data: Omit<T, keyof IRecordModel>): Promise<T>;
+    get(from: string, id: T['id']): Promise<T | undefined>;
+    list(from: string, where: string[]): Promise<T[]>;
+    update(from: string, id: T['id'], data: Partial<T>): Promise<T>;
+    delete(from: string, id: T['id']): Promise<T>;
 }

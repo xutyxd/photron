@@ -8,7 +8,6 @@ export class FolderModel extends RecordModel implements IFolderModel {
     public parent_id?: number;
     public name: string;
     public description: string;
-    public test = 'test';
 
 
     constructor(folder: IFolder) {
@@ -18,5 +17,15 @@ export class FolderModel extends RecordModel implements IFolderModel {
         this.parent_id = folder.parentId;
         this.name = folder.name || '';
         this.description = folder.description || '';
+    }
+
+    public export() {
+        return {
+            ...super.export(),
+            owner_id: this.owner_id,
+            parent_id: this.parent_id,
+            name: this.name,
+            description: this.description
+        };
     }
 }
