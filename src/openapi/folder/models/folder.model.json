@@ -1,0 +1,38 @@
+{
+    "type": "object",
+    "required": [ "id", "uuid", "createdAt", "updatedAt", "ownerId", "parentId", "name", "description" ],
+    "properties": {
+        "id": {
+            "type": "number",
+            "example": "1"
+        },
+        "uuid": {
+            "type": "string",
+            "example": "c0a8433f-d6b1-4f38-a94a-2c9a0d0c1c4d"
+        },
+        "createdAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "updatedAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "ownerId": {
+            "type": "number",
+            "example": "1"
+        },
+        "parentId": {
+            "type": "number",
+            "example": "1"
+        },
+        "name": {
+            "type": "string",
+            "example": "Folder name"
+        },
+        "description": {
+            "type": "string",
+            "example": "Folder description"
+        }
+    }
+}

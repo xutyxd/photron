@@ -3,6 +3,7 @@ import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPCo
 import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
 import { IFolder } from "../interfaces/folder.interface";
 import { FolderService } from "../services/folder.service";
+import { NotFoundResponse } from "../../crosscutting/common/responses/not-found.response.class";
 
 @injectable()
 export class FolderController implements IHTTPController {
@@ -11,7 +12,7 @@ export class FolderController implements IHTTPController {
 
     constructor(@inject(FolderService) private readonly folderService: FolderService) { }
 
-    public handlers: IHTTPControllerHandler<IFolder | unknown>[] = [
+    public handlers: IHTTPControllerHandler<IFolder | IFolder[]>[] = [
         {
             path: { method: HttpMethodEnum.POST },
             action: this.create.bind(this)
@@ -35,10 +36,17 @@ export class FolderController implements IHTTPController {
         const { name, description, parentId } = request.body;
 
         if (!name) {
-            return new BadRequestResponse('Property "name" is required', context);
+            throw new BadRequestResponse('Property "name" is required', context);
         }
 
-        const folder = this.folderService.create({ name, description, parentId, ownerId: context.user.id });
+        let folder: IFolder;
+
+        try {
+            folder = await this.folderService.create({ name, description, parentId, ownerId: context.user.sub });
+        } catch (error) {
+            const message = (error as Error).message || 'Error creating folder';
+            throw new BadRequestResponse(message, context);
+        }
 
         return folder;
     }
@@ -47,10 +55,14 @@ export class FolderController implements IHTTPController {
         const { id } = request.params;
 
         if (!id) {
-            return new BadRequestResponse('Property "id" is required', context);
+            throw new BadRequestResponse('Property "id" is required', context);
         }
-
+        
         const folder = await this.folderService.get(Number(id));
+
+        if (!folder) {
+            throw new NotFoundResponse('Folder not found', context);
+        }
 
         return folder;
     }
@@ -59,10 +71,14 @@ export class FolderController implements IHTTPController {
         const { id, name, description, parentId } = request.body;
 
         if (!id) {
-            return new BadRequestResponse('Property "id" is required', context);
+            throw new BadRequestResponse('Property "id" is required', context);
         }
 
         const folder = await this.folderService.update(Number(id), { name, description, parentId });
+
+        if (!folder) {
+            throw new NotFoundResponse('Folder not found', context);
+        }
 
         return folder;
     }
@@ -72,10 +88,14 @@ export class FolderController implements IHTTPController {
         const { id } = request.query as { [key: string]: string };
 
         if (!id) {
-            return new BadRequestResponse('Property "id" is required', context);
+            throw new BadRequestResponse('Property "id" is required', context);
         }
 
         const folder = await this.folderService.delete(Number(id));
+
+        if (!folder) {
+            throw new NotFoundResponse('Folder not found', context);
+        }
 
         return folder;
     }

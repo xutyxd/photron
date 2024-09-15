@@ -11,7 +11,7 @@ export class RecordService<S extends IRecordStatic, I extends IRecord> {
 
     public async create(data: Omit<I, keyof IRecord>) {
 
-        let modelCreated: S;
+        let modelCreated: I;
         
         try {
 

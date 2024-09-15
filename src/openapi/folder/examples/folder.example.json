@@ -1,0 +1,14 @@
+{
+    "code": 200,
+    "data": {
+        "id": 1,
+        "uuid": "c0a8433f-d6b1-4f38-a94a-2c9a0d0c1c4d",
+        "createdAt": 1679022000000,
+        "updatedAt": 1679022000000,
+        "ownerId": 1,
+        "parentId": 1,
+        "name": "Folder name",
+        "description": "Folder description"
+    },
+    "timestamp": 1679022000000
+}

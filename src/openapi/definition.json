@@ -36,6 +36,9 @@
     "paths": {
         "/health-check": {
             "$ref": "./crosscutting/health-check/paths/health-check.path.json"
+        },
+        "/folders": {
+            "$ref": "./folder/paths/folders.path.json"
         }
     }
 }

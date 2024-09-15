@@ -1,0 +1,149 @@
+{
+    "get": {
+        "tags": [ "Folders" ],
+        "summary": "Get folders",
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/folder.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../models/folder.model.json"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    
+    "/{id}": {
+        "parameters": [
+            {
+                "$ref": "../../common/parameters/id.parameter.json"
+            }
+        ],
+        "tags": [ "Folders" ],
+        "summary": "Get folder",
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/folder.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/folder.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "post": {
+        "tags": [ "Folders" ],
+        "summary": "Create a folder",
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/folder.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/folder.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "{id}": {
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "tags": [ "Folders" ],
+        "summary": "Update a folder",
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/folder.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/folder.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

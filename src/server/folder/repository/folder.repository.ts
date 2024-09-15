@@ -19,8 +19,8 @@ export class FolderRepository implements IRepository<IFolder, IFolderModel> {
         return this.dataBaseService.get(this.table, id);
     }
 
-    public async list(where?: string[]) {
-        return this.dataBaseService.list(this.table, where = []);
+    public async list(where: string[] = []) {
+        return this.dataBaseService.list(this.table, where);
     }
 
     public async update(id: IFolder['id'], folder: Partial<IFolder>) {
