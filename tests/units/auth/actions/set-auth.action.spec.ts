@@ -64,7 +64,7 @@ describe('SetAuthAction', () => {
 
             assert.equal(response instanceof Response, true);
             assert.equal(replied.code, 401);
-            assert.equal(replied.response, 'Authorization header not found');
+            assert.equal(replied.response, 'Unauthorized: Authorization header not found');
         });
 
         it('should get user from authorization header', async () => {

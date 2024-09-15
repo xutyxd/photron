@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "name": "id",
+    "in": "query",
+        "required": true,
+        "schema": {
+            "type": "string"
+    }
+}

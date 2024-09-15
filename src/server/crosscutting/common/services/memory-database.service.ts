@@ -44,7 +44,6 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
             throw new Error('Database not connected');
         }
 
-        console.log('Data: ', this.data[from]);
         return this.data[from]?.find((item) => item.id === id);
     }
 
@@ -54,7 +53,6 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
             throw new Error('Database not connected');
         }
 
-        console.log('Data: ', this.data[from]);
         return this.data[from]?.filter((item) => wheres.every((where) => item)) || [];
     }
 

@@ -57,7 +57,6 @@ describe('FolderController', () => {
                     response = e as BadRequestResponse;
                 }
 
-                console.log('Response: ', response);
                 const replied = (response as BadRequestResponse).reply() as { code: number, response: string };
 
                 assert.equal(response instanceof BadRequestResponse, true);
@@ -74,7 +73,6 @@ describe('FolderController', () => {
                     response = e as BadRequestResponse;
                 }
 
-                console.log('Response: ', response);
                 const replied = (response as BadRequestResponse).reply() as { code: number, response: string };
 
                 assert.equal(response instanceof BadRequestResponse, true);

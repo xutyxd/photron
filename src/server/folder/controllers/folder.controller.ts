@@ -18,15 +18,19 @@ export class FolderController implements IHTTPController {
             action: this.create.bind(this)
         },
         {
+            path: { method: HttpMethodEnum.GET },
+            action: this.list.bind(this)
+        },
+        {
             path: { method: HttpMethodEnum.GET, relative: ':id' },
             action: this.get.bind(this)
         },
         {
-            path: { method: HttpMethodEnum.PATCH },
+            path: { method: HttpMethodEnum.PATCH, relative: ':id' },
             action: this.update.bind(this)
         },
         {
-            path: { method: HttpMethodEnum.DELETE },
+            path: { method: HttpMethodEnum.DELETE, relative: ':id' },
             action: this.delete.bind(this)
         }
     ]
@@ -51,6 +55,10 @@ export class FolderController implements IHTTPController {
         return folder;
     }
 
+    public async list(request: HTTPRequest, context: IHTTPContextData) {
+        return await this.folderService.list();
+    }
+
     public async get(request: HTTPRequest, context: IHTTPContextData) {
         const { id } = request.params;
 
@@ -68,7 +76,8 @@ export class FolderController implements IHTTPController {
     }
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
-        const { id, name, description, parentId } = request.body;
+        const { id } = request.params;
+        const { name, description, parentId } = request.body;
 
         if (!id) {
             throw new BadRequestResponse('Property "id" is required', context);
@@ -84,8 +93,7 @@ export class FolderController implements IHTTPController {
     }
 
     public async delete(request: HTTPRequest, context: IHTTPContextData) {
-
-        const { id } = request.query as { [key: string]: string };
+        const { id } = request.params;
 
         if (!id) {
             throw new BadRequestResponse('Property "id" is required', context);

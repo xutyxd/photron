@@ -1,10 +1,55 @@
 {
+
+    "post": {
+        "tags": [ "Folders" ],
+        "summary": "Create a folder",
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../models/partial-folder.model.json",
+                        "example": {
+                            "$ref": "../examples/folder.example.json"
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Folder created by user",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/folder.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "$ref": "../models/folder.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
     "get": {
         "tags": [ "Folders" ],
         "summary": "Get folders",
         "responses": {
             "200": {
-                "description": "Correct response indicating that the server is alive",
+                "description": "An array of folders by user",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -17,125 +62,13 @@
                                 },
                                 {
                                     "type": "object",
-                                    "required": ["data"],
+                                    "required": ["response"],
                                     "properties": {
-                                        "data": {
+                                        "response": {
                                             "type": "array",
                                             "items": {
                                                 "$ref": "../models/folder.model.json"
                                             }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    },
-    
-    "/{id}": {
-        "parameters": [
-            {
-                "$ref": "../../common/parameters/id.parameter.json"
-            }
-        ],
-        "tags": [ "Folders" ],
-        "summary": "Get folder",
-        "responses": {
-            "200": {
-                "description": "Correct response indicating that the server is alive",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "example": {
-                                "$ref": "../examples/folder.example.json"
-                            },
-                            "allOf": [
-                                {
-                                    "$ref": "../../common/response.model.json"
-                                },
-                                {
-                                    "type": "object",
-                                    "required": ["data"],
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "../models/folder.model.json"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "post": {
-        "tags": [ "Folders" ],
-        "summary": "Create a folder",
-        "responses": {
-            "200": {
-                "description": "Correct response indicating that the server is alive",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "example": {
-                                "$ref": "../examples/folder.example.json"
-                            },
-                            "allOf": [
-                                {
-                                    "$ref": "../../common/response.model.json"
-                                },
-                                {
-                                    "type": "object",
-                                    "required": ["data"],
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "../models/folder.model.json"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "{id}": {
-        "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            }
-        ],
-        "tags": [ "Folders" ],
-        "summary": "Update a folder",
-        "responses": {
-            "200": {
-                "description": "Correct response indicating that the server is alive",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "example": {
-                                "$ref": "../examples/folder.example.json"
-                            },
-                            "allOf": [
-                                {
-                                    "$ref": "../../common/response.model.json"
-                                },
-                                {
-                                    "type": "object",
-                                    "required": ["data"],
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "../models/folder.model.json"
                                         }
                                     }
                                 }

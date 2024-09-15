@@ -39,6 +39,16 @@
         },
         "/folders": {
             "$ref": "./folder/paths/folders.path.json"
+        },
+        "/folders/{id}": {
+            "$ref": "./folder/paths/folder.path.json"
+        }
+    },
+    "components": {
+        "schemas": {
+            "IFolder": {
+                "$ref": "./folder/models/folder.model.json"
+            }
         }
     }
 }
