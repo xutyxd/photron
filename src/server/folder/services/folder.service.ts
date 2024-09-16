@@ -20,8 +20,13 @@ export class FolderService extends RecordService<typeof Folder, IFolder> {
             if (!parent) {
                 throw new Error('Parent folder not found');
             }
+
+            data.parent = parent.uuid;
         }
 
-        return super.create(data);
+        const folder = await super.create(data);
+
+        folder.owner = data.owner;
+        return folder;
     }
 }

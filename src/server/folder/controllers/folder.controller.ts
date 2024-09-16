@@ -1,9 +1,11 @@
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
 import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
-import { IFolder } from "../interfaces/folder.interface";
 import { FolderService } from "../services/folder.service";
 import { NotFoundResponse } from "../../crosscutting/common/responses/not-found.response.class";
+import { IFolderAPI } from "../interfaces/folder-api.interface";
+import { FolderAPI } from "../classes/folder-api.class";
+import { InternalErrorResponse } from "../../crosscutting/common/responses/internal-error.response.class";
 
 @injectable()
 export class FolderController implements IHTTPController {
@@ -12,7 +14,7 @@ export class FolderController implements IHTTPController {
 
     constructor(@inject(FolderService) private readonly folderService: FolderService) { }
 
-    public handlers: IHTTPControllerHandler<IFolder | IFolder[]>[] = [
+    public handlers: IHTTPControllerHandler<IFolderAPI | IFolderAPI[]>[] = [
         {
             path: { method: HttpMethodEnum.POST },
             action: this.create.bind(this)
@@ -43,20 +45,42 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "name" is required', context);
         }
 
-        let folder: IFolder;
+        let result: IFolderAPI;
 
         try {
-            folder = await this.folderService.create({ name, description, parentId, ownerId: context.user.sub });
+            const folder = await this.folderService.create({
+                name,
+                description,
+                parentId,
+                ownerId: context.user.sub,
+                owner: context.user.name,
+                filesIds: [],
+                files: []
+            });
+
+            result = new FolderAPI(folder).export();
         } catch (error) {
             const message = (error as Error).message || 'Error creating folder';
-            throw new BadRequestResponse(message, context);
+            throw new InternalErrorResponse(message, context);
         }
 
-        return folder;
+        return result;
     }
 
     public async list(request: HTTPRequest, context: IHTTPContextData) {
-        return await this.folderService.list();
+        
+        let result: IFolderAPI[];
+
+        try {
+            const folders = await this.folderService.list();
+
+            result = folders.map((folder) => new FolderAPI(folder).export());
+        } catch (error) {
+            const message = (error as Error).message || 'Error getting folders';
+            throw new InternalErrorResponse(message, context);
+        }
+        
+        return result;
     }
 
     public async get(request: HTTPRequest, context: IHTTPContextData) {
@@ -66,13 +90,25 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "id" is required', context);
         }
         
-        const folder = await this.folderService.get(Number(id));
+        let result: IFolderAPI | undefined;
 
-        if (!folder) {
+        try {
+            const folder = await this.folderService.get(Number(id));
+
+            if (folder) {
+                result = new FolderAPI(folder).export();
+            }
+
+        } catch (error) {
+            const message = (error as Error).message || 'Error getting folder';
+            throw new InternalErrorResponse(message, context);
+        }
+
+        if (!result) {
             throw new NotFoundResponse('Folder not found', context);
         }
 
-        return folder;
+        return result;
     }
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
@@ -83,13 +119,24 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "id" is required', context);
         }
 
-        const folder = await this.folderService.update(Number(id), { name, description, parentId });
+        let result: IFolderAPI | undefined;
 
-        if (!folder) {
+        try {
+            const folder = await this.folderService.update(Number(id), { name, description, parentId });
+
+            if (folder) {
+                result = new FolderAPI(folder).export();
+            }
+        } catch (error) {
+            const message = (error as Error).message || 'Error getting folder';
+            throw new InternalErrorResponse(message, context);
+        }
+
+        if (!result) {
             throw new NotFoundResponse('Folder not found', context);
         }
 
-        return folder;
+        return result;
     }
 
     public async delete(request: HTTPRequest, context: IHTTPContextData) {
@@ -99,12 +146,23 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "id" is required', context);
         }
 
-        const folder = await this.folderService.delete(Number(id));
+        let result: IFolderAPI | undefined;
 
-        if (!folder) {
+        try {
+            const folder = await this.folderService.delete(Number(id));
+
+            if (folder) {
+                result = new FolderAPI(folder).export();
+            }
+        } catch (error) {
+            const message = (error as Error).message || 'Error getting folder';
+            throw new InternalErrorResponse(message, context);
+        }
+
+        if (!result) {
             throw new NotFoundResponse('Folder not found', context);
         }
 
-        return folder;
+        return result;
     }
 }
