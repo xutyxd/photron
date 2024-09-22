@@ -27,15 +27,15 @@ export class RecordService<S extends IRecordStatic, I extends IRecord> {
     }
 
     public async get(id: I['id']) {
-        let record: I | undefined;
+        let record: I;
+        // Get the record from the database
+        const recordFounded = await this.repository.get(id);
 
         try {
-            // Get the record from the database
-            const recordFounded = await this.repository.get(id);
             // Create a new record instance
-            record = recordFounded && this.record.fromModel(recordFounded);
+            record = this.record.fromModel(recordFounded);
         } catch (error) {
-            throw new Error('Error getting record');
+            throw new Error('Error instancianting record from model');
         }
 
         return record;
@@ -57,28 +57,28 @@ export class RecordService<S extends IRecordStatic, I extends IRecord> {
     }
 
     public async update(id: I['id'], data: Partial<I>) {
-        let record: I | undefined;
+        let record: I;
+        // Update the record in the database
+        const recordUpdated = await this.repository.update(id, data);
 
         try {
-            // Update the record in the database
-            const recordUpdated = await this.repository.update(id, data);
             // Create a new record instance
-            record = recordUpdated && this.record.fromModel(recordUpdated);
+            record = this.record.fromModel(recordUpdated);
         } catch (error) {
-            throw new Error('Error updating record');
+            throw new Error('Error instancianting record from model');
         }
 
         return record;
     }
 
     public async delete(id: I['id']) {
-        let record: I | undefined;
+        let record: I;
+        // Delete the record from the database
+        const recordDeleted = await this.repository.delete(id);
 
         try {
-            // Delete the record from the database
-            const recordDeleted = await this.repository.delete(id);
             // Create a new record instance
-            record = recordDeleted && this.record.fromModel(recordDeleted);
+            record = this.record.fromModel(recordDeleted);
         } catch (error) {
             throw new Error('Error deleting record');
         }

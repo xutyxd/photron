@@ -1,20 +1,20 @@
-import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
+import { ITagAPI } from "../interfaces/tag-api.interface";
 import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
-import { FolderService } from "../services/folder.service";
-import { NotFoundResponse } from "../../crosscutting/common/responses/not-found.response.class";
-import { IFolderAPI } from "../interfaces/folder-api.interface";
-import { FolderAPI } from "../classes/folder-api.class";
+import { TagAPI } from "../classes/tag-api.class";
 import { InternalErrorResponse } from "../../crosscutting/common/responses/internal-error.response.class";
+import { TagService } from "../services/tag.service";
+import { inject, injectable } from "inversify";
+import { NotFoundResponse } from "../../crosscutting/common/responses/not-found.response.class";
 
 @injectable()
-export class FolderController implements IHTTPController {
+export class TagController implements IHTTPController {
 
-    public path = 'folders';
+    public path = 'tags';
 
-    constructor(@inject(FolderService) private readonly folderService: FolderService) { }
+    constructor(@inject(TagService) private readonly tagService: TagService) { }
 
-    public handlers: IHTTPControllerHandler<IFolderAPI | IFolderAPI[]>[] = [
+    public handlers: IHTTPControllerHandler<ITagAPI | ITagAPI[]>[] = [
         {
             path: { method: HttpMethodEnum.POST },
             action: this.create.bind(this)
@@ -38,32 +38,26 @@ export class FolderController implements IHTTPController {
     ]
 
     public async create(request: HTTPRequest, context: IHTTPContextData) {
-
-        const { name, description, parentId, tags = { include: [], exclude: [] } } = request.body;
+        const { name, description, color } = request.body;
 
         if (!name) {
             throw new BadRequestResponse('Property "name" is required', context);
         }
 
-        let result: IFolderAPI;
+        let result: ITagAPI;
 
         try {
-            const folder = await this.folderService.create({
+            const tag = await this.tagService.create({
                 name,
                 description,
-                parentId,
+                color,
                 ownerId: context.user.sub,
-                owner: context.user.name,
-                files: [],
-                tags: {
-                    include: tags.include || [],
-                    exclude: tags.exclude || []
-                }
+                owner: context.user.name
             });
 
-            result = new FolderAPI(folder).export();
+            result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error creating folder';
+            const message = (error as Error).message || 'Error creating tag';
             throw new InternalErrorResponse(message, context);
         }
 
@@ -72,14 +66,14 @@ export class FolderController implements IHTTPController {
 
     public async list(request: HTTPRequest, context: IHTTPContextData) {
         
-        let result: IFolderAPI[];
+        let result: ITagAPI[];
 
         try {
-            const folders = await this.folderService.list();
+            const tags = await this.tagService.list();
 
-            result = folders.map((folder) => new FolderAPI(folder).export());
+            result = tags.map((tag) => new TagAPI(tag).export());
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folders';
+            const message = (error as Error).message || 'Error getting tags';
             throw new InternalErrorResponse(message, context);
         }
         
@@ -93,15 +87,15 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "id" is required', context);
         }
         
-        let result: IFolderAPI;
+        let result: ITagAPI;
 
         try {
-            const folder = await this.folderService.get(Number(id));
+            const tag = await this.tagService.get(Number(id));
 
-            result = new FolderAPI(folder).export();
+            result = new TagAPI(tag).export();
 
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folder';
+            const message = (error as Error).message || 'Error getting tag';
             throw new InternalErrorResponse(message, context);
         }
 
@@ -110,20 +104,20 @@ export class FolderController implements IHTTPController {
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
         const { id } = request.params;
-        const { name, description, parentId } = request.body;
+        const { name, description, color } = request.body;
 
         if (!id) {
             throw new BadRequestResponse('Property "id" is required', context);
         }
 
-        let result: IFolderAPI ;
+        let result: ITagAPI;
 
         try {
-            const folder = await this.folderService.update(Number(id), { name, description, parentId });
+            const tag = await this.tagService.update(Number(id), { name, description, color });
 
-            result = new FolderAPI(folder).export();
+            result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folder';
+            const message = (error as Error).message || 'Error getting tag';
             throw new InternalErrorResponse(message, context);
         }
 
@@ -137,14 +131,14 @@ export class FolderController implements IHTTPController {
             throw new BadRequestResponse('Property "id" is required', context);
         }
 
-        let result: IFolderAPI;
+        let result: ITagAPI;
 
         try {
-            const folder = await this.folderService.delete(Number(id));
+            const tag = await this.tagService.delete(Number(id));
 
-            result = new FolderAPI(folder).export();
+            result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folder';
+            const message = (error as Error).message || 'Error getting tag';
             throw new InternalErrorResponse(message, context);
         }
 

@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
+import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
+import { RecordService } from "../../crosscutting/common/services/record.service";
 import { Folder } from "../classes/folder.class";
 import { IFolder } from "../interfaces/folder.interface";
 import { FolderRepository } from "../repository/folder.repository";
-import { RecordService } from "../../crosscutting/common/services/record.service";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
 
 @injectable()
 export class FolderService extends RecordService<typeof Folder, IFolder> {
@@ -23,6 +23,7 @@ export class FolderService extends RecordService<typeof Folder, IFolder> {
                 throw new Error('Parent folder not found');
             }
         }
+
         const folder = await super.create(data);
 
         folder.owner = data.owner;
