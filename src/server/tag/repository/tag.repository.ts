@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { IDatabase } from "../../crosscutting/common/interfaces/database.interface";
+import { IDatabase } from "../../crosscutting/database/interfaces/database.interface";
 import { RecordRepositoryService } from "../../crosscutting/common/services/record-repository.service";
 import { Tag } from "../classes/tag.class";
 import { ITagModel } from "../interfaces/tag-model.interface";

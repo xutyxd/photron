@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { IDatabase } from "../../crosscutting/common/interfaces/database.interface";
+import { IDatabase } from "../../crosscutting/database/interfaces/database.interface";
 import { RecordRepositoryService } from "../../crosscutting/common/services/record-repository.service";
 import { Folder } from "../classes/folder.class";
 import { IFolderModel } from "../interfaces/folder-model.interface";

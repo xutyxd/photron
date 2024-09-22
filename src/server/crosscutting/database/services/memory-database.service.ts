@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { IDatabase } from "../interfaces/database.interface";
-import { IRecordModel } from "../interfaces/record-model.interface";
+import { IRecordModel } from "../../common/interfaces/record-model.interface";
+import { IDbQueryWhere } from "../interfaces/db-query-where.interface";
 
 @injectable()
 export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<T & IRecordModel> {
@@ -47,7 +48,7 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         return this.data[from]?.find((item) => item.id === id);
     }
 
-    public async list(from: string, wheres: string[]): Promise<T[]> {
+    public async list(from: string, wheres: IDbQueryWhere<T>[]): Promise<T[]> {
 
         if (!this.connected) {
             throw new Error('Database not connected');

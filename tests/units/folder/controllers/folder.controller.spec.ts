@@ -5,7 +5,7 @@ import { beforeEach, describe, it } from "node:test";
 
 import { BadRequestResponse } from "../../../../src/server/crosscutting/common/responses/bad-request.response.class";
 import { InternalErrorResponse } from "../../../../src/server/crosscutting/common/responses/internal-error.response.class";
-import { MemoryDatabaseService } from "../../../../src/server/crosscutting/common/services/memory-database.service";
+import { MemoryDatabaseService } from "../../../../src/server/crosscutting/database/services/memory-database.service";
 import { FolderController } from "../../../../src/server/folder/controllers/folder.controller";
 import { IFolderAPI } from "../../../../src/server/folder/interfaces/folder-api.interface";
 import { IFolderModel } from "../../../../src/server/folder/interfaces/folder-model.interface";

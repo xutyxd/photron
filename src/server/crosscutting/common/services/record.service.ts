@@ -1,12 +1,13 @@
 
+import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
 import { IRecordModel } from "../interfaces/record-model.interface";
 import { IRecordStatic } from "../interfaces/record-static.interface";
 import { IRecord } from "../interfaces/record.interface";
 import { IRepository } from "../interfaces/repository.interface";
 
-export class RecordService<S extends IRecordStatic, I extends IRecord> {
+export class RecordService<S extends IRecordStatic, I extends IRecord, K extends IRecordModel> {
 
-    constructor(private readonly repository: IRepository<I, IRecordModel>,
+    constructor(private readonly repository: IRepository<I, K>,
                 private readonly record: S) { }
 
     public async create(data: Omit<I, keyof IRecord>) {
@@ -41,7 +42,7 @@ export class RecordService<S extends IRecordStatic, I extends IRecord> {
         return record;
     }
 
-    public async list(where?: string[]) {
+    public async list(where?: IDbQueryWhere<K>[]) {
         let records: I[] | undefined;
 
         try {

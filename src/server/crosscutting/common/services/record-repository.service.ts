@@ -2,7 +2,8 @@ import { IRecordModel } from "../interfaces/record-model.interface";
 import { IRecordStatic } from "../interfaces/record-static.interface";
 import { IRecord } from "../interfaces/record.interface";
 import { IRepository } from "../interfaces/repository.interface";
-import { IDatabase } from "../interfaces/database.interface";
+import { IDatabase } from "../../database/interfaces/database.interface";
+import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
 
 export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, S extends IRecordStatic> implements IRepository<T, K> {
 
@@ -25,7 +26,7 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
         return record;
     }
 
-    public async list(where: string[] = []): Promise<K[]> {
+    public async list(where: IDbQueryWhere<K>[] = []): Promise<K[]> {
         return this.database.list(this.table, where);
     }
 
