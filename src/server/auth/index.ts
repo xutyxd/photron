@@ -1,6 +1,6 @@
 import { Container } from "inversify";
 
-import { AuthController } from "./auth.controller";
+import { AuthController } from "./controllers/auth.controller";
 import { AuthService } from "./services/auth.service";
 import { SetAuthAction } from "./actions/set-auth.action";
 

@@ -5,7 +5,7 @@ import { HTTPServer } from "server-over-express";
 
 import { AuthContainer } from "./auth";
 import { SetAuthAction } from "./auth/actions/set-auth.action";
-import { AuthController } from "./auth/auth.controller";
+import { AuthController } from "./auth/controllers/auth.controller";
 import { ConfigurationContainer } from "./configuration";
 import { ConfigurationService } from "./configuration/services/configuration.service";
 import { CommonContainer } from './crosscutting/common';
