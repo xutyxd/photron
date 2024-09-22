@@ -39,7 +39,7 @@ export class FolderController implements IHTTPController {
 
     public async create(request: HTTPRequest, context: IHTTPContextData) {
 
-        const { name, description, parentId } = request.body;
+        const { name, description, parentId, tags = { include: [], exclude: [] } } = request.body;
 
         if (!name) {
             throw new BadRequestResponse('Property "name" is required', context);
@@ -54,8 +54,11 @@ export class FolderController implements IHTTPController {
                 parentId,
                 ownerId: context.user.sub,
                 owner: context.user.name,
-                filesIds: [],
-                files: []
+                files: [],
+                tags: {
+                    include: tags.include || [],
+                    exclude: tags.exclude || []
+                }
             });
 
             result = new FolderAPI(folder).export();

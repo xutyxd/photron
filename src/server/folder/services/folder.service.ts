@@ -15,15 +15,14 @@ export class FolderService extends RecordService<typeof Folder, IFolder> {
     public async create(data: Omit<IFolder, keyof IRecord>) {
         // Check if the parent folder exists
         if (data.parentId) {
-            const parent = await this.folderRepository.get(data.parentId);
-            
-            if (!parent) {
+            try {
+                const parent = await this.folderRepository.get(data.parentId);
+
+                data.parent = parent.uuid;
+            } catch (error) {
                 throw new Error('Parent folder not found');
             }
-
-            data.parent = parent.uuid;
         }
-
         const folder = await super.create(data);
 
         folder.owner = data.owner;

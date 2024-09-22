@@ -1,4 +1,6 @@
 import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
+import { IFile } from "../../file/interfaces/file.interface";
+import { ITag } from "../../tag/interfaces/tag.interface";
 import { IFolderAPI } from "../interfaces/folder-api.interface";
 import { IFolder } from "../interfaces/folder.interface";
 
@@ -8,7 +10,11 @@ export class FolderAPI extends RecordAPI implements IFolderAPI {
     public parent?: string;
     public name: string;
     public description?: string;
-    public files: unknown[];
+    public files: IFile[] = [];
+    public tags: IFolderAPI['tags'] = {
+        include: [],
+        exclude: []
+    };
 
     constructor(folder: IFolder) {
         super(folder);
@@ -18,16 +24,18 @@ export class FolderAPI extends RecordAPI implements IFolderAPI {
         this.name = folder.name;
         this.description = folder.description;
         this.files = folder.files;
+        this.tags = folder.tags;
     }
 
-    export(){
+    public export(){
         return {
             ...super.export(),
             owner: this.owner,
             parent: this.parent,
             name: this.name,
             description: this.description,
-            files: this.files
+            files: this.files,
+            tags: this.tags
         };
     }
 }

@@ -1,4 +1,6 @@
 import { IRecordModel } from "../../crosscutting/common/interfaces/record-model.interface";
+import { IFileModel } from "../../file/interfaces/file-model.interface";
+import { ITagModel } from "../../tag/interfaces/tag-model.interface";
 
 export interface IFolderModel extends IRecordModel {
     owner_id: number;
@@ -8,5 +10,11 @@ export interface IFolderModel extends IRecordModel {
     name: string;
     description: string;
     files_ids: number[];
-    files: unknown[];
+    files: IFileModel[];
+    tags_include: number[];
+    tags_exclude: number[];
+    tags?: {
+        include: ITagModel[];
+        exclude: ITagModel[];
+    };
 }

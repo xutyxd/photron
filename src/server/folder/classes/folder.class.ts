@@ -1,6 +1,8 @@
 import { Record } from "../../crosscutting/common/classes/record.class";
 import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
 import { Optional } from "../../crosscutting/common/types/optional.type";
+import { File } from "../../file/classes/file.class";
+import { Tag } from "../../tag/classes/tag.class";
 import { IFolderModel } from "../interfaces/folder-model.interface";
 import { IFolder } from "../interfaces/folder.interface";
 import { FolderModel } from "./folder-model.class";
@@ -14,8 +16,11 @@ export class Folder extends Record implements IFolder {
 
     public owner: string;
     public parent?: string | undefined;
-    public filesIds: number[];
-    public files: unknown[];
+    public files: File[];
+    public tags: IFolder['tags'] = {
+        include: [],
+        exclude: []
+    };
 
     constructor(folder: Optional<IFolder, IRecord>) {
         super(folder);
@@ -24,8 +29,7 @@ export class Folder extends Record implements IFolder {
         this.owner = folder.owner;
         this.parentId = folder.parentId;
         this.parent = folder.parent;
-        this.filesIds = folder.filesIds;
-        this.files = folder.files;
+        this.files = (folder.files || []).map((file) => new File(file));
         this.name = folder.name;
         this.description = folder.description;
     }
@@ -46,8 +50,11 @@ export class Folder extends Record implements IFolder {
             parent: folder.parent,
             name: folder.name,
             description: folder.description,
-            filesIds: folder.files_ids || [],
-            files: folder.files || []
+            files: (folder.files || []).map((file) => File.fromModel(file)),
+            tags: {
+                include: (folder.tags?.include || []).map((tag) => Tag.fromModel(tag)),
+                exclude: (folder.tags?.include || []).map((tag) => Tag.fromModel(tag))
+            }
         });
     }
 }
