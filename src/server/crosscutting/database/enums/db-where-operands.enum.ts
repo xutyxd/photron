@@ -1,4 +1,4 @@
-export declare enum DbWhereOperands {
+export enum DbWhereOperands {
     EQUALS = " = ",
     NOTEQUALS = " <> ",
     IN = " IN ",

@@ -5,5 +5,5 @@ export interface IDbQueryWhere<T> {
     B: string;
     op: DbWhereOperands;
     union?: DbOperands;
-    type?: string;
+    type?: DbTypes;
 }
