@@ -1,11 +1,10 @@
-import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import { ITagAPI } from "../interfaces/tag-api.interface";
-import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
-import { TagAPI } from "../classes/tag-api.class";
-import { InternalErrorResponse } from "../../crosscutting/common/responses/internal-error.response.class";
-import { TagService } from "../services/tag.service";
 import { inject, injectable } from "inversify";
-import { NotFoundResponse } from "../../crosscutting/common/responses/not-found.response.class";
+import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
+import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
+import { InternalErrorResponse } from "../../crosscutting/common/responses/internal-error.response.class";
+import { TagAPI } from "../classes/tag-api.class";
+import { ITagAPI } from "../interfaces/tag-api.interface";
+import { TagService } from "../services/tag.service";
 
 @injectable()
 export class TagController implements IHTTPController {

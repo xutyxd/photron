@@ -1,9 +1,8 @@
-
 import { Container } from "inversify";
 
 import { FolderController } from "./controllers/folder.controller";
-import { FolderService } from "./services/folder.service";
 import { FolderRepository } from "./repository/folder.repository";
+import { FolderService } from "./services/folder.service";
 
 const FolderContainer = new Container();
 

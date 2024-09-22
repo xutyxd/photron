@@ -17,6 +17,8 @@ import { HealthCheckContainer } from "./crosscutting/healt-check";
 import { HealthCheckController } from "./crosscutting/healt-check/health-check.controller";
 import { FolderContainer } from './folder';
 import { FolderController } from './folder/controllers/folder.controller';
+import { TagContainer } from './tag';
+import { TagController } from './tag/controllers/tag.controller';
 
 const App = class {
     public server: HTTPServer;
@@ -25,7 +27,14 @@ const App = class {
         const start = new Date().getTime();
 
         // Containers
-        const [container, ...containers] = [ConfigurationContainer, HealthCheckContainer, AuthContainer, CommonContainer, FolderContainer];
+        const [container, ...containers] = [
+            ConfigurationContainer,
+            HealthCheckContainer,
+            AuthContainer,
+            CommonContainer,
+            FolderContainer,
+            TagContainer,
+        ];
         // Merge containers
         const appContainer = Container.merge(container, ...containers);
         // Skip base class checks
@@ -44,6 +53,7 @@ const App = class {
         const healthCheckController = appContainer.get(HealthCheckController);
         const authController = appContainer.get(AuthController);
         const folderController = appContainer.get(FolderController);
+        const tagController = appContainer.get(TagController);
 
         const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
         const httpServer = new HTTPServer(port, Response);
@@ -62,6 +72,7 @@ const App = class {
         httpServer.controllers.add(healthCheckController);
         httpServer.controllers.add(authController);
         httpServer.controllers.add(folderController);
+        httpServer.controllers.add(tagController);
 
         this.server = httpServer;
 
