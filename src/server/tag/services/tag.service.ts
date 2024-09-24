@@ -16,8 +16,6 @@ export class TagService extends RecordService<typeof Tag, ITag, ITagModel> {
     public async create(data: Omit<ITag, keyof IRecord>) {
 
         const tag = await super.create(data);
-
-        tag.owner = data.owner;
         return tag;
     }
 }

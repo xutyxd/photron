@@ -5,7 +5,7 @@ import { ITag } from "../interfaces/tag.interface";
 export class TagModel extends RecordModel implements ITagModel {
 
     public owner_id: number;
-    public owner: string;
+    public owner?: string;
     public name: string;
     public description?: string;
     public color?: string;

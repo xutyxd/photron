@@ -4,7 +4,7 @@ import { ITag } from "../../tag/interfaces/tag.interface";
 
 export interface IFolder extends IRecord {
     ownerId: number;
-    owner: string;
+    owner?: string;
     parentId?: number;
     parent?: string;
     name: string;
