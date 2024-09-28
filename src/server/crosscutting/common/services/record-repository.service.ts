@@ -1,10 +1,8 @@
-import { IRecordModel } from "../interfaces/record-model.interface";
-import { IRecordStatic } from "../interfaces/record-static.interface";
-import { IRecord } from "../interfaces/record.interface";
-import { IRepository } from "../interfaces/repository.interface";
+
 import { IDatabase } from "../../database/interfaces/database.interface";
 import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
 import { NotFoundError } from "../errors/not-found.error";
+import { IRecord, IRecordModel, IRecordStatic, IRepository } from "../interfaces";
 
 export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, S extends IRecordStatic> implements IRepository<T, K> {
 
