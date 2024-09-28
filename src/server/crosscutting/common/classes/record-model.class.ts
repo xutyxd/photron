@@ -7,12 +7,14 @@ export class RecordModel implements IRecordModel {
     public uuid: string;
     public created_at: number;
     public updated_at: number;
+    public version: `${number}.${number}.${number}`;
 
     constructor(record: Partial<IRecord>) {
         this.id = record.id || 0;
         this.uuid = record.uuid || crypto.randomUUID();
         this.created_at = record.createdAt || new Date().getTime();
         this.updated_at = record.updatedAt || new Date().getTime();
+        this.version = record.version || '1.0.0';
     }
 
     public export() {
@@ -20,7 +22,8 @@ export class RecordModel implements IRecordModel {
             id: this.id,
             uuid: this.uuid,
             created_at: this.created_at,
-            updated_at: this.updated_at
+            updated_at: this.updated_at,
+            version: this.version
         };
     }
 }

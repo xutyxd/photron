@@ -4,6 +4,7 @@ import { IRecord } from "../interfaces/record.interface";
 import { IRepository } from "../interfaces/repository.interface";
 import { IDatabase } from "../../database/interfaces/database.interface";
 import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
+import { NotFoundError } from "../errors/not-found.error";
 
 export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, S extends IRecordStatic> implements IRepository<T, K> {
 
@@ -20,7 +21,7 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
         const record = await this.database.get(this.table, id);
 
         if (!record) {
-            throw new Error('Record not found');
+            throw new NotFoundError('Record not found');
         }
 
         return record;

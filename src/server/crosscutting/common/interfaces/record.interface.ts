@@ -5,6 +5,7 @@ export interface IRecord {
     uuid: string;
     createdAt: number;
     updatedAt: number;
+    version: `${number}.${number}.${number}`;
 
     toModel(): IRecordModel;
 }

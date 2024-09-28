@@ -1,5 +1,6 @@
 
 import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
+import { InternalError } from "../errors/internal.error";
 import { IRecordModel } from "../interfaces/record-model.interface";
 import { IRecordStatic } from "../interfaces/record-static.interface";
 import { IRecord } from "../interfaces/record.interface";
@@ -12,7 +13,7 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
 
     public async create(data: Omit<I, keyof IRecord>) {
 
-        let modelCreated: I;
+        let modelCreated: InstanceType<S>;
         
         try {
             const toInsert = new this.record(data).toModel();
@@ -21,13 +22,13 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
             // Create a new record instance
             modelCreated = this.record.fromModel(modelInserted);
         } catch (error) {
-            throw new Error('Error creating record');
+            throw new InternalError('Error creating record');
         }
 
         return modelCreated;
     }
 
-    public async get(id: I['id']) {
+    public async get(id: I['id'] | I['uuid']) {
         let record: I;
         // Get the record from the database
         const recordFounded = await this.repository.get(id);
@@ -36,7 +37,7 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
             // Create a new record instance
             record = this.record.fromModel(recordFounded);
         } catch (error) {
-            throw new Error('Error instancianting record from model');
+            throw new InternalError('Error instancianting record from model');
         }
 
         return record;
