@@ -4,13 +4,13 @@ import { IFile } from "../interfaces/file.interface";
 
 export class FileAPI extends RecordAPI implements IFileAPI {
 
-    public ownerId: number;
+    public ownerId: string;
     public owner: string;
     public name: string;
     public description?: string;
     public size: number;
     public type: string;
-    public tags: number[];
+    public tags: string[];
     public deleted: boolean;
 
     constructor(file: IFile) {

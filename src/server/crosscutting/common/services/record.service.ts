@@ -1,4 +1,6 @@
 
+import { IDDbQueryWhere, UUIDDbQueryWhere } from "../../database/classes";
+import { IIndexDbQueryWhere } from "../../database/interfaces";
 import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
 import { InternalError } from "../errors/internal.error";
 import { IRecordModel } from "../interfaces/record-model.interface";
@@ -11,6 +13,19 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
     constructor(private readonly repository: IRepository<I, K>,
                 private readonly record: S) { }
 
+    private query = {
+        index : (index: number | string) => {
+            let query: IIndexDbQueryWhere<K>;
+
+            if (typeof index === 'string') {
+                query = new UUIDDbQueryWhere(index);
+            } else {
+                query = new IDDbQueryWhere(index);
+            }
+
+            return query;
+        }
+    }
     public async create(data: Omit<I, keyof IRecord>) {
 
         let modelCreated: InstanceType<S>;
@@ -28,10 +43,12 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
         return modelCreated;
     }
 
-    public async get(id: I['id'] | I['uuid']) {
+    public async get(index: number | string) {
         let record: I;
+        // Get query to index record
+        const query = this.query.index(index);
         // Get the record from the database
-        const recordFounded = await this.repository.get(id);
+        const recordFounded = await this.repository.get(query);
 
         try {
             // Create a new record instance
@@ -58,10 +75,12 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
         return records || [];
     }
 
-    public async update(id: I['id'], data: Partial<I>) {
+    public async update(index: number | string, data: Partial<I>) {
         let record: I;
+        // Get query to index record
+        const query = this.query.index(index);
         // Update the record in the database
-        const recordUpdated = await this.repository.update(id, data);
+        const recordUpdated = await this.repository.update(query, data);
 
         try {
             // Create a new record instance
@@ -73,10 +92,12 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
         return record;
     }
 
-    public async delete(id: I['id']) {
+    public async delete(index: number | string) {
         let record: I;
+        // Get query to index record
+        const query = this.query.index(index);
         // Delete the record from the database
-        const recordDeleted = await this.repository.delete(id);
+        const recordDeleted = await this.repository.delete(query);
 
         try {
             // Create a new record instance

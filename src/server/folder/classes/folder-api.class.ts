@@ -6,7 +6,7 @@ import { IFolder } from "../interfaces/folder.interface";
 
 export class FolderAPI extends RecordAPI implements IFolderAPI {
 
-    public owner: string;
+    public owner?: string;
     public parent?: string;
     public name: string;
     public description?: string;
@@ -16,7 +16,7 @@ export class FolderAPI extends RecordAPI implements IFolderAPI {
         exclude: []
     };
 
-    constructor(folder: IFolder) {
+    constructor(folder: Omit<IFolder, 'toModel'>) {
         super(folder);
 
         this.owner = folder.owner;

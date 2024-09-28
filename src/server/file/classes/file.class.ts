@@ -7,12 +7,12 @@ import { FileModel } from "./file-model.class";
 
 export class File extends Record implements IFile {
 
-    public ownerId: number;
+    public ownerId: string;
     public name: string;
     public description?: string;
     public size: number;
     public type: string;
-    public tags: number[];
+    public tags: string[];
     public deleted: boolean;
 
     public owner: string;

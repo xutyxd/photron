@@ -4,13 +4,13 @@ import { IFile } from "../interfaces/file.interface";
 
 export class FileModel extends RecordModel implements IFileModel {
 
-    public owner_id: number;
+    public owner_id: string;
     public owner: string;
     public name: string;
     public description?: string;
     public size: number;
     public type: string;
-    public tags: number[];
+    public tags: string[];
     public deleted: boolean;
 
     constructor(file: IFile) {

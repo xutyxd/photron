@@ -3,9 +3,9 @@ import { IFile } from "../../file/interfaces/file.interface";
 import { ITag } from "../../tag/interfaces/tag.interface";
 
 export interface IFolder extends IRecord {
-    ownerId: number;
+    ownerId: string;
     owner?: string;
-    parentId?: number;
+    parentId?: string;
     parent?: string;
     name: string;
     description?: string;

@@ -1,4 +1,5 @@
 
+import { IIndexDbQueryWhere } from "../../database/interfaces";
 import { IDatabase } from "../../database/interfaces/database.interface";
 import { IDbQueryWhere } from "../../database/interfaces/db-query-where.interface";
 import { NotFoundError } from "../errors/not-found.error";
@@ -14,9 +15,8 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
         return this.database.insert(this.table, data);
     }
 
-    public async get(id: T['id']): Promise<K> {
-
-        const record = await this.database.get(this.table, id);
+    public async get(index: IIndexDbQueryWhere<K>): Promise<K> {
+        const record = await this.database.get(this.table, index);
 
         if (!record) {
             throw new NotFoundError('Record not found');
@@ -29,9 +29,9 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
         return this.database.list(this.table, where);
     }
 
-    public async update(id: T['id'], patch: Partial<T>): Promise<K> {
+    public async update(index: IIndexDbQueryWhere<K>, patch: Partial<T>): Promise<K> {
         // Get the original record
-        const original = await this.get(id);
+        const original = await this.get(index);
         // Create a new record instance
         const record = this.record.fromModel(original);
         // Update the record
@@ -40,10 +40,10 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
             ...patch
         }).toModel();
         // Update the record in the database
-        return this.database.update(this.table, id, updated);
+        return this.database.update(this.table, index, updated);
     }
 
-    public async delete(id: T['id']): Promise<K> {
-        return this.database.delete(this.table, id);
+    public async delete(index: IIndexDbQueryWhere<K>): Promise<K> {
+        return this.database.delete(this.table, index);
     }
 }

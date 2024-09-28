@@ -79,16 +79,16 @@ export class TagController implements IHTTPController {
     }
 
     public async get(request: HTTPRequest, context: IHTTPContextData) {
-        const { id } = request.params;
+        const { uuid } = request.params;
 
-        if (!id) {
-            throw new BadRequestResponse('Property "id" is required', context);
+        if (!uuid) {
+            throw new BadRequestResponse('Property "uuid" is required', context);
         }
         
         let result: ITagAPI;
 
         try {
-            const tag = await this.tagService.get(Number(id));
+            const tag = await this.tagService.get(uuid);
 
             result = new TagAPI(tag).export();
 
@@ -101,17 +101,17 @@ export class TagController implements IHTTPController {
     }
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
-        const { id } = request.params;
+        const { uuid } = request.params;
         const { name, description, color } = request.body;
 
-        if (!id) {
-            throw new BadRequestResponse('Property "id" is required', context);
+        if (!uuid) {
+            throw new BadRequestResponse('Property "uuid" is required', context);
         }
 
         let result: ITagAPI;
 
         try {
-            const tag = await this.tagService.update(Number(id), { name, description, color });
+            const tag = await this.tagService.update(uuid, { name, description, color });
 
             result = new TagAPI(tag).export();
         } catch (error) {
@@ -123,16 +123,16 @@ export class TagController implements IHTTPController {
     }
 
     public async delete(request: HTTPRequest, context: IHTTPContextData) {
-        const { id } = request.params;
+        const { uuid } = request.params;
 
-        if (!id) {
-            throw new BadRequestResponse('Property "id" is required', context);
+        if (!uuid) {
+            throw new BadRequestResponse('Property "uuid" is required', context);
         }
 
         let result: ITagAPI;
 
         try {
-            const tag = await this.tagService.delete(Number(id));
+            const tag = await this.tagService.delete(uuid);
 
             result = new TagAPI(tag).export();
         } catch (error) {

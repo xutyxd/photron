@@ -4,7 +4,7 @@ import { ITag } from "../interfaces/tag.interface";
 
 export class TagAPI  extends RecordAPI implements ITagAPI {
 
-    public ownerId: number;
+    public ownerId: string;
     public owner?: string;
     public name: string;
     public description?: string;

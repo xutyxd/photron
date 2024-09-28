@@ -7,7 +7,7 @@ import { TagModel } from "./tag-model.class";
 
 export class Tag extends Record implements ITag { 
 
-    public ownerId: number;
+    public ownerId: string;
     public owner?: string;
     public name: string;
     public description?: string;

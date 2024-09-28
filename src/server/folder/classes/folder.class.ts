@@ -9,12 +9,12 @@ import { FolderModel } from "./folder-model.class";
 
 export class Folder extends Record implements IFolder {
 
-    public ownerId: number;
-    public parentId?: number;
+    public ownerId: string;
+    public parentId?: string;
     public name: string;
     public description?: string;
 
-    public owner: string;
+    public owner?: string;
     public parent?: string | undefined;
     public files: File[];
     public tags: IFolder['tags'] = {
@@ -45,15 +45,13 @@ export class Folder extends Record implements IFolder {
             createdAt: folder.created_at,
             updatedAt: folder.updated_at,
             ownerId: folder.owner_id,
-            owner: folder.owner,
             parentId: folder.parent_id,
-            parent: folder.parent,
             name: folder.name,
             description: folder.description,
-            files: (folder.files || []).map((file) => File.fromModel(file)),
+            files: [],
             tags: {
-                include: (folder.tags?.include || []).map((tag) => Tag.fromModel(tag)),
-                exclude: (folder.tags?.include || []).map((tag) => Tag.fromModel(tag))
+                include: [],
+                exclude: []
             }
         });
     }

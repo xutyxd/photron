@@ -1,6 +1,8 @@
 import { injectable } from "inversify";
-import { IDatabase } from "../interfaces/database.interface";
+import { InternalError } from "../../common/errors";
 import { IRecordModel } from "../../common/interfaces/record-model.interface";
+import { IIndexDbQueryWhere } from "../interfaces";
+import { IDatabase } from "../interfaces/database.interface";
 import { IDbQueryWhere } from "../interfaces/db-query-where.interface";
 
 @injectable()
@@ -27,7 +29,7 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
     public async insert(from: string, data: T): Promise<T> {
 
         if (!this.connected) {
-            throw new Error('Database not connected');
+            throw new InternalError('Database not connected');
         }
 
         this.data[from] ??= [];
@@ -39,61 +41,64 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         return data;
     }
 
-    public async get(from: string, id: T['id']): Promise<T | undefined> {
+    public async get(from: string, toIndex: IIndexDbQueryWhere<T>): Promise<T | undefined> {
 
         if (!this.connected) {
-            throw new Error('Database not connected');
+            throw new InternalError('Database not connected');
         }
 
-        return this.data[from]?.find((item) => item.id === id);
+        const { A: property, B: value } = toIndex;
+
+        return structuredClone(this.data[from]?.find((item) => item[property] === value));
     }
 
     public async list(from: string, wheres: IDbQueryWhere<T>[]): Promise<T[]> {
 
         if (!this.connected) {
-            throw new Error('Database not connected');
+            throw new InternalError('Database not connected');
         }
 
         return this.data[from]?.filter((item) => wheres.every((where) => item)) || [];
     }
 
-    public async update(from: string, id: T['id'], data: T): Promise<T> {
+    public async update(from: string, toIndex: IIndexDbQueryWhere<T>, data: T): Promise<T> {
 
         if (!this.connected) {
-            throw new Error('Database not connected');
+            throw new InternalError('Database not connected');
         }
 
-        const element = await this.get(from, id);
-
+        const element = await this.get(from, toIndex);
+        const { A: property, B: value } = toIndex;
         // Find index of the element
-        const index = this.data[from]?.findIndex((item) => item.id === id);
+        const index = this.data[from]?.findIndex((item) => item[property] === value);
 
         if (!this.data[from] || !element || index === undefined) {
-            throw new Error('Item not found');
+            throw new InternalError('Item not found');
         }
 
         // Update the element avoiding mutating the original id
         this.data[from][index] = {
             ...element,
             ...data,
-            id: element.id
+            [property]: element[property]
         };
 
         return data;
     }
 
-    public async delete(from: string, id: T['id']): Promise<T> {
+    public async delete(from: string, toIndex: IIndexDbQueryWhere<T>): Promise<T> {
 
         if (!this.connected) {
-            throw new Error('Database not connected');
+            throw new InternalError('Database not connected');
         }
 
-        const element = await this.get(from, id);
+        const element = await this.get(from, toIndex);
+        const { A: property, B: value } = toIndex;
         // Find index of the element
-        const index = this.data[from]?.findIndex((item) => item.id === id);
+        const index = this.data[from]?.findIndex((item) => item[property] === value);
 
         if (!this.data[from] || !element || index === undefined) {
-            throw new Error('Item not found');
+            throw new InternalError('Item not found');
         }
         // Delete the element
         this.data[from].splice(index, 1);
