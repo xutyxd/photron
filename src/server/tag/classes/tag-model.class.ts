@@ -1,6 +1,5 @@
 import { RecordModel } from "../../crosscutting/common/classes/record-model.class";
-import { ITagModel } from "../interfaces/tag-model.interface";
-import { ITag } from "../interfaces/tag.interface";
+import { ITag, ITagModel } from "../interfaces";
 
 export class TagModel extends RecordModel implements ITagModel {
 

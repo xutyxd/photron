@@ -12,10 +12,4 @@ export class TagService extends RecordService<typeof Tag, ITag, ITagModel> {
     constructor(@inject(TagRepository) readonly tagRepository: TagRepository) {
         super(tagRepository, Tag);
     }
-
-    public async create(data: Omit<ITag, keyof IRecord>) {
-
-        const tag = await super.create(data);
-        return tag;
-    }
 }

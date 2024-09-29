@@ -1,6 +1,5 @@
 import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
-import { ITagAPI } from "../interfaces/tag-api.interface";
-import { ITag } from "../interfaces/tag.interface";
+import { ITag, ITagAPI } from "../interfaces";
 
 export class TagAPI  extends RecordAPI implements ITagAPI {
 

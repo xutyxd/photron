@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import { BadRequestResponse } from "../../crosscutting/common/responses/bad-request.response.class";
-import { InternalErrorResponse } from "../../crosscutting/common/responses/internal-error.response.class";
+import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
+import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
 import { TagAPI } from "../classes/tag-api.class";
 import { ITagAPI } from "../interfaces/tag-api.interface";
 import { TagService } from "../services/tag.service";
@@ -55,7 +55,7 @@ export class TagController implements IHTTPController {
 
             result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error creating tag';
+            const message = error instanceof BaseError ? error.message : 'Error creating tag';
             throw new InternalErrorResponse(message, context);
         }
 
@@ -71,7 +71,7 @@ export class TagController implements IHTTPController {
 
             result = tags.map((tag) => new TagAPI(tag).export());
         } catch (error) {
-            const message = (error as Error).message || 'Error getting tags';
+            const message = error instanceof BaseError ? error.message : 'Error listing tag';
             throw new InternalErrorResponse(message, context);
         }
         
@@ -93,8 +93,12 @@ export class TagController implements IHTTPController {
             result = new TagAPI(tag).export();
 
         } catch (error) {
-            const message = (error as Error).message || 'Error getting tag';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error getting tag';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;
@@ -115,8 +119,12 @@ export class TagController implements IHTTPController {
 
             result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting tag';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error updating tag';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;
@@ -136,8 +144,12 @@ export class TagController implements IHTTPController {
 
             result = new TagAPI(tag).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting tag';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error deleting tag';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;
