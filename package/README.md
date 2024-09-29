@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/xutyxd/photron">
     <picture>
-      <source srcset="../photron-logo.png" width="150">
-      <img alt="Photron logo" src="../photron-logo.png">
+      <source srcset="./photron-logo.png" width="150">
+      <img alt="Photron logo" src="./photron-logo.png">
     </picture>
   </a>
 </p>
