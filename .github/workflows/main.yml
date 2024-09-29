@@ -59,6 +59,7 @@ jobs:
 
       - name: Release
         run: |
+          cd package
           npx semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }} # Token for generate tags on the repo

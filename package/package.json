@@ -1,0 +1,48 @@
+{
+    "name": "photron",
+    "version": "1.0.0",
+    "description": "A server to manage resources splitting into chunks for parallel download",
+    "main": "src/index.ts",
+    "exports": {
+        ".": {
+            "import": "./mjs/index.js",
+            "require": "./cjs/index.js"
+        }
+    },
+    "files": [
+        "cjs",
+        "mjs"
+    ],
+    "scripts": { },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xutyxd/photron.git"
+    },
+    "author": "XutyXD",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/xutyxd/photron/issues"
+    },
+    "homepage": "https://github.com/xutyxd/photron#readme",
+    "keywords": [
+        "typescript",
+        "hybrid",
+        "mjs",
+        "cjs",
+        "openapi",
+        "server",
+        "google-auth-library",
+        "openapi-fetch",
+        "photron",
+        "server-over-express",
+        "inversify",
+        "reflect-metadata",
+        "files",
+        "folders",
+        "tags",
+        "users"
+    ],
+    "dependencies": {
+        "openapi-fetch": "^0.12.0"
+    }
+}
