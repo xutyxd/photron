@@ -4,8 +4,8 @@ cat >server/cjs/package.json <<!EOF
 }
 !EOF
 
-cat >server/mjs/package.json <<!EOF
-{
-    "type": "module"
-}
-!EOF
+# cat >server/mjs/package.json <<!EOF
+# {
+#     "type": "module"
+# }
+# !EOF

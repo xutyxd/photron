@@ -20,7 +20,7 @@
     "openapi:types": "openapi-typescript src/openapi/specification.json -o src/openapi/specification.d.ts",
     "server:build:commonjs": "rm -fr server/cjs/* && tsc -p tsconfig-server-cjs.json && bash cjs-formatter.sh",
     "server:build:mjs": "rm -fr server/mjs/* && tsc -p tsconfig-server-mjs.json && bash mjs-formatter.sh",
-    "server:build": "npm run server:build:commonjs && npm run server:build:mjs && ./fixup.sh",
+    "server:build": "npm run server:build:commonjs && ./fixup.sh",
     "package:build": "",
     "start": "npm run server:build && node ./server/cjs/index.js",
     "clean": "npm prune --production",

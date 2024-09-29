@@ -8,7 +8,21 @@ export class ConfigurationService {
 
     public keys = {
         cookies: () => {
-            return structuredClone(this.KEYS.cookies || []);
+            const keys = (this.KEYS.cookies || []) as string[];
+
+            if (!keys.length) {
+                [
+                    "This is a test key",
+                    "This is another test key",
+                    "This is yet another test key"
+                ].forEach((key) => {
+                    keys.push(key);
+                });
+
+                console.warn('No keys found, using default ones!');
+            }
+
+            return structuredClone(keys);
         },
         oauth: () => {
             return structuredClone(this.KEYS.oauth || { });
