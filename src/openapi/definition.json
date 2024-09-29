@@ -40,7 +40,7 @@
         "/folders": {
             "$ref": "./folder/paths/folders.path.json"
         },
-        "/folders/{id}": {
+        "/folders/{uuid}": {
             "$ref": "./folder/paths/folder.path.json"
         }
     },

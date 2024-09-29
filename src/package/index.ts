@@ -37,20 +37,20 @@ export class PhotronAPIClient {
     }
 
     public folders = {
-        create: async (data: { name: string, description: string, parentIndex?: number }) => {
+        create: async (data: { name: string, description: string, parentIndex?: string }) => {
             return this.client.POST('/folders', { body: data });
         },
         list: async () => {
             return this.client.GET('/folders');
         },
-        get: async (id: IFolder['id']) => {
-            return this.client.GET('/folders/{id}', { params: { query: { id } } });
+        get: async (uuid: IFolder['uuid']) => {
+            return this.client.GET('/folders/{uuid}', { params: { query: { uuid } } });
         },
-        update: async (id: IFolder['id'], body: Partial<IFolder>) => {
-            return this.client.PATCH('/folders/{id}', { params: { query: { id }, body } });
+        update: async (uuid: IFolder['uuid'], body: Partial<IFolder>) => {
+            return this.client.PATCH('/folders/{uuid}', { params: { query: { uuid }, body } });
         },
-        delete: async (id: IFolder['id']) => {
-            return this.client.DELETE(`/folders/{id}`, { params: { query: { id } } });
+        delete: async (uuid: IFolder['uuid']) => {
+            return this.client.DELETE(`/folders/{uuid}`, { params: { query: { uuid } } });
         }
     }
 }
