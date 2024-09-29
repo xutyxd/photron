@@ -1,13 +1,19 @@
 ### Generated with ChatGPT maybe has errors
-name: Build and Release
+name: Server build
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'configurations/server/**'
+      - 'scripts/server/**'
+      - 'src/openapi/**'
+      - 'src/server/**'
+      - 'tests/**'
 
 jobs:
-  build-and-release:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write # to be able to publish a GitHub release
@@ -52,15 +58,4 @@ jobs:
           npm run server:build
         id: cache-server-build
 
-      - name: Build package
-        run: |
-          npm run package:build
-        id: cache-package-build
-
-      - name: Release
-        run: |
-          cd package
-          npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Token for generate tags on the repo
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # Token for publish on npmjs.com
+      

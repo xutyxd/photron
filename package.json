@@ -2,16 +2,6 @@
   "name": "photron",
   "version": "1.0.0",
   "description": "A server to manage resources splitting into chunks for parallel download",
-  "main": "src/index.ts",
-  "exports": {
-    ".": {
-      "import": "./package/mjs/index.js",
-      "require": "./package/cjs/index.js"
-    }
-  },
-  "files": [
-    "package"
-  ],
   "scripts": {
     "tsc": "tsc",
     "openapi:bundle": "redocly bundle src/openapi/definition.json --output src/openapi/specification.json",
