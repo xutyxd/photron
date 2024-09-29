@@ -138,12 +138,12 @@ describe('FolderController', () => {
             });
 
             it('should throw an error if folder is not found', async () => {
-                let response: IFolderAPI | BadRequestResponse;
+                let response: IFolderAPI | NotFoundResponse;
 
                 try {
                     response = await controller.get({ params: { uuid: 1 } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
-                    response = e as BadRequestResponse;
+                    response = e as NotFoundResponse;
                 }
 
                 const replied = (response as BadRequestResponse).reply() as { code: number, response: string };
@@ -160,6 +160,108 @@ describe('FolderController', () => {
 
                 const folderCreated = await controller.create(request, context);
                 const folder = await controller.get({ params: { uuid: folderCreated.uuid } } as any, context);
+
+                assert.equal(folder.name, folderCreated.name);
+                assert.equal(folder.description, folderCreated.description);
+                assert.equal(folder.owner, '1234-test');
+            });
+        });
+
+        describe('FolderController update', () => {
+            it('should throw a bad request error if uuid is not provided', async () => {
+                let response: IFolderAPI | BadRequestResponse;
+
+                const request = { params: { uuid: undefined }, body: { } } as any;
+                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                try {
+                    response = await controller.update(request, context);
+                } catch (e) {
+                    response = e as BadRequestResponse;
+                }
+
+                const replied = (response as BadRequestResponse).reply() as { code: number, response: string };
+
+                assert.equal(response instanceof BadRequestResponse, true);
+                assert.equal(replied.code, 400);
+                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+            });
+
+            it('should throw an error if folder is not found', async () => {
+                let response: IFolderAPI | NotFoundResponse;
+
+                const request = { params: { uuid: 1 }, body: { } } as any;
+                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+
+                try {
+                    response = await controller.update(request, context);
+                } catch (e) {
+                    response = e as NotFoundResponse;
+                }
+
+                const replied = (response as NotFoundResponse).reply() as { code: number, response: string };
+
+                assert.equal(response instanceof NotFoundResponse, true);
+                assert.equal(replied.code, 404);
+                assert.equal(replied.response, 'Not found: Record not found');
+            });
+
+            it('should update a folder', async () => {
+                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const request = { body } as any;
+                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+
+                const folderCreated = await controller.create(request, context);
+                const folder = await controller.update({ params: { uuid: folderCreated.uuid }, ...request }, context);
+
+                assert.equal(folder.name, folderCreated.name);
+                assert.equal(folder.description, folderCreated.description);
+                assert.equal(folder.owner, '1234-test');
+            });
+        });
+
+        describe('FolderController delete', () => {
+            it('should throw a bad request error if uuid is not provided', async () => {
+                let response: IFolderAPI | BadRequestResponse;
+
+                try {
+                    response = await controller.delete({ params: {} } as any, { user: { sub: 1234 } } as any);
+                } catch (e) {
+                    response = e as BadRequestResponse;
+                }
+
+                const replied = (response as BadRequestResponse).reply() as { code: number, response: string };
+
+                assert.equal(response instanceof BadRequestResponse, true);
+                assert.equal(replied.code, 400);
+                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+            });
+
+            it('should throw an error if folder is not found', async () => {
+                let response: IFolderAPI | NotFoundResponse;
+
+                const request = { params: { uuid: 1 } } as any;
+                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+
+                try {
+                    response = await controller.delete(request, context);
+                } catch (e) {
+                    response = e as NotFoundResponse;
+                }
+
+                const replied = (response as NotFoundResponse).reply() as { code: number, response: string };
+
+                assert.equal(response instanceof NotFoundResponse, true);
+                assert.equal(replied.code, 404);
+                assert.equal(replied.response, 'Not found: Record not found');
+            });
+
+            it('should delete a folder', async () => {
+                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const request = { body } as any;
+                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+
+                const folderCreated = await controller.create(request, context);
+                const folder = await controller.delete({ params: { uuid: folderCreated.uuid } } as any, context);
 
                 assert.equal(folder.name, folderCreated.name);
                 assert.equal(folder.description, folderCreated.description);

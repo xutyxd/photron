@@ -127,10 +127,14 @@ export class FolderController implements IHTTPController {
         try {
             const folder = await this.folderService.update(uuid, { name, description, parentId });
 
-            result = new FolderAPI(folder).export();
+            result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folder';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error getting folder';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;
@@ -148,10 +152,14 @@ export class FolderController implements IHTTPController {
         try {
             const folder = await this.folderService.delete(uuid);
 
-            result = new FolderAPI(folder).export();
+            result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error getting folder';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error getting folder';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;

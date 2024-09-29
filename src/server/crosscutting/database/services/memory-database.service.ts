@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { InternalError } from "../../common/errors";
+import { InternalError, NotFoundError } from "../../common/errors";
 import { IRecordModel } from "../../common/interfaces/record-model.interface";
 import { IIndexDbQueryWhere } from "../interfaces";
 import { IDatabase } from "../interfaces/database.interface";
@@ -73,7 +73,7 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         const index = this.data[from]?.findIndex((item) => item[property] === value);
 
         if (!this.data[from] || !element || index === undefined) {
-            throw new InternalError('Item not found');
+            throw new NotFoundError('Record not found');
         }
 
         // Update the element avoiding mutating the original id
@@ -98,7 +98,7 @@ export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<
         const index = this.data[from]?.findIndex((item) => item[property] === value);
 
         if (!this.data[from] || !element || index === undefined) {
-            throw new InternalError('Item not found');
+            throw new NotFoundError('Record not found');
         }
         // Delete the element
         this.data[from].splice(index, 1);
