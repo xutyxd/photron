@@ -15,7 +15,8 @@ tmp
 
 # Build
 /server
-/package
+/package/cjs
+/package/mjs
 test
 src/openapi/specification.json
 src/openapi/specification.d.ts

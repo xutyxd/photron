@@ -5,13 +5,12 @@
   "main": "src/index.ts",
   "exports": {
     ".": {
-      "import": "./mjs/index.js",
-      "require": "./cjs/index.js"
+      "import": "./package/mjs/index.js",
+      "require": "./package/cjs/index.js"
     }
   },
   "files": [
-    "cjs",
-    "mjs"
+    "package"
   ],
   "scripts": {
     "tsc": "tsc",
