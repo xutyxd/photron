@@ -1,10 +1,9 @@
 import { inject, injectable } from "inversify";
 import { NotFoundError } from "../../crosscutting/common/errors";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
+import { IRecord } from "../../crosscutting/common/interfaces";
 import { RecordService } from "../../crosscutting/common/services/record.service";
 import { Folder } from "../classes/folder.class";
-import { IFolderModel } from "../interfaces/folder-model.interface";
-import { IFolder } from "../interfaces/folder.interface";
+import { IFolder, IFolderModel } from "../interfaces";
 import { FolderRepository } from "../repository/folder.repository";
 
 @injectable()

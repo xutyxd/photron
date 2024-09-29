@@ -2,9 +2,7 @@ import { Record } from "../../crosscutting/common/classes/record.class";
 import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
 import { Optional } from "../../crosscutting/common/types/optional.type";
 import { File } from "../../file/classes/file.class";
-import { Tag } from "../../tag/classes/tag.class";
-import { IFolderModel } from "../interfaces/folder-model.interface";
-import { IFolder } from "../interfaces/folder.interface";
+import { IFolder, IFolderModel } from "../interfaces";
 import { FolderModel } from "./folder-model.class";
 
 export class Folder extends Record implements IFolder {

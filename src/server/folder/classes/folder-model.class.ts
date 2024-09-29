@@ -3,8 +3,7 @@ import { File } from "../../file/classes/file.class";
 import { IFileModel } from "../../file/interfaces/file-model.interface";
 import { Tag } from "../../tag/classes/tag.class";
 import { ITagModel } from "../../tag/interfaces/tag-model.interface";
-import { IFolderModel } from "../interfaces/folder-model.interface";
-import { IFolder } from "../interfaces/folder.interface";
+import { IFolder, IFolderModel } from "../interfaces";
 
 export class FolderModel extends RecordModel implements IFolderModel {
 

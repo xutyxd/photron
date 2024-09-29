@@ -3,15 +3,13 @@ import "reflect-metadata";
 import assert from "node:assert";
 import { beforeEach, describe, it } from "node:test";
 
-import { BadRequestResponse } from "../../../../src/server/crosscutting/common/responses/bad-request.response.class";
-import { InternalErrorResponse } from "../../../../src/server/crosscutting/common/responses/internal-error.response.class";
+import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../../../src/server/crosscutting/common/responses";
 import { MemoryDatabaseService } from "../../../../src/server/crosscutting/database/services/memory-database.service";
 import { FolderController } from "../../../../src/server/folder/controllers/folder.controller";
 import { IFolderAPI } from "../../../../src/server/folder/interfaces/folder-api.interface";
 import { IFolderModel } from "../../../../src/server/folder/interfaces/folder-model.interface";
 import { FolderRepository } from "../../../../src/server/folder/repository/folder.repository";
 import { FolderService } from "../../../../src/server/folder/services/folder.service";
-import { NotFoundResponse } from "../../../../src/server/crosscutting/common/responses/not-found.response.class";
 
 describe('FolderController', () => {
 

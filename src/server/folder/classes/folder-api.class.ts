@@ -1,8 +1,6 @@
 import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
 import { IFile } from "../../file/interfaces/file.interface";
-import { ITag } from "../../tag/interfaces/tag.interface";
-import { IFolderAPI } from "../interfaces/folder-api.interface";
-import { IFolder } from "../interfaces/folder.interface";
+import { IFolder, IFolderAPI } from "../interfaces";
 
 export class FolderAPI extends RecordAPI implements IFolderAPI {
 
