@@ -50,11 +50,12 @@ jobs:
       - name: Build server package
         run: |
           npm run server:build
-        id: cache-build
+        id: cache-server-build
+
       - name: Build package
         run: |
           npm run package:build
-        id: cache-build
+        id: cache-package-build
 
       - name: Release
         run: |
