@@ -25,7 +25,9 @@
     "package:build": "npm run package:build:cjs && npm run package:build:mjs && ./scripts/package/fixup.sh",
     "start": "npm run server:build && node ./server/cjs/index.js",
     "clean": "npm prune --production",
-    "test:ts": "tsc --noEmit",
+    "test:ts:server": "tsc --noEmit -p ./configurations/server/tsconfig-cjs.json",
+    "test:ts:package": "tsc --noEmit -p ./configurations/package/tsconfig-cjs.json",
+    "test:ts": "npm run test:ts:server && npm run test:ts:package",
     "test:units": "node --test --require ts-node/register tests/units/**/**/*.spec.ts",
     "test:units:coverage": "c8 npm run test:units",
     "test:functionals": "cucumber-js tests/functionals"
