@@ -9,7 +9,7 @@ export class TagAPI  extends RecordAPI implements ITagAPI {
     public description?: string;
     public color?: string;
 
-    constructor(tag: ITag) {
+    constructor(tag: Omit<ITag, 'toModel'>) {
         super(tag);
 
         this.ownerIndex = tag.ownerIndex;

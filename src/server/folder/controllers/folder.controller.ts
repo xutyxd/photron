@@ -78,8 +78,9 @@ export class FolderController implements IHTTPController {
 
         try {
             const folders = await this.folderService.list();
+            const owner = context.user.name;
 
-            result = folders.map((folder) => new FolderAPI({ ...folder, owner: context.user.name }).export());
+            result = folders.map((folder) => new FolderAPI({ ...folder, owner }).export());
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error listing folder';
 

@@ -53,7 +53,7 @@ export class TagController implements IHTTPController {
                 ownerIndex: context.user.sub
             });
 
-            result = new TagAPI(tag).export();
+            result = new TagAPI({ ...tag, owner: context.user.name }).export();
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error creating tag';
             throw new InternalErrorResponse(message, context);
@@ -68,8 +68,9 @@ export class TagController implements IHTTPController {
 
         try {
             const tags = await this.tagService.list();
+            const owner = context.user.name;
 
-            result = tags.map((tag) => new TagAPI(tag).export());
+            result = tags.map((tag) => new TagAPI({ ...tag, owner }).export());
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error listing tag';
             throw new InternalErrorResponse(message, context);
@@ -90,7 +91,7 @@ export class TagController implements IHTTPController {
         try {
             const tag = await this.tagService.get(uuid);
 
-            result = new TagAPI(tag).export();
+            result = new TagAPI({ ...tag, owner: context.user.name }).export();
 
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error getting tag';
@@ -117,7 +118,7 @@ export class TagController implements IHTTPController {
         try {
             const tag = await this.tagService.update(uuid, { name, description, color });
 
-            result = new TagAPI(tag).export();
+            result = new TagAPI({ ...tag, owner: context.user.name }).export();
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error updating tag';
 
@@ -142,7 +143,7 @@ export class TagController implements IHTTPController {
         try {
             const tag = await this.tagService.delete(uuid);
 
-            result = new TagAPI(tag).export();
+            result = new TagAPI({ ...tag, owner: context.user.name }).export();
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error deleting tag';
 
