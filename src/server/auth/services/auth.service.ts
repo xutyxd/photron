@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import { ConfigurationService } from "../../configuration/services/configuration.service";
 import { Credentials, OAuth2Client } from "google-auth-library";
+import { IOAuthKeys } from "../interfaces/oauth-keys.interface";
 
 @injectable()
 export class AuthService {
@@ -8,7 +9,7 @@ export class AuthService {
     constructor(@inject(ConfigurationService) private readonly configurationService: ConfigurationService) { }
 
     private getClient() {
-        const keys = this.configurationService.keys.oauth;
+        const keys = this.configurationService.keys.oauth() as IOAuthKeys;
         const oAuth2Client = new OAuth2Client(
             keys.web.client_id,
             keys.web.client_secret,

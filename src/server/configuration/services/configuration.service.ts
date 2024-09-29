@@ -1,20 +1,41 @@
 
 import { injectable } from 'inversify';
 
-import cookies from '../cookies.keys.json';
-import oauth from '../oauth2.keys.json';
-
 @injectable()
 export class ConfigurationService {
 
-    constructor() { }
+    private KEYS: { [K in 'oauth' | 'cookies' ]?: object };
 
     public keys = {
-        get cookies() {
-            return cookies;
+        cookies: () => {
+            return structuredClone(this.KEYS.cookies || []);
         },
-        get oauth() {
-            return oauth;
+        oauth: () => {
+            return structuredClone(this.KEYS.oauth || { });
         }
+    }
+
+    constructor() {
+        this.KEYS = {
+            oauth: this.load('OAUTH2_KEYS'),
+            cookies: this.load('COOKIES_KEYS')
+        };
+    }
+
+    private load(keys: string): object | undefined {
+        let result: object | undefined;
+
+        try {
+
+            const env = process.env[keys];
+
+            if (env) {
+                result = JSON.parse(env);
+            }
+        } catch {
+            result = undefined;
+        }
+
+        return result;
     }
 }

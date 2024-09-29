@@ -63,7 +63,7 @@ const App = class {
             value: "*"
         });
         // Set keys for cookies
-        httpServer.keys = configurationService.keys.cookies;
+        httpServer.keys = (configurationService.keys.cookies()) as string[];
         // Set actions
         // Set actions before request
         httpServer.request.before.add(setAuthAction);
