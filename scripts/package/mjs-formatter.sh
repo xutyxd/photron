@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folder_path="server/mjs"
+folder_path="package/mjs"
 extension=".js"
 
 # Find all .js files in the folder and its subdirectories
