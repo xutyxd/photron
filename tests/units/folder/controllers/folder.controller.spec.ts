@@ -68,14 +68,14 @@ describe('FolderController', () => {
                 try {
                     response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 1, ownerIndex: 1 } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
-                    response = e as InternalErrorResponse;
+                    response = e as NotFoundResponse;
                 }
 
-                const replied = (response as InternalErrorResponse).reply() as { code: number, response: string };
+                const replied = (response as NotFoundResponse).reply() as { code: number, response: string };
 
-                assert.equal(response instanceof InternalErrorResponse, true);
-                assert.equal(replied.code, 500);
-                assert.equal(replied.response, 'Internal server error: Parent folder not found');
+                assert.equal(response instanceof NotFoundResponse, true);
+                assert.equal(replied.code, 404);
+                assert.equal(replied.response, 'Not found: Parent folder not found');
             });
 
             it('should create a folder without parent', async () => {

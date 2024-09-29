@@ -61,8 +61,12 @@ export class FolderController implements IHTTPController {
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
-            const message = (error as Error).message || 'Error creating folder';
-            throw new InternalErrorResponse(message, context);
+            const message = error instanceof BaseError ? error.message : 'Error creating folder';
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+            
+            throw toThrow;
         }
 
         return result;
@@ -79,10 +83,7 @@ export class FolderController implements IHTTPController {
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error getting folder';
 
-            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
-            const toThrow = new toInstance(message, context);
-            
-            throw toThrow;
+            throw new InternalErrorResponse(message, context);
         }
         
         return result;
@@ -129,7 +130,7 @@ export class FolderController implements IHTTPController {
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
-            const message = error instanceof BaseError ? error.message : 'Error getting folder';
+            const message = error instanceof BaseError ? error.message : 'Error updating folder';
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
@@ -154,7 +155,7 @@ export class FolderController implements IHTTPController {
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
-            const message = error instanceof BaseError ? error.message : 'Error getting folder';
+            const message = error instanceof BaseError ? error.message : 'Error deleting folder';
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
