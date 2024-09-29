@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { InternalError } from "../../crosscutting/common/errors/internal.error";
+import { NotFoundError } from "../../crosscutting/common/errors";
 import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
 import { RecordService } from "../../crosscutting/common/services/record.service";
 import { Folder } from "../classes/folder.class";
@@ -20,12 +20,10 @@ export class FolderService extends RecordService<typeof Folder, IFolder, IFolder
             try {
                 await this.get(data.parentIndex);
             } catch (error) {
-                throw new InternalError('Parent folder not found');
+                throw new NotFoundError('Parent folder not found');
             }
         }
 
-        const folder = await super.create(data);
-
-        return folder;
+        return await super.create(data);
     }
 }
