@@ -17,6 +17,7 @@ tmp
 /server
 /package/cjs
 /package/mjs
+package/openapi
 test
 src/openapi/specification.json
 src/openapi/specification.d.ts
