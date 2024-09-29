@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "required": [ "id", "uuid", "createdAt", "updatedAt", "ownerId", "parentId", "name", "description" ],
+    "required": [ "id", "uuid", "createdAt", "updatedAt", "ownerIndex", "parentIndex", "name", "description" ],
     "properties": {
         "id": {
             "type": "number",
@@ -18,13 +18,13 @@
             "type": "number",
             "example": "1679022000000"
         },
-        "ownerId": {
+        "ownerIndex": {
             "type": "number",
-            "example": "1"
+            "example": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b"
         },
-        "parentId": {
+        "parentIndex": {
             "type": "number",
-            "example": "1"
+            "example": "f0a6f400-be55-42ae-9545-1bcba9b69b99"
         },
         "name": {
             "type": "string",

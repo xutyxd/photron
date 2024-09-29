@@ -9,8 +9,8 @@ import { FolderModel } from "./folder-model.class";
 
 export class Folder extends Record implements IFolder {
 
-    public ownerId: string;
-    public parentId?: string;
+    public ownerIndex: string;
+    public parentIndex?: string;
     public name: string;
     public description?: string;
 
@@ -25,9 +25,9 @@ export class Folder extends Record implements IFolder {
     constructor(folder: Optional<IFolder, IRecord>) {
         super(folder);
 
-        this.ownerId = folder.ownerId;
+        this.ownerIndex = folder.ownerIndex;
         this.owner = folder.owner;
-        this.parentId = folder.parentId;
+        this.parentIndex = folder.parentIndex;
         this.parent = folder.parent;
         this.files = (folder.files || []).map((file) => new File(file));
         this.name = folder.name;
@@ -44,8 +44,8 @@ export class Folder extends Record implements IFolder {
             uuid: folder.uuid,
             createdAt: folder.created_at,
             updatedAt: folder.updated_at,
-            ownerId: folder.owner_id,
-            parentId: folder.parent_id,
+            ownerIndex: folder.owner_id,
+            parentIndex: folder.parent_id,
             name: folder.name,
             description: folder.description,
             files: [],

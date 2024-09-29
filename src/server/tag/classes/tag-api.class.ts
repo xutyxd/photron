@@ -4,7 +4,7 @@ import { ITag } from "../interfaces/tag.interface";
 
 export class TagAPI  extends RecordAPI implements ITagAPI {
 
-    public ownerId: string;
+    public ownerIndex: string;
     public owner?: string;
     public name: string;
     public description?: string;
@@ -13,7 +13,7 @@ export class TagAPI  extends RecordAPI implements ITagAPI {
     constructor(tag: ITag) {
         super(tag);
 
-        this.ownerId = tag.ownerId;
+        this.ownerIndex = tag.ownerIndex;
         this.owner = tag.owner;
         this.name = tag.name;
         this.description = tag.description;
@@ -23,7 +23,7 @@ export class TagAPI  extends RecordAPI implements ITagAPI {
     public export() {
         return {
             ...super.export(),
-            ownerId: this.ownerId,
+            ownerIndex: this.ownerIndex,
             owner: this.owner,
             name: this.name,
             description: this.description,

@@ -7,7 +7,7 @@ import { FileModel } from "./file-model.class";
 
 export class File extends Record implements IFile {
 
-    public ownerId: string;
+    public ownerIndex: string;
     public name: string;
     public description?: string;
     public size: number;
@@ -20,7 +20,7 @@ export class File extends Record implements IFile {
     constructor(file: Optional<IFile, IRecord>) {
         super(file);
 
-        this.ownerId = file.ownerId;
+        this.ownerIndex = file.ownerIndex;
         this.owner = file.owner;
         this.name = file.name;
         this.description = file.description;
@@ -40,7 +40,7 @@ export class File extends Record implements IFile {
             uuid: file.uuid,
             createdAt: file.created_at,
             updatedAt: file.updated_at,
-            ownerId: file.owner_id,
+            ownerIndex: file.owner_id,
             owner: file.owner,
             name: file.name,
             description: file.description,

@@ -16,7 +16,7 @@ export class FileModel extends RecordModel implements IFileModel {
     constructor(file: IFile) {
         super(file);
 
-        this.owner_id = file.ownerId;
+        this.owner_id = file.ownerIndex;
         this.owner = file.owner;
         this.name = file.name;
         this.description = file.description;

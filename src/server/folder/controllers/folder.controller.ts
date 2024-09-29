@@ -38,7 +38,7 @@ export class FolderController implements IHTTPController {
 
     public async create(request: HTTPRequest, context: IHTTPContextData) {
 
-        const { name, description, parentId, tags = { include: [], exclude: [] } } = request.body;
+        const { name, description, parentIndex, tags = { include: [], exclude: [] } } = request.body;
 
         if (!name) {
             throw new BadRequestResponse('Property "name" is required', context);
@@ -50,8 +50,8 @@ export class FolderController implements IHTTPController {
             const folder = await this.folderService.create({
                 name,
                 description,
-                parentId,
-                ownerId: context.user.sub,
+                parentIndex,
+                ownerIndex: context.user.sub,
                 files: [],
                 tags: {
                     include: tags.include || [],
@@ -116,7 +116,7 @@ export class FolderController implements IHTTPController {
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
         const { uuid } = request.params;
-        const { name, description, parentId } = request.body;
+        const { name, description, parentIndex } = request.body;
 
         if (!uuid) {
             throw new BadRequestResponse('Property "uuid" is required', context);
@@ -125,7 +125,7 @@ export class FolderController implements IHTTPController {
         let result: IFolderAPI ;
 
         try {
-            const folder = await this.folderService.update(uuid, { name, description, parentId });
+            const folder = await this.folderService.update(uuid, { name, description, parentIndex });
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {

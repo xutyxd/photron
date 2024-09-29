@@ -50,7 +50,7 @@ export class TagController implements IHTTPController {
                 name,
                 description,
                 color,
-                ownerId: context.user.sub
+                ownerIndex: context.user.sub
             });
 
             result = new TagAPI(tag).export();

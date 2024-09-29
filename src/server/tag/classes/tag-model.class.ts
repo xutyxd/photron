@@ -13,7 +13,7 @@ export class TagModel extends RecordModel implements ITagModel {
     constructor(tag: ITag) {
         super(tag);
 
-        this.owner_id = tag.ownerId;
+        this.owner_id = tag.ownerIndex;
         this.owner = tag.owner;
         this.name = tag.name;
         this.description = tag.description;

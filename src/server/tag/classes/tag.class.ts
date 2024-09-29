@@ -7,7 +7,7 @@ import { TagModel } from "./tag-model.class";
 
 export class Tag extends Record implements ITag { 
 
-    public ownerId: string;
+    public ownerIndex: string;
     public owner?: string;
     public name: string;
     public description?: string;
@@ -16,7 +16,7 @@ export class Tag extends Record implements ITag {
     constructor(tag: Optional<ITag, IRecord>) {
         super(tag);
 
-        this.ownerId = tag.ownerId;
+        this.ownerIndex = tag.ownerIndex;
         this.owner = tag.owner;
         this.name = tag.name;
         this.description = tag.description;
@@ -33,7 +33,7 @@ export class Tag extends Record implements ITag {
             uuid: tag.uuid,
             createdAt: tag.created_at,
             updatedAt: tag.updated_at,
-            ownerId: tag.owner_id,
+            ownerIndex: tag.owner_id,
             owner: tag.owner,
             name: tag.name,
             description: tag.description,

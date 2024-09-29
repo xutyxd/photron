@@ -4,7 +4,7 @@ import { IFile } from "../interfaces/file.interface";
 
 export class FileAPI extends RecordAPI implements IFileAPI {
 
-    public ownerId: string;
+    public ownerIndex: string;
     public owner: string;
     public name: string;
     public description?: string;
@@ -16,7 +16,7 @@ export class FileAPI extends RecordAPI implements IFileAPI {
     constructor(file: IFile) {
         super(file);
 
-        this.ownerId = file.ownerId;
+        this.ownerIndex = file.ownerIndex;
         this.owner = file.owner;
         this.name = file.name;
         this.description = file.description;
@@ -29,7 +29,7 @@ export class FileAPI extends RecordAPI implements IFileAPI {
     public export() {
         return {
             ...super.export(),
-            ownerId: this.ownerId,
+            ownerIndex: this.ownerIndex,
             owner: this.owner,
             name: this.name,
             description: this.description,

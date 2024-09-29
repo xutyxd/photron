@@ -37,7 +37,7 @@ export class PhotronAPIClient {
     }
 
     public folders = {
-        create: async (data: { name: string, description: string, parentId?: number }) => {
+        create: async (data: { name: string, description: string, parentIndex?: number }) => {
             return this.client.POST('/folders', { body: data });
         },
         list: async () => {

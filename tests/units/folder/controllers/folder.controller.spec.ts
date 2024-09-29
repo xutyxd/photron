@@ -66,7 +66,7 @@ describe('FolderController', () => {
                 let response: IFolderAPI | InternalErrorResponse;
 
                 try {
-                    response = await controller.create({ body: { name: 'test', description: 'test', parentId: 1, ownerId: 1 } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 1, ownerIndex: 1 } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
                     response = e as InternalErrorResponse;
                 }
@@ -80,7 +80,7 @@ describe('FolderController', () => {
 
             it('should create a folder without parent', async () => {
 
-                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const body = { name: 'test', description: 'test', ownerIndex: 1 };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -104,7 +104,7 @@ describe('FolderController', () => {
             });
 
             it('should create a folder and return it', async () => {
-                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const body = { name: 'test', description: 'test', ownerIndex: 1 };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -154,7 +154,7 @@ describe('FolderController', () => {
             });
 
             it('should get a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const body = { name: 'test', description: 'test', ownerIndex: 1 };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -206,7 +206,7 @@ describe('FolderController', () => {
             });
 
             it('should update a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const body = { name: 'test', description: 'test', ownerIndex: 1 };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -256,7 +256,7 @@ describe('FolderController', () => {
             });
 
             it('should delete a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerId: 1 };
+                const body = { name: 'test', description: 'test', ownerIndex: 1 };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 

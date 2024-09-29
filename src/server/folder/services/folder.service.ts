@@ -16,9 +16,9 @@ export class FolderService extends RecordService<typeof Folder, IFolder, IFolder
 
     public async create(data: Omit<IFolder, keyof IRecord>) {
         // Check if the parent folder exists
-        if (data.parentId) {
+        if (data.parentIndex) {
             try {
-                await this.get(data.parentId);
+                await this.get(data.parentIndex);
             } catch (error) {
                 throw new InternalError('Parent folder not found');
             }

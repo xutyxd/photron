@@ -26,9 +26,9 @@ export class FolderModel extends RecordModel implements IFolderModel {
     constructor(folder: IFolder) {
         super(folder);
 
-        this.owner_id = folder.ownerId;
+        this.owner_id = folder.ownerIndex;
         this.owner = folder.owner;
-        this.parent_id = folder.parentId;
+        this.parent_id = folder.parentIndex;
         this.parent = folder.parent;
         this.name = folder.name || '';
         this.description = folder.description || '';

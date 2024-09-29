@@ -1,12 +1,11 @@
 {
     "code": 200,
     "data": {
-        "id": 1,
         "uuid": "c0a8433f-d6b1-4f38-a94a-2c9a0d0c1c4d",
         "createdAt": 1679022000000,
         "updatedAt": 1679022000000,
-        "ownerId": 1,
-        "parentId": 1,
+        "ownerIndex": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b",
+        "parentIndex": "f0a6f400-be55-42ae-9545-1bcba9b69b99",
         "name": "Folder name",
         "description": "Folder description"
     },
