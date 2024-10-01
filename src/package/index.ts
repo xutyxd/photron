@@ -2,7 +2,8 @@
 import createClient, { Middleware } from "openapi-fetch";
 import type { paths, components } from "../openapi/specification";
 
-type IFolder = components['schemas']['IFolder'];
+type folderCreate = components['schemas']['folder-create.request'];
+type folderUpdate = components['schemas']['folder-update.request'];
 export class PhotronAPIClient {
 
     private client: ReturnType<typeof createClient<paths>>
@@ -37,19 +38,19 @@ export class PhotronAPIClient {
     }
 
     public folders = {
-        create: async (data: { name: string, description: string, parentIndex?: string }) => {
+        create: async (data: folderCreate) => {
             return this.client.POST('/folders', { body: data });
         },
         list: async () => {
             return this.client.GET('/folders');
         },
-        get: async (uuid: IFolder['uuid']) => {
+        get: async (uuid: string) => {
             return this.client.GET('/folders/{uuid}', { params: { path: { uuid } } });
         },
-        update: async (uuid: IFolder['uuid'], body: Partial<IFolder>) => {
+        update: async (uuid: string, body: folderUpdate) => {
             return this.client.PATCH('/folders/{uuid}', { params: { path: { uuid }, body } });
         },
-        delete: async (uuid: IFolder['uuid']) => {
+        delete: async (uuid: string) => {
             return this.client.DELETE(`/folders/{uuid}`, { params: { path: { uuid } } });
         }
     }

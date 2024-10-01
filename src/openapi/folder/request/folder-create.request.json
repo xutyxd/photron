@@ -4,7 +4,18 @@
             "$ref": "./folder-base.request.json"
         },
         {
-            "required": [ "name", "description" ]
+            "type": "object",
+            "required": [ "name", "description" ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Folder name"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Folder description"
+                }
+            }
         }
     ]
 }
