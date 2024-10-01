@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
 import { NotFoundError } from "../../crosscutting/common/errors";
-import { IRecord } from "../../crosscutting/common/interfaces";
 import { RecordService } from "../../crosscutting/common/services/record.service";
 import { Folder } from "../classes/folder.class";
 import { IFolder, IFolderModel } from "../interfaces";
 import { FolderRepository } from "../repository/folder.repository";
+import { PartialFolder } from "../types/partial-folder.type";
 
 @injectable()
 export class FolderService extends RecordService<typeof Folder, IFolder, IFolderModel> {
@@ -13,7 +13,7 @@ export class FolderService extends RecordService<typeof Folder, IFolder, IFolder
         super(folderRepository, Folder);
     }
 
-    public async create(data: Omit<IFolder, keyof IRecord>) {
+    public async create(data: PartialFolder) {
         // Check if the parent folder exists
         if (data.parentIndex) {
             try {

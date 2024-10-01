@@ -17,7 +17,7 @@ export class FolderModel extends RecordModel implements IFolderModel {
     public files_ids: string[]; 
     public tags_include: string[];   
     public tags_exclude: string[];
-    public tags: {
+    public tags?: {
         include: ITagModel[];
         exclude: ITagModel[];
     };
@@ -47,7 +47,9 @@ export class FolderModel extends RecordModel implements IFolderModel {
             owner_id: this.owner_id,
             parent_id: this.parent_id,
             name: this.name,
-            description: this.description
+            description: this.description,
+            tags_include: this.tags_include,
+            tags_exclude: this.tags_exclude
         };
     }
 }

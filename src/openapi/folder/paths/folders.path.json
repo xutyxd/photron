@@ -7,7 +7,7 @@
             "content": {
                 "application/json": {
                     "schema": {
-                        "$ref": "../models/partial-folder.model.json",
+                        "$ref": "../request/folder-create.request.json",
                         "example": {
                             "$ref": "../examples/folder.example.json"
                         }

@@ -1,10 +1,16 @@
+import { Ajv } from "ajv";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
+import idModel from "../../../openapi/common/id-request.model.json";
+import folderBase from "../../../openapi/folder/request/folder-base.request.json";
+import createFolder from "../../../openapi/folder/request/folder-create.request.json";
+import updateFolder from "../../../openapi/folder/request/folder-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
 import { FolderAPI } from "../classes/folder-api.class";
 import { IFolderAPI } from "../interfaces/folder-api.interface";
 import { FolderService } from "../services/folder.service";
+import { PartialFolder } from "../types/partial-folder.type";
 
 @injectable()
 export class FolderController implements IHTTPController {
@@ -36,28 +42,46 @@ export class FolderController implements IHTTPController {
         }
     ]
 
+    private validate = {
+        params: (request: HTTPRequest, context: IHTTPContextData) => {
+            const { params } = request;
+
+            const ajv = new Ajv({ strict: false });
+            const validate = ajv.compile<{ uuid: string }>(idModel);
+
+            if (!validate(params)) {
+                const error = validate.errors?.map(({ message }) => message).join(', ');
+                throw new BadRequestResponse(error || 'something is missing', context);
+            }
+            
+            const { uuid } = params;
+
+            return uuid;
+        },
+        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof createFolder | typeof updateFolder) => {
+            const { body } = request;
+
+            const ajv = new Ajv({ strict: false })
+                            .addSchema(folderBase, 'folder-base.request.json');
+            const validate = ajv.compile<PartialFolder>(schema);
+
+            if (!validate(body)) {
+                const error = validate.errors?.map(({ message }) => message).join(', ');
+                throw new BadRequestResponse(error || 'something is missing', context);
+            }
+
+            return body;
+        }
+    }
+
     public async create(request: HTTPRequest, context: IHTTPContextData) {
 
-        const { name, description, parentIndex, tags = { include: [], exclude: [] } } = request.body;
-
-        if (!name) {
-            throw new BadRequestResponse('Property "name" is required', context);
-        }
+        const body = this.validate.body(request, context, createFolder);
 
         let result: IFolderAPI;
 
         try {
-            const folder = await this.folderService.create({
-                name,
-                description,
-                parentIndex,
-                ownerIndex: context.user.sub,
-                files: [],
-                tags: {
-                    include: tags.include || [],
-                    exclude: tags.exclude || []
-                }
-            });
+            const folder = await this.folderService.create(body);
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
@@ -65,7 +89,7 @@ export class FolderController implements IHTTPController {
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
-            
+
             throw toThrow;
         }
 
@@ -73,7 +97,7 @@ export class FolderController implements IHTTPController {
     }
 
     public async list(request: HTTPRequest, context: IHTTPContextData) {
-        
+
         let result: IFolderAPI[];
 
         try {
@@ -86,17 +110,13 @@ export class FolderController implements IHTTPController {
 
             throw new InternalErrorResponse(message, context);
         }
-        
+
         return result;
     }
 
     public async get(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
+        const uuid = this.validate.params(request, context);
 
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
-        
         let result: IFolderAPI;
 
         try {
@@ -109,7 +129,7 @@ export class FolderController implements IHTTPController {
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
-            
+
             throw toThrow;
         }
 
@@ -117,17 +137,13 @@ export class FolderController implements IHTTPController {
     }
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
-        const { name, description, parentIndex } = request.body;
+        const uuid = this.validate.params(request, context);
+        const body = this.validate.body(request, context, updateFolder);
 
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
-
-        let result: IFolderAPI ;
+        let result: IFolderAPI;
 
         try {
-            const folder = await this.folderService.update(uuid, { name, description, parentIndex });
+            const folder = await this.folderService.update(uuid, body);
 
             result = new FolderAPI({ ...folder, owner: context.user.name }).export();
         } catch (error) {
@@ -135,7 +151,7 @@ export class FolderController implements IHTTPController {
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
-            
+
             throw toThrow;
         }
 
@@ -143,11 +159,7 @@ export class FolderController implements IHTTPController {
     }
 
     public async delete(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
-
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
+        const uuid = this.validate.params(request, context);
 
         let result: IFolderAPI;
 
@@ -160,7 +172,7 @@ export class FolderController implements IHTTPController {
 
             const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
             const toThrow = new toInstance(message, context);
-            
+
             throw toThrow;
         }
 

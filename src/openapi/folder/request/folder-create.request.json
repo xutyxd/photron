@@ -1,0 +1,10 @@
+{
+    "allOf": [
+        {
+            "$ref": "./folder-base.request.json"
+        },
+        {
+            "required": [ "name", "description" ]
+        }
+    ]
+}

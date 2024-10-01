@@ -57,14 +57,14 @@ describe('FolderController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "name" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'name'");
             });
 
             it('should throw an error if parent folder is not found', async () => {
                 let response: IFolderAPI | InternalErrorResponse;
 
                 try {
-                    response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 1, ownerIndex: 1 } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 'parent' } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
@@ -78,7 +78,7 @@ describe('FolderController', () => {
 
             it('should create a folder without parent', async () => {
 
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -102,7 +102,7 @@ describe('FolderController', () => {
             });
 
             it('should create a folder and return it', async () => {
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -132,14 +132,14 @@ describe('FolderController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if folder is not found', async () => {
                 let response: IFolderAPI | NotFoundResponse;
 
                 try {
-                    response = await controller.get({ params: { uuid: 1 } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
@@ -152,7 +152,7 @@ describe('FolderController', () => {
             });
 
             it('should get a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -181,13 +181,13 @@ describe('FolderController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if folder is not found', async () => {
                 let response: IFolderAPI | NotFoundResponse;
 
-                const request = { params: { uuid: 1 }, body: { } } as any;
+                const request = { params: { uuid: 'test' }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
                 try {
@@ -204,7 +204,7 @@ describe('FolderController', () => {
             });
 
             it('should update a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -231,13 +231,13 @@ describe('FolderController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if folder is not found', async () => {
                 let response: IFolderAPI | NotFoundResponse;
 
-                const request = { params: { uuid: 1 } } as any;
+                const request = { params: { uuid: 'test' } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
                 try {
@@ -254,7 +254,7 @@ describe('FolderController', () => {
             });
 
             it('should delete a folder', async () => {
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
