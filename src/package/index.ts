@@ -44,13 +44,13 @@ export class PhotronAPIClient {
             return this.client.GET('/folders');
         },
         get: async (uuid: IFolder['uuid']) => {
-            return this.client.GET('/folders/{uuid}', { params: { query: { uuid } } });
+            return this.client.GET('/folders/{uuid}', { params: { path: { uuid } } });
         },
         update: async (uuid: IFolder['uuid'], body: Partial<IFolder>) => {
-            return this.client.PATCH('/folders/{uuid}', { params: { query: { uuid }, body } });
+            return this.client.PATCH('/folders/{uuid}', { params: { path: { uuid }, body } });
         },
         delete: async (uuid: IFolder['uuid']) => {
-            return this.client.DELETE(`/folders/{uuid}`, { params: { query: { uuid } } });
+            return this.client.DELETE(`/folders/{uuid}`, { params: { path: { uuid } } });
         }
     }
 }
