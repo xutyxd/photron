@@ -1,10 +1,16 @@
+import { Ajv } from "ajv";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
+import idModel from "../../../openapi/common/id-request.model.json";
+import tagBase from "../../../openapi/tag/request/tag-base.request.json";
+import createTag from "../../../openapi/tag/request/tag-create.request.json";
+import updateTag from "../../../openapi/tag/request/tag-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
 import { TagAPI } from "../classes/tag-api.class";
 import { ITagAPI } from "../interfaces/tag-api.interface";
 import { TagService } from "../services/tag.service";
+import { PartialTag } from "../types/partial-tag.type";
 
 @injectable()
 export class TagController implements IHTTPController {
@@ -36,27 +42,54 @@ export class TagController implements IHTTPController {
         }
     ]
 
-    public async create(request: HTTPRequest, context: IHTTPContextData) {
-        const { name, description, color } = request.body;
+    private validate = {
+        params: (request: HTTPRequest, context: IHTTPContextData) => {
+            const { params } = request;
 
-        if (!name) {
-            throw new BadRequestResponse('Property "name" is required', context);
+            const ajv = new Ajv({ strict: false });
+            const validate = ajv.compile<{ uuid: string }>(idModel);
+
+            if (!validate(params)) {
+                const error = validate.errors?.map(({ message }) => message).join(', ');
+                throw new BadRequestResponse(error || 'something is missing', context);
+            }
+            
+            const { uuid } = params;
+
+            return uuid;
+        },
+        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof createTag | typeof updateTag) => {
+            const { body } = request;
+
+            const ajv = new Ajv({ strict: false })
+                            .addSchema(tagBase, 'tag-base.request.json');
+            const validate = ajv.compile<PartialTag>(schema);
+
+            if (!validate(body)) {
+                const error = validate.errors?.map(({ message }) => message).join(', ');
+                throw new BadRequestResponse(error || 'something is missing', context);
+            }
+
+            return body;
         }
+    }
+
+    public async create(request: HTTPRequest, context: IHTTPContextData) {
+        const body = this.validate.body(request, context, createTag);
 
         let result: ITagAPI;
 
         try {
-            const tag = await this.tagService.create({
-                name,
-                description,
-                color,
-                ownerIndex: context.user.sub
-            });
+            const tag = await this.tagService.create(body);
 
             result = new TagAPI({ ...tag, owner: context.user.name }).export();
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error creating tag';
-            throw new InternalErrorResponse(message, context);
+
+            const toInstance = error instanceof NotFoundError ? NotFoundResponse : InternalErrorResponse;
+            const toThrow = new toInstance(message, context);
+
+            throw toThrow;
         }
 
         return result;
@@ -73,6 +106,7 @@ export class TagController implements IHTTPController {
             result = tags.map((tag) => new TagAPI({ ...tag, owner }).export());
         } catch (error) {
             const message = error instanceof BaseError ? error.message : 'Error listing tag';
+
             throw new InternalErrorResponse(message, context);
         }
         
@@ -80,11 +114,7 @@ export class TagController implements IHTTPController {
     }
 
     public async get(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
-
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
+        const uuid = this.validate.params(request, context);
         
         let result: ITagAPI;
 
@@ -106,17 +136,13 @@ export class TagController implements IHTTPController {
     }
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
-        const { name, description, color } = request.body;
-
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
+        const uuid = this.validate.params(request, context);
+        const body = this.validate.body(request, context, updateTag);
 
         let result: ITagAPI;
 
         try {
-            const tag = await this.tagService.update(uuid, { name, description, color });
+            const tag = await this.tagService.update(uuid, body);
 
             result = new TagAPI({ ...tag, owner: context.user.name }).export();
         } catch (error) {
@@ -132,11 +158,7 @@ export class TagController implements IHTTPController {
     }
 
     public async delete(request: HTTPRequest, context: IHTTPContextData) {
-        const { uuid } = request.params;
-
-        if (!uuid) {
-            throw new BadRequestResponse('Property "uuid" is required', context);
-        }
+        const uuid = this.validate.params(request, context);
 
         let result: ITagAPI;
 

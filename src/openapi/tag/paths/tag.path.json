@@ -1,7 +1,7 @@
 {
     "get": {
-        "tags": [ "Folders" ],
-        "summary": "Get folder",
+        "tags": [ "Tags" ],
+        "summary": "Get tag",
         "parameters": [
             {
                 "name": "uuid",
@@ -20,7 +20,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "$ref": "../examples/folder.example.json"
+                                "$ref": "../examples/tag.example.json"
                             },
                             "allOf": [
                                 {
@@ -31,7 +31,7 @@
                                     "required": ["response"],
                                     "properties": {
                                         "response": {
-                                            "$ref": "../models/folder.model.json"
+                                            "$ref": "../models/tag.model.json"
                                         }
                                     }
                                 }
@@ -51,7 +51,7 @@
                 }
             },
             "404": {
-                "description": "Folder not found",
+                "description": "Tag not found",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -65,7 +65,7 @@
                                     "properties": {
                                         "response": {
                                             "type": "string",
-                                            "example": "Not found: Folder not found"
+                                            "example": "Not found: Tag not found"
                                         }
                                     }
                                 }
@@ -80,7 +80,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "$ref": "../examples/folder.example.json"
+                                "$ref": "../examples/tag.example.json"
                             },
                             "allOf": [
                                 {
@@ -91,7 +91,7 @@
                                     "required": ["response"],
                                     "properties": {
                                         "response": {
-                                            "$ref": "../models/folder.model.json"
+                                            "$ref": "../models/tag.model.json"
                                         }
                                     }
                                 }
@@ -103,8 +103,8 @@
         }
     },
     "patch": {
-        "tags": [ "Folders" ],
-        "summary": "Update a folder",
+        "tags": [ "Tags" ],
+        "summary": "Update a tag",
         "parameters": [
             {
                 "name": "uuid",
@@ -120,9 +120,9 @@
             "content": {
                 "application/json": {
                     "schema": {
-                        "$ref": "../request/folder-update.request.json",
+                        "$ref": "../request/tag-update.request.json",
                         "example": {
-                            "$ref": "../examples/folder.example.json"
+                            "$ref": "../examples/tag.example.json"
                         }
                     }
                 }
@@ -135,7 +135,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "$ref": "../examples/folder.example.json"
+                                "$ref": "../examples/tag.example.json"
                             },
                             "allOf": [
                                 {
@@ -146,7 +146,7 @@
                                     "required": ["data"],
                                     "properties": {
                                         "data": {
-                                            "$ref": "../models/folder.model.json"
+                                            "$ref": "../models/tag.model.json"
                                         }
                                     }
                                 }
@@ -166,7 +166,7 @@
                 }
             },
             "404": {
-                "description": "Folder not found",
+                "description": "Tag not found",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -180,7 +180,7 @@
                                 "properties": {
                                     "response": {
                                         "type": "string",
-                                        "example": "Not found: Folder not found"
+                                        "example": "Not found: Tag not found"
                                     }
                                 }
                             }
@@ -195,7 +195,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "$ref": "../examples/folder.example.json"
+                                "$ref": "../examples/tag.example.json"
                             },
                             "allOf": [
                                 {
@@ -206,7 +206,7 @@
                                     "required": ["response"],
                                     "properties": {
                                         "response": {
-                                            "$ref": "../models/folder.model.json"
+                                            "$ref": "../models/tag.model.json"
                                         }
                                     }
                                 }
@@ -218,8 +218,8 @@
         }
     },
     "delete": {
-        "tags": [ "Folders" ],
-        "summary": "Delete a folder",
+        "tags": [ "Tags" ],
+        "summary": "Delete a tag",
         "parameters": [
             {
                 "name": "uuid",
@@ -238,7 +238,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "$ref": "../examples/folder.example.json"
+                                "$ref": "../examples/tag.example.json"
                             },
                             "allOf": [
                                 {
@@ -249,7 +249,7 @@
                                     "required": ["data"],
                                     "properties": {
                                         "data": {
-                                            "$ref": "../models/folder.model.json"
+                                            "$ref": "../models/tag.model.json"
                                         }
                                     }
                                 }
@@ -269,7 +269,7 @@
                 }
             },
             "404": {
-                "description": "Folder not found",
+                "description": "Tag not found",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -283,7 +283,7 @@
                                 "properties": {
                                     "response": {
                                         "type": "string",
-                                        "example": "Not found: Folder not found"
+                                        "example": "Not found: Tag not found"
                                     }
                                 }
                             }

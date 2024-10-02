@@ -57,7 +57,7 @@ describe('TagController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "name" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'name'");
             });
         });
 
@@ -72,7 +72,7 @@ describe('TagController', () => {
             });
 
             it('should create a tag and return it', async () => {
-                const body = { name: 'test', description: 'test', ownerIndex: 1 };
+                const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
@@ -102,14 +102,14 @@ describe('TagController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if tag is not found', async () => {
                 let response: ITagAPI | NotFoundResponse;
 
                 try {
-                    response = await controller.get({ params: { uuid: 1 } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
@@ -152,13 +152,13 @@ describe('TagController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if tag is not found', async () => {
                 let response: ITagAPI | NotFoundResponse;
 
-                const request = { params: { uuid: 1 }, body: { } } as any;
+                const request = { params: { uuid: 'test' }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
                 try {
@@ -166,7 +166,7 @@ describe('TagController', () => {
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
-
+                console.log('Response: ', response);
                 const replied = (response as NotFoundResponse).reply() as { code: number, response: string };
 
                 assert.equal(response instanceof NotFoundResponse, true);
@@ -203,13 +203,13 @@ describe('TagController', () => {
 
                 assert.equal(response instanceof BadRequestResponse, true);
                 assert.equal(replied.code, 400);
-                assert.equal(replied.response, 'Bad request: Property "uuid" is required');
+                assert.equal(replied.response, "Bad request: must have required property 'uuid'");
             });
 
             it('should throw an error if tag is not found', async () => {
                 let response: ITagAPI | NotFoundResponse;
 
-                const request = { params: { uuid: 1 } } as any;
+                const request = { params: { uuid: 'test' } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
 
                 try {

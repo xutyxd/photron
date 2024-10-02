@@ -1,0 +1,81 @@
+{
+    "post": {
+        "tags": [ "Tags" ],
+        "summary": "Create a tag",
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../request/tag-create.request.json",
+                        "example": {
+                            "$ref": "../examples/tag.example.json"
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Tag created by user",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/tag.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "$ref": "../models/tag.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "get": {
+        "tags": [ "Tags" ],
+        "summary": "Get tags",
+        "responses": {
+            "200": {
+                "description": "An array of tags by user",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/tag.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../models/tag.model.json"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

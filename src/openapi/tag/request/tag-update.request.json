@@ -1,0 +1,10 @@
+{
+    "allOf": [
+        {
+            "$ref": "./tag-base.request.json"
+        },
+        {
+            "required": []
+        }
+    ]
+}

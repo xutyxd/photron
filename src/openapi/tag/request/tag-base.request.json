@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string",
+            "example": "Tag name"
+        },
+        "description": {
+            "type": "string",
+            "example": "Tag description"
+        },
+        "color": {
+            "type": "string",
+            "example": "#ffffff"
+        }
+    }
+}

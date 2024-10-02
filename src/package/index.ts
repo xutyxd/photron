@@ -2,8 +2,13 @@
 import createClient, { Middleware } from "openapi-fetch";
 import type { paths, components } from "../openapi/specification";
 
+// Folder
 type folderCreate = components['schemas']['folder-create.request'];
 type folderUpdate = components['schemas']['folder-update.request'];
+// Tag
+type tagCreate = components['schemas']['tag-create.request'];
+type tagUpdate = components['schemas']['tag-update.request'];
+
 export class PhotronAPIClient {
 
     private client: ReturnType<typeof createClient<paths>>
@@ -52,6 +57,24 @@ export class PhotronAPIClient {
         },
         delete: async (uuid: string) => {
             return this.client.DELETE(`/folders/{uuid}`, { params: { path: { uuid } } });
+        }
+    }
+
+    public tags = {
+        create: async (data: tagCreate) => {
+            return this.client.POST('/tags', { body: data });
+        },
+        list: async () => {
+            return this.client.GET('/tags');
+        },
+        get: async (uuid: string) => {
+            return this.client.GET('/tags/{uuid}', { params: { path: { uuid } } });
+        },
+        update: async (uuid: string, body: tagUpdate) => {
+            return this.client.PATCH('/tags/{uuid}', { params: { path: { uuid }, body } });
+        },
+        delete: async (uuid: string) => {
+            return this.client.DELETE(`/tags/{uuid}`, { params: { path: { uuid } } });
         }
     }
 }

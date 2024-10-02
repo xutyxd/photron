@@ -1,0 +1,25 @@
+{
+    "allOf": [
+        {
+            "$ref": "./tag-base.request.json"
+        },
+        {
+            "type": "object",
+            "required": [ "name", "description" ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Tag name"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Tag description"
+                },
+                "color": {
+                    "type": "string",
+                    "example": "#ffffff"
+                }
+            }
+        }
+    ]
+}

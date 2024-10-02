@@ -42,6 +42,12 @@
         },
         "/folders/{uuid}": {
             "$ref": "./folder/paths/folder.path.json"
+        },
+        "/tags": {
+            "$ref": "./tag/paths/tags.path.json"
+        },
+        "/tags/{uuid}": {
+            "$ref": "./tag/paths/tag.path.json"
         }
     },
     "components": {

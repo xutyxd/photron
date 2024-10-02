@@ -1,0 +1,34 @@
+{
+    "type": "object",
+    "required": [ "uuid", "createdAt", "updatedAt", "ownerIndex", "name", "description", "color" ],
+    "properties": {
+        "uuid": {
+            "type": "string",
+            "example": "c0a8433f-d6b1-4f38-a94a-2c9a0d0c1c4d"
+        },
+        "createdAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "updatedAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "ownerIndex": {
+            "type": "string",
+            "example": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b"
+        },
+        "name": {
+            "type": "string",
+            "example": "Tag name"
+        },
+        "description": {
+            "type": "string",
+            "example": "Tag description"
+        },
+        "color": {
+            "type": "string",
+            "example": "#ffffff"
+        }
+    }
+}
