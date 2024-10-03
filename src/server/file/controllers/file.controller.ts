@@ -1,14 +1,12 @@
 import { Ajv } from "ajv";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import idModel from "../../../openapi/common/id-request.model.json";
-import fileBase from "../../../openapi/file/request/file-base.request.json";
-import fileCreate from "../../../openapi/file/request/file-create.request.json";
-import fileUpdate from "../../../openapi/file/request/file-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
+import { idRequest } from "../../crosscutting/common/schemas";
 import { FileAPI } from "../classes/file-api.class";
 import { IFileAPI } from "../interfaces/file-api.interface";
+import { fileBase, fileCreate, fileUpdate } from "../schemas";
 import { FileService } from "../services/file.service";
 import { PartialFile } from "../types/partial-file.type";
 
@@ -47,7 +45,7 @@ export class FileController implements IHTTPController {
             const { params } = request;
 
             const ajv = new Ajv({ strict: false });
-            const validate = ajv.compile<{ uuid: string }>(idModel);
+            const validate = ajv.compile<{ uuid: string }>(idRequest);
 
             if (!validate(params)) {
                 const error = validate.errors?.map(({ message }) => message).join(', ');

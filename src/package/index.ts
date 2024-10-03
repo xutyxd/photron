@@ -1,7 +1,6 @@
 
 import createClient, { Middleware } from "openapi-fetch";
 import type { paths, components } from "../openapi/specification";
-
 // Folder
 type folderCreate = components['schemas']['folder-create.request'];
 type folderUpdate = components['schemas']['folder-update.request'];

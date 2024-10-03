@@ -1,14 +1,12 @@
 import { Ajv } from "ajv";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import idModel from "../../../openapi/common/id-request.model.json";
-import tagBase from "../../../openapi/tag/request/tag-base.request.json";
-import tagCreate from "../../../openapi/tag/request/tag-create.request.json";
-import tagUpdate from "../../../openapi/tag/request/tag-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
+import { idRequest } from "../../crosscutting/common/schemas";
 import { TagAPI } from "../classes/tag-api.class";
 import { ITagAPI } from "../interfaces/tag-api.interface";
+import { tagBase, tagCreate, tagUpdate } from "../schemas";
 import { TagService } from "../services/tag.service";
 import { PartialTag } from "../types/partial-tag.type";
 
@@ -47,7 +45,7 @@ export class TagController implements IHTTPController {
             const { params } = request;
 
             const ajv = new Ajv({ strict: false });
-            const validate = ajv.compile<{ uuid: string }>(idModel);
+            const validate = ajv.compile<{ uuid: string }>(idRequest);
 
             if (!validate(params)) {
                 const error = validate.errors?.map(({ message }) => message).join(', ');

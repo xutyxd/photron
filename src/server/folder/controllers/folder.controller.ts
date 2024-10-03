@@ -1,14 +1,12 @@
 import { Ajv } from "ajv";
 import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
-import idModel from "../../../openapi/common/id-request.model.json";
-import folderBase from "../../../openapi/folder/request/folder-base.request.json";
-import folderCreate from "../../../openapi/folder/request/folder-create.request.json";
-import fodlerUpdate from "../../../openapi/folder/request/folder-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
+import { idRequest } from "../../crosscutting/common/schemas";
 import { FolderAPI } from "../classes/folder-api.class";
 import { IFolderAPI } from "../interfaces/folder-api.interface";
+import { folderBase, folderCreate, folderUpdate } from "../schemas";
 import { FolderService } from "../services/folder.service";
 import { PartialFolder } from "../types/partial-folder.type";
 
@@ -47,7 +45,7 @@ export class FolderController implements IHTTPController {
             const { params } = request;
 
             const ajv = new Ajv({ strict: false });
-            const validate = ajv.compile<{ uuid: string }>(idModel);
+            const validate = ajv.compile<{ uuid: string }>(idRequest);
 
             if (!validate(params)) {
                 const error = validate.errors?.map(({ message }) => message).join(', ');
@@ -58,7 +56,7 @@ export class FolderController implements IHTTPController {
 
             return uuid;
         },
-        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof folderCreate | typeof fodlerUpdate) => {
+        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof folderCreate | typeof folderUpdate) => {
             const { body } = request;
 
             const ajv = new Ajv({ strict: false })
@@ -138,7 +136,7 @@ export class FolderController implements IHTTPController {
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
         const uuid = this.validate.params(request, context);
-        const body = this.validate.body(request, context, fodlerUpdate);
+        const body = this.validate.body(request, context, folderUpdate);
 
         let result: IFolderAPI;
 

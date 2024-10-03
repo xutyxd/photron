@@ -58,8 +58,8 @@
     },
     "components": {
         "schemas": {
-            "IFolder": {
-                "$ref": "./folder/models/folder.model.json"
+            "id-request.model": {
+                "$ref": "./common/id-request.model.json"
             }
         }
     }

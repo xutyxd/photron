@@ -9,3 +9,5 @@ cat >server/cjs/package.json <<!EOF
 #     "type": "module"
 # }
 # !EOF
+
+mkdir -p server/openapi && cp src/openapi/specification* server/openapi
