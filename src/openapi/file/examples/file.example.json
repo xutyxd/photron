@@ -1,0 +1,17 @@
+{
+    "code": 200,
+    "data": {
+        "uuid": "c0a8433f-d6b1-4f38-a94a-2c9a0d0c1c4d",
+        "createdAt": 1679022000000,
+        "updatedAt": 1679022000000,
+        "ownerIndex": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b",
+        "name": "File name",
+        "description": "File description",
+        "size": 1024,
+        "type": "image/png",
+        "tags": [
+                "947fc5bb-7cca-47d0-9432-f5a716bc7b3b"
+        ]
+    },
+    "timestamp": 1679022000000
+}

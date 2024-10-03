@@ -1,6 +1,7 @@
 {
     "type": "object",
     "required": [ "uuid", "createdAt", "updatedAt", "ownerIndex", "parentIndex", "name", "description" ],
+    "additionalProperties": false,
     "properties": {
         "uuid": {
             "type": "string",

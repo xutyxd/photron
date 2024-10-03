@@ -1,0 +1,25 @@
+{
+    "allOf": [
+        {
+            "$ref": "./file-base.request.json"
+        },
+        {
+            "type": "object",
+            "required": [ "name", "size", "type" ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "File name"
+                },
+                "size": {
+                    "type": "number",
+                    "example": 1024
+                },
+                "type": {
+                    "type": "string",
+                    "example": "image/png"
+                }
+            }
+        }
+    ]
+}

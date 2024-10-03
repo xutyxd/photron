@@ -1,0 +1,28 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string",
+            "example": "File name"
+        },
+        "description": {
+            "type": "string",
+            "example": "File description"
+        },
+        "size": {
+            "type": "number",
+            "example": 1024
+        },
+        "type": {
+            "type": "string",
+            "example": "image/png"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

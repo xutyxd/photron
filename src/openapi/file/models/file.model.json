@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "required": [ "uuid", "createdAt", "updatedAt", "ownerIndex", "name", "description", "color" ],
+    "required": [ "uuid", "createdAt", "updatedAt", "ownerIndex", "name", "size", "type", "tags" ],
     "additionalProperties": false,
     "properties": {
         "uuid": {
@@ -21,15 +21,25 @@
         },
         "name": {
             "type": "string",
-            "example": "Tag name"
+            "example": "File name"
         },
         "description": {
             "type": "string",
-            "example": "Tag description"
+            "example": "File description"
         },
-        "color": {
+        "size": {
+            "type": "number",
+            "example": 1024
+        },
+        "type": {
             "type": "string",
-            "example": "#ffffff"
+            "example": "image/png"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         }
     }
 }

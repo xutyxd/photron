@@ -37,6 +37,12 @@
         "/health-check": {
             "$ref": "./crosscutting/health-check/paths/health-check.path.json"
         },
+        "/files": {
+            "$ref": "./file/paths/files.path.json"
+        },
+        "/files/{uuid}": {
+            "$ref": "./file/paths/file.path.json"
+        },
         "/folders": {
             "$ref": "./folder/paths/folders.path.json"
         },

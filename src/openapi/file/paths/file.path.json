@@ -1,0 +1,275 @@
+{
+    "get": {
+        "tags": [ "Files" ],
+        "summary": "Get file",
+        "parameters": [
+            {
+                "name": "uuid",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "f0a6f400-be55-42ae-9545-1bcba9b69b99"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/file.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "$ref": "../models/file.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                } 
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/unauthorized-response.model.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "File not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/not-found-response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "Not found: File not found"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/internal-server-error-response.model.json"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "patch": {
+        "tags": [ "Files" ],
+        "summary": "Update a file",
+        "parameters": [
+            {
+                "name": "uuid",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "f0a6f400-be55-42ae-9545-1bcba9b69b99"
+                }
+            }
+        ],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../request/file-update.request.json",
+                        "example": {
+                            "$ref": "../examples/file.example.json"
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/file.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/file.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/unauthorized-response.model.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "File not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                            {
+                                "$ref": "../../common/not-found-response.model.json"
+                            },
+                            {
+                                "type": "object",
+                                "required": ["response"],
+                                "properties": {
+                                    "response": {
+                                        "type": "string",
+                                        "example": "Not found: File not found"
+                                    }
+                                }
+                            }
+                        ]
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/internal-server-error-response.model.json"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "delete": {
+        "tags": [ "Files" ],
+        "summary": "Delete a file",
+        "parameters": [
+            {
+                "name": "uuid",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "f0a6f400-be55-42ae-9545-1bcba9b69b99"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/file.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/file.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/unauthorized-response.model.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "File not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                            {
+                                "$ref": "../../common/not-found-response.model.json"
+                            },
+                            {
+                                "type": "object",
+                                "required": ["response"],
+                                "properties": {
+                                    "response": {
+                                        "type": "string",
+                                        "example": "Not found: File not found"
+                                    }
+                                }
+                            }
+                        ]
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/internal-server-error-response.model.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
