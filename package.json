@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A server to manage resources splitting into chunks for parallel download",
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc --noEmit",
     "openapi:bundle": "redocly bundle src/openapi/definition.json --output src/openapi/specification.json",
     "openapi:docs": "redocly build-docs src/openapi/specification.json --output public/index.html",
     "openapi:types": "openapi-typescript src/openapi/specification.json -o src/openapi/specification.d.ts",
