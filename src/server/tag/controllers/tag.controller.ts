@@ -3,8 +3,8 @@ import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
 import idModel from "../../../openapi/common/id-request.model.json";
 import tagBase from "../../../openapi/tag/request/tag-base.request.json";
-import createTag from "../../../openapi/tag/request/tag-create.request.json";
-import updateTag from "../../../openapi/tag/request/tag-update.request.json";
+import tagCreate from "../../../openapi/tag/request/tag-create.request.json";
+import tagUpdate from "../../../openapi/tag/request/tag-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
 import { TagAPI } from "../classes/tag-api.class";
@@ -58,7 +58,7 @@ export class TagController implements IHTTPController {
 
             return uuid;
         },
-        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof createTag | typeof updateTag) => {
+        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof tagCreate | typeof tagUpdate) => {
             const { body } = request;
 
             const ajv = new Ajv({ strict: false })
@@ -75,7 +75,7 @@ export class TagController implements IHTTPController {
     }
 
     public async create(request: HTTPRequest, context: IHTTPContextData) {
-        const body = this.validate.body(request, context, createTag);
+        const body = this.validate.body(request, context, tagCreate);
 
         let result: ITagAPI;
 
@@ -137,7 +137,7 @@ export class TagController implements IHTTPController {
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
         const uuid = this.validate.params(request, context);
-        const body = this.validate.body(request, context, updateTag);
+        const body = this.validate.body(request, context, tagUpdate);
 
         let result: ITagAPI;
 

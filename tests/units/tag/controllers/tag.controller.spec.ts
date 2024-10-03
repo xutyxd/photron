@@ -166,7 +166,7 @@ describe('TagController', () => {
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
-                console.log('Response: ', response);
+
                 const replied = (response as NotFoundResponse).reply() as { code: number, response: string };
 
                 assert.equal(response instanceof NotFoundResponse, true);

@@ -3,8 +3,8 @@ import { inject, injectable } from "inversify";
 import { HttpMethodEnum, HTTPRequest, IHTTPContextData, IHTTPController, IHTTPControllerHandler } from "server-over-express";
 import idModel from "../../../openapi/common/id-request.model.json";
 import folderBase from "../../../openapi/folder/request/folder-base.request.json";
-import createFolder from "../../../openapi/folder/request/folder-create.request.json";
-import updateFolder from "../../../openapi/folder/request/folder-update.request.json";
+import folderCreate from "../../../openapi/folder/request/folder-create.request.json";
+import fodlerUpdate from "../../../openapi/folder/request/folder-update.request.json";
 import { BaseError, NotFoundError } from "../../crosscutting/common/errors";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../crosscutting/common/responses";
 import { FolderAPI } from "../classes/folder-api.class";
@@ -58,7 +58,7 @@ export class FolderController implements IHTTPController {
 
             return uuid;
         },
-        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof createFolder | typeof updateFolder) => {
+        body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof folderCreate | typeof fodlerUpdate) => {
             const { body } = request;
 
             const ajv = new Ajv({ strict: false })
@@ -76,7 +76,7 @@ export class FolderController implements IHTTPController {
 
     public async create(request: HTTPRequest, context: IHTTPContextData) {
 
-        const body = this.validate.body(request, context, createFolder);
+        const body = this.validate.body(request, context, folderCreate);
 
         let result: IFolderAPI;
 
@@ -138,7 +138,7 @@ export class FolderController implements IHTTPController {
 
     public async update(request: HTTPRequest, context: IHTTPContextData) {
         const uuid = this.validate.params(request, context);
-        const body = this.validate.body(request, context, updateFolder);
+        const body = this.validate.body(request, context, fodlerUpdate);
 
         let result: IFolderAPI;
 
