@@ -59,8 +59,10 @@ export class FolderController implements IHTTPController {
         body: (request: HTTPRequest, context: IHTTPContextData, schema: typeof folderCreate | typeof folderUpdate) => {
             const { body } = request;
 
+            console.log('Folderbase', folderBase);
+            console.log('Schema', schema);
             const ajv = new Ajv({ strict: false })
-                            .addSchema(folderBase, 'folder-base.request.json');
+                            .addSchema(folderBase, '#/components/schemas/folder-base.request');
             const validate = ajv.compile<PartialFolder>(schema);
 
             if (!validate(body)) {

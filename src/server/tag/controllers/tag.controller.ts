@@ -60,7 +60,7 @@ export class TagController implements IHTTPController {
             const { body } = request;
 
             const ajv = new Ajv({ strict: false })
-                            .addSchema(tagBase, 'tag-base.request.json');
+                            .addSchema(tagBase, '#/components/schemas/tag-base.request');
             const validate = ajv.compile<PartialTag>(schema);
 
             if (!validate(body)) {

@@ -60,7 +60,7 @@ export class FileController implements IHTTPController {
             const { body } = request;
 
             const ajv = new Ajv({ strict: false })
-                            .addSchema(fileBase, 'file-base.request.json');
+                            .addSchema(fileBase, '#/components/schemas/file-base.request');
             const validate = ajv.compile<PartialFile>(schema);
 
             if (!validate(body)) {
