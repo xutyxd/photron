@@ -10,4 +10,4 @@ FolderContainer.bind<FolderController>(FolderController).toSelf();
 FolderContainer.bind<FolderService>(FolderService).toSelf();
 FolderContainer.bind<FolderRepository>(FolderRepository).toSelf();
 
-export { FolderContainer };
+export { FolderContainer, FolderController };

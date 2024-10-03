@@ -10,4 +10,4 @@ TagContainer.bind<TagController>(TagController).toSelf();
 TagContainer.bind<TagService>(TagService).toSelf();
 TagContainer.bind<TagRepository>(TagRepository).toSelf();
 
-export { TagContainer };
+export { TagContainer, TagController };

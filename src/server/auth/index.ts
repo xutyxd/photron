@@ -10,4 +10,4 @@ AuthContainer.bind<SetAuthAction>(SetAuthAction).toSelf();
 AuthContainer.bind<AuthController>(AuthController).toSelf();
 AuthContainer.bind<AuthService>(AuthService).toSelf();
 
-export { AuthContainer };
+export { AuthContainer, AuthController };

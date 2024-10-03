@@ -10,4 +10,4 @@ FileContainer.bind<FileController>(FileController).toSelf();
 FileContainer.bind<FileService>(FileService).toSelf();
 FileContainer.bind<FileRepository>(FileRepository).toSelf();
 
-export { FileContainer };
+export { FileContainer, FileController };

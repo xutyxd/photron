@@ -3,9 +3,8 @@ import 'reflect-metadata';
 import { Container } from "inversify";
 import { HTTPServer } from "server-over-express";
 
-import { AuthContainer } from "./auth";
+import { AuthContainer, AuthController } from "./auth";
 import { SetAuthAction } from "./auth/actions/set-auth.action";
-import { AuthController } from "./auth/controllers/auth.controller";
 import { ConfigurationContainer } from "./configuration";
 import { ConfigurationService } from "./configuration/services/configuration.service";
 import { CommonContainer } from './crosscutting/common';
@@ -13,12 +12,10 @@ import { IRecordModel } from './crosscutting/common/interfaces/record-model.inte
 import { Response } from "./crosscutting/common/responses/response.class";
 import { IDatabase } from './crosscutting/database/interfaces/database.interface';
 import { MemoryDatabaseService } from './crosscutting/database/services/memory-database.service';
-import { HealthCheckContainer } from "./crosscutting/healt-check";
-import { HealthCheckController } from "./crosscutting/healt-check/health-check.controller";
-import { FolderContainer } from './folder';
-import { FolderController } from './folder/controllers/folder.controller';
-import { TagContainer } from './tag';
-import { TagController } from './tag/controllers/tag.controller';
+import { HealthCheckContainer, HealthCheckController } from "./crosscutting/healt-check";
+import { FileContainer, FileController } from './file';
+import { FolderContainer, FolderController } from './folder';
+import { TagContainer, TagController } from './tag';
 
 const App = class {
     public server: HTTPServer;
@@ -32,6 +29,7 @@ const App = class {
             HealthCheckContainer,
             AuthContainer,
             CommonContainer,
+            FileContainer,
             FolderContainer,
             TagContainer,
         ];
@@ -52,6 +50,7 @@ const App = class {
         // Controllers
         const healthCheckController = appContainer.get(HealthCheckController);
         const authController = appContainer.get(AuthController);
+        const fileController = appContainer.get(FileController);
         const folderController = appContainer.get(FolderController);
         const tagController = appContainer.get(TagController);
 
@@ -71,6 +70,7 @@ const App = class {
         // Set controllers
         httpServer.controllers.add(healthCheckController);
         httpServer.controllers.add(authController);
+        httpServer.controllers.add(fileController);
         httpServer.controllers.add(folderController);
         httpServer.controllers.add(tagController);
 

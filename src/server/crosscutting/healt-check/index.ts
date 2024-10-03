@@ -6,4 +6,4 @@ const HealthCheckContainer = new Container();
 
 HealthCheckContainer.bind<HealthCheckController>(HealthCheckController).toSelf();
 
-export { HealthCheckContainer };
+export { HealthCheckContainer, HealthCheckController };
