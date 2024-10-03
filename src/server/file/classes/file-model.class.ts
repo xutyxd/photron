@@ -5,7 +5,7 @@ import { IFile } from "../interfaces/file.interface";
 export class FileModel extends RecordModel implements IFileModel {
 
     public owner_id: string;
-    public owner: string;
+    public owner?: string;
     public name: string;
     public description?: string;
     public size: number;

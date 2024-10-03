@@ -2,7 +2,6 @@ import { IRecordModel } from "../../crosscutting/common/interfaces/record-model.
 
 export interface IFileModel extends IRecordModel {
     owner_id: string;
-    owner: string;
     name: string;
     description?: string;
     size: number;

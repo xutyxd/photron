@@ -15,7 +15,7 @@ export class File extends Record implements IFile {
     public tags: string[];
     public deleted: boolean;
 
-    public owner: string;
+    public owner?: string;
 
     constructor(file: Optional<IFile, IRecord>) {
         super(file);
@@ -41,7 +41,6 @@ export class File extends Record implements IFile {
             createdAt: file.created_at,
             updatedAt: file.updated_at,
             ownerIndex: file.owner_id,
-            owner: file.owner,
             name: file.name,
             description: file.description,
             size: file.size,

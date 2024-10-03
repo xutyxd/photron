@@ -5,15 +5,14 @@ import { IFile } from "../interfaces/file.interface";
 export class FileAPI extends RecordAPI implements IFileAPI {
 
     public ownerIndex: string;
-    public owner: string;
+    public owner?: string;
     public name: string;
     public description?: string;
     public size: number;
     public type: string;
     public tags: string[];
-    public deleted: boolean;
 
-    constructor(file: IFile) {
+    constructor(file: Omit<IFile, 'toModel' | 'deleted'>) {
         super(file);
 
         this.ownerIndex = file.ownerIndex;
@@ -22,8 +21,7 @@ export class FileAPI extends RecordAPI implements IFileAPI {
         this.description = file.description;
         this.size = file.size;
         this.type = file.type;
-        this.tags = file.tags;
-        this.deleted = file.deleted;
+        this.tags = file.tags || [];
     }
 
     public export() {
@@ -35,8 +33,7 @@ export class FileAPI extends RecordAPI implements IFileAPI {
             description: this.description,
             size: this.size,
             type: this.type,
-            tags: this.tags,
-            deleted: this.deleted
+            tags: this.tags
         };
     }
 }
