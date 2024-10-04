@@ -6,6 +6,6 @@ export interface IRepository<T extends IRecord, K extends IRecordModel> {
     insert(data: K): Promise<K>;
     get(index: IIndexDbQueryWhere<K>): Promise<K>;
     list(where?: IDbQueryWhere<K>[]): Promise<K[]>;
-    update(index: IIndexDbQueryWhere<K>, data: Partial<T>): Promise<K>;
+    update(index: IIndexDbQueryWhere<K>, data: Omit<T, keyof IRecord>): Promise<K>;
     delete(index: IIndexDbQueryWhere<K>): Promise<K>;
 }

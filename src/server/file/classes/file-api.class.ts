@@ -1,6 +1,5 @@
 import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
-import { IFileAPI } from "../interfaces/file-api.interface";
-import { IFile } from "../interfaces/file.interface";
+import { IFileAPI, IFile } from "../interfaces";
 
 export class FileAPI extends RecordAPI implements IFileAPI {
 

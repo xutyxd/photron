@@ -29,7 +29,7 @@ export class RecordRepositoryService<T extends IRecord, K extends IRecordModel, 
         return this.database.list(this.table, where);
     }
 
-    public async update(index: IIndexDbQueryWhere<K>, patch: Partial<T>): Promise<K> {
+    public async update(index: IIndexDbQueryWhere<K>, patch: Omit<T, keyof IRecord>): Promise<K> {
         // Get the original record
         const original = await this.get(index);
         // Create a new record instance

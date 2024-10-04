@@ -75,7 +75,7 @@ export class RecordService<S extends IRecordStatic, I extends IRecord, K extends
         return records || [];
     }
 
-    public async update(index: number | string, data: Partial<I>) {
+    public async update(index: number | string, data: Omit<I, keyof IRecord>) {
         let record: I;
         // Get query to index record
         const query = this.query.index(index);
