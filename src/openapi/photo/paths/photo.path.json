@@ -1,0 +1,89 @@
+{
+    "get": {
+        "tags": [ "Photos" ],
+        "summary": "Get photo",
+        "parameters": [
+            {
+                "name": "uuid",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "ae330421-e685-44da-bbf4-62c1c5efe4d9"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Correct response indicating that the server is alive",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/photo.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "$ref": "../models/photo.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                } 
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/unauthorized-response.model.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Photo not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/not-found-response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "Not found: Photo not found"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/internal-server-error-response.model.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

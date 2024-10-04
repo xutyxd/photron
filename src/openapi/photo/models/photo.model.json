@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "required": [ "uuid", "createdAt", "updatedAt", "fileId", "versionId", "ownerIndex", "url", "size", "order" ],
+    "additionalProperties": false,
+    "properties": {
+        "uuid": {
+            "type": "string",
+            "example": "ae330421-e685-44da-bbf4-62c1c5efe4d9"
+        },
+        "createdAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "updatedAt": {
+            "type": "number",
+            "example": "1679022000000"
+        },
+        "fileId": {
+            "type": "string",
+            "example": "f3065392-6caa-433e-a820-3cd5cb59e7e0"
+        },
+        "versionId": {
+            "type": "string",
+            "example": "08a3b77b-ecfd-4767-983f-6dd00aa66103"
+        },
+        "ownerIndex": {
+            "type": "string",
+            "example": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b"
+        },
+        "url": {
+            "type": "object",
+            "required": [ "get", "delete" ],
+            "properties": {
+                "get": {
+                    "type": "string",
+                    "example": "https://photo.example.com/get/ae330421-e685-44da-bbf4-62c1c5efe4d9"
+                },
+                "delete": {
+                    "type": "string",
+                    "example": "https://photo.example.com/delete/ae330421-e685-44da-bbf4-62c1c5efe4d9"
+                }
+            }
+        },
+        "size": {
+            "type": "number",
+            "example": 1024
+        },
+        "order": {
+            "type": "number",
+            "example": 1
+        }
+    }
+}

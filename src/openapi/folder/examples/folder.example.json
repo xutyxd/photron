@@ -7,7 +7,13 @@
         "ownerIndex": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b",
         "parentIndex": "f0a6f400-be55-42ae-9545-1bcba9b69b99",
         "name": "Folder name",
-        "description": "Folder description"
+        "description": "Folder description",
+        "tags": {
+            "include": [
+                "83422167-1256-477d-b3af-3ab340b047bb"
+            ],
+            "exclude": []
+        }
     },
     "timestamp": 1679022000000
 }

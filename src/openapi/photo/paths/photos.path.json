@@ -1,0 +1,90 @@
+{
+    "post": {
+        "tags": [ "Photos" ],
+        "summary": "Create a photo",
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../request/photo-create.request.json",
+                        "example": {
+                            "$ref": "../examples/photo.example.json"
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Photo created by user",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/photo.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "$ref": "../models/photo.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/unauthorized-response.model.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Photo not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/not-found-response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["response"],
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "Not found: Photo not found"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../../common/internal-server-error-response.model.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

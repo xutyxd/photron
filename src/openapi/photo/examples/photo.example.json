@@ -1,0 +1,18 @@
+{
+    "code": 200,
+    "data": {
+        "uuid": "ae330421-e685-44da-bbf4-62c1c5efe4d9",
+        "createdAt": 1679022000000,
+        "updatedAt": 1679022000000,
+        "fileId": "f3065392-6caa-433e-a820-3cd5cb59e7e0",
+        "versionId": "08a3b77b-ecfd-4767-983f-6dd00aa66103",
+        "ownerIndex": "947fc5bb-7cca-47d0-9432-f5a716bc7b3b",
+        "url": {
+            "get": "https://photo.example.com/get/ae330421-e685-44da-bbf4-62c1c5efe4d9",
+            "delete": "https://photo.example.com/delete/ae330421-e685-44da-bbf4-62c1c5efe4d9"
+        },
+        "size": 1024,
+        "order": 1
+    },
+    "timestamp": 1679022000000
+}

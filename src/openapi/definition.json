@@ -25,6 +25,10 @@
             "description": "Operation related to folders"
         },
         {
+            "name": "Photos",
+            "description": "Operation related to photos"
+        },
+        {
             "name": "Tags",
             "description": "Operation related to tags"
         },
@@ -48,6 +52,12 @@
         },
         "/folders/{uuid}": {
             "$ref": "./folder/paths/folder.path.json"
+        },
+        "/photos": {
+            "$ref": "./photo/paths/photos.path.json"
+        },
+        "/photos/{uuid}": {
+            "$ref": "./photo/paths/photo.path.json"
         },
         "/tags": {
             "$ref": "./tag/paths/tags.path.json"

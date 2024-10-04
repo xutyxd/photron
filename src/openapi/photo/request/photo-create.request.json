@@ -1,0 +1,39 @@
+{
+    "allOf": [
+        {
+            "$ref": "./photo-base.request.json"
+        },
+        {
+            "type": "object",
+            "required": [ "fileId", "versionId", "order" ],
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "example": "f3065392-6caa-433e-a820-3cd5cb59e7e0"
+                },
+                "versionId": {
+                    "type": "string",
+                    "example": "08a3b77b-ecfd-4767-983f-6dd00aa66103"
+                },
+                "url": {
+                    "type": "object",
+                    "required": [ "get", "delete" ],
+                    "properties": {
+                        "get": {
+                            "type": "string",
+                            "example": "https://photo.example.com/get/ae330421-e685-44da-bbf4-62c1c5efe4d9"
+                        },
+                        "delete": {
+                            "type": "string",
+                            "example": "https://photo.example.com/delete/ae330421-e685-44da-bbf4-62c1c5efe4d9"
+                        }
+                    }
+                },
+                "order": {
+                    "type": "number",
+                    "example": 1
+                }
+            }
+        }
+    ]
+}
