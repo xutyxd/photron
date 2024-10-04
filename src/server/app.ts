@@ -16,6 +16,7 @@ import { HealthCheckContainer, HealthCheckController } from "./crosscutting/heal
 import { FileContainer, FileController } from './file';
 import { FolderContainer, FolderController } from './folder';
 import { TagContainer, TagController } from './tag';
+import { PhotoContainer, PhotoController } from './photo';
 
 const App = class {
     public server: HTTPServer;
@@ -31,6 +32,7 @@ const App = class {
             CommonContainer,
             FileContainer,
             FolderContainer,
+            PhotoContainer,
             TagContainer,
         ];
         // Merge containers
@@ -52,6 +54,7 @@ const App = class {
         const authController = appContainer.get(AuthController);
         const fileController = appContainer.get(FileController);
         const folderController = appContainer.get(FolderController);
+        const photoController = appContainer.get(PhotoController);
         const tagController = appContainer.get(TagController);
 
         const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
@@ -72,6 +75,7 @@ const App = class {
         httpServer.controllers.add(authController);
         httpServer.controllers.add(fileController);
         httpServer.controllers.add(folderController);
+        httpServer.controllers.add(photoController);
         httpServer.controllers.add(tagController);
 
         this.server = httpServer;
