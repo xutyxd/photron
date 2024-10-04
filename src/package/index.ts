@@ -1,9 +1,14 @@
 
 import createClient, { Middleware } from "openapi-fetch";
 import type { paths, components } from "../openapi/specification";
+// File
+type fileCreate = components['schemas']['file-create.request'];
+type fileUpdate = components['schemas']['file-update.request'];
 // Folder
 type folderCreate = components['schemas']['folder-create.request'];
 type folderUpdate = components['schemas']['folder-update.request'];
+// Photo
+type photoCreate = components['schemas']['photo-create.request'];
 // Tag
 type tagCreate = components['schemas']['tag-create.request'];
 type tagUpdate = components['schemas']['tag-update.request'];
@@ -41,6 +46,24 @@ export class PhotronAPIClient {
         return this.client.GET('/health-check');
     }
 
+    public files = {
+        create: async (data: fileCreate) => {
+            return this.client.POST('/files', { body: data });
+        },
+        list: async () => {
+            return this.client.GET('/files');
+        },
+        get: async (uuid: string) => {
+            return this.client.GET('/files/{uuid}', { params: { path: { uuid } } });
+        },
+        update: async (uuid: string, body: fileUpdate) => {
+            return this.client.PATCH('/files/{uuid}', { params: { path: { uuid }, body } });
+        },
+        delete: async (uuid: string) => {
+            return this.client.DELETE(`/files/{uuid}`, { params: { path: { uuid } } });
+        }
+    }
+
     public folders = {
         create: async (data: folderCreate) => {
             return this.client.POST('/folders', { body: data });
@@ -56,6 +79,15 @@ export class PhotronAPIClient {
         },
         delete: async (uuid: string) => {
             return this.client.DELETE(`/folders/{uuid}`, { params: { path: { uuid } } });
+        }
+    }
+
+    public photos = {
+        create: async (data: photoCreate) => {
+            return this.client.POST('/photos', { body: data });
+        },
+        get: async (uuid: string) => {
+            return this.client.GET('/photos/{uuid}', { params: { path: { uuid } } });
         }
     }
 
