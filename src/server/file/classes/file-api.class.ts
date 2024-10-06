@@ -23,7 +23,7 @@ export class FileAPI extends EntityAPI implements IFileAPI {
         this.tags = file.tags || [];
     }
 
-    public toApi = () => {
+    public toApi() {
         const base = super.toApi();
         
         return {
@@ -42,6 +42,6 @@ export class FileAPI extends EntityAPI implements IFileAPI {
     }
 
     public static fromDomain(entity: IFileAPIData): FileAPI {
-        return new FileAPI(entity);
+        return new FileAPI({ ...entity});
     }
 }

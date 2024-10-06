@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
-import { IDatabase } from "../../crosscutting/database/interfaces";
 import { EntityRepositoryService } from "../../crosscutting/common/services";
-import { IFileData, IFileModelData } from "../interfaces/data";
+import { IDatabase } from "../../crosscutting/database/interfaces";
 import { FileModel } from "../classes";
+import { IFileData, IFileModelData } from "../interfaces/data";
 
 @injectable()
 export class FileRepository extends EntityRepositoryService<IFileData, IFileModelData> {
