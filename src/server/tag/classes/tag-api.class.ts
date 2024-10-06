@@ -1,7 +1,9 @@
-import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
-import { ITag, ITagAPI } from "../interfaces";
+import { EntityAPI } from "../../crosscutting/common/classes";
+import { ITagAPIData } from "../interfaces/data";
+import { ITagAPI, ITag } from "../interfaces/dto";
+import { Tag } from "./tag.class";
 
-export class TagAPI  extends RecordAPI implements ITagAPI {
+export class TagAPI  extends EntityAPI implements ITagAPI {
 
     public ownerIndex: string;
     public owner?: string;
@@ -9,24 +11,32 @@ export class TagAPI  extends RecordAPI implements ITagAPI {
     public description?: string;
     public color?: string;
 
-    constructor(tag: Omit<ITag, 'toModel'>) {
+    constructor(tag: ITagAPIData) {
         super(tag);
 
         this.ownerIndex = tag.ownerIndex;
-        this.owner = tag.owner;
         this.name = tag.name;
         this.description = tag.description;
         this.color = tag.color;
     }
 
-    public export() {
+    public toApi() {
+        const base = super.toApi();
+
         return {
-            ...super.export(),
+            ...base,
             ownerIndex: this.ownerIndex,
-            owner: this.owner,
             name: this.name,
             description: this.description,
             color: this.color
         };
+    }
+
+    public toDomain() {
+        return new Tag(this).toDomain();
+    }
+
+    public static fromDomain(entity: ITagAPIData) {
+        return new TagAPI({ ...entity });
     }
 }

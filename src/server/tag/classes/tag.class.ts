@@ -1,10 +1,8 @@
-import { Record } from "../../crosscutting/common/classes/record.class";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
-import { Optional } from "../../crosscutting/common/types/optional.type";
-import { ITag, ITagModel } from "../interfaces";
-import { TagModel } from "./tag-model.class";
+import { Entity } from "../../crosscutting/common/classes";
+import { ITagAPIData, ITagData, ITagModelData } from "../interfaces/data";
+import { ITag } from "../interfaces/dto";
 
-export class Tag extends Record implements ITag { 
+export class Tag extends Entity implements ITag { 
 
     public ownerIndex: string;
     public owner?: string;
@@ -12,28 +10,63 @@ export class Tag extends Record implements ITag {
     public description?: string;
     public color?: string;
 
-    constructor(tag: Optional<ITag, IRecord>) {
+    constructor(tag: Partial<ITagData>) {
         super(tag);
 
-        this.ownerIndex = tag.ownerIndex;
+        this.ownerIndex = tag.ownerIndex || '';
         this.owner = tag.owner;
-        this.name = tag.name;
+        this.name = tag.name || '';
         this.description = tag.description;
         this.color = tag.color;
     }
 
-    public toModel() {
-        return new TagModel(this).export();
+    public toApi() {
+        const base = super.toApi();
+
+        return {
+            ...base,
+            ownerIndex: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            color: this.color
+        };
     }
 
-    public static fromModel(tag: ITagModel): Tag {
+    public toDomain() {
+        const base = super.toDomain();
+
+        return {
+            ...base,
+            ownerIndex: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            color: this.color
+        };
+    }
+
+    public toModel() {
+        const base = super.toModel();
+
+        return {
+            ...base,
+            owner_uuid: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            color: this.color
+        };
+    }
+
+    public static fromAPI(tag: ITagAPIData): Tag {
+        return new Tag(tag);
+    }
+
+    public static fromModel(tag: ITagModelData): Tag {
         return new Tag({
             id: tag.id,
             uuid: tag.uuid,
             createdAt: tag.created_at,
             updatedAt: tag.updated_at,
-            ownerIndex: tag.owner_id,
-            owner: tag.owner,
+            ownerIndex: tag.owner_uuid,
             name: tag.name,
             description: tag.description,
             color: tag.color

@@ -1,13 +1,12 @@
 import { inject, injectable } from "inversify";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
-import { RecordService } from "../../crosscutting/common/services/record.service";
-import { Tag } from "../classes/tag.class";
-import { ITagModel } from "../interfaces/tag-model.interface";
-import { ITag } from "../interfaces/tag.interface";
+import { EntityService } from "../../crosscutting/common";
+import { Tag } from "../classes";
+import { ITagAPIData, ITagData, ITagModelData } from "../interfaces/data";
+import { ITagStatic } from "../interfaces/static";
 import { TagRepository } from "../repository/tag.repository";
 
 @injectable()
-export class TagService extends RecordService<typeof Tag, ITag, ITagModel> {
+export class TagService extends EntityService<ITagAPIData, ITagData, ITagModelData, ITagStatic> {
 
     constructor(@inject(TagRepository) readonly tagRepository: TagRepository) {
         super(tagRepository, Tag);
