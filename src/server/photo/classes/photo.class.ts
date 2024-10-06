@@ -1,8 +1,6 @@
 import { Entity } from "../../crosscutting/common/classes";
-import { Optional } from "../../crosscutting/common/types";
 import { IPhotoAPIData, IPhotoData, IPhotoModelData } from "../interfaces/data";
-import { IPhoto, IPhotoModel } from "../interfaces/dto";
-import { PhotoModel } from "./photo-model.class";
+import { IPhoto } from "../interfaces/dto";
 
 export class Photo extends Entity implements IPhoto {
 
