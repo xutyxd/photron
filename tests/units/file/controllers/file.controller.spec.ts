@@ -6,8 +6,7 @@ import { beforeEach, describe, it } from "node:test";
 import { BadRequestResponse, NotFoundResponse } from "../../../../src/server/crosscutting/common/responses";
 import { MemoryDatabaseService } from "../../../../src/server/crosscutting/database/services/memory-database.service";
 import { FileController } from "../../../../src/server/file/controllers/file.controller";
-import { IFileAPI } from "../../../../src/server/file/interfaces/file-api.interface";
-import { IFileModel } from "../../../../src/server/file/interfaces/file-model.interface";
+import { IFileAPIData, IFileModelData } from "../../../../src/server/file/interfaces/data";
 import { FileRepository } from "../../../../src/server/file/repository/file.repository";
 import { FileService } from "../../../../src/server/file/services/file.service";
 
@@ -18,7 +17,7 @@ describe('FileController', () => {
             let instance: FileController | Error;
 
             try {
-                const database = new MemoryDatabaseService<IFileModel>();
+                const database = new MemoryDatabaseService<IFileModelData>();
                 const repository = new FileRepository(database);
                 const service = new FileService(repository);
 
@@ -35,7 +34,7 @@ describe('FileController', () => {
         let controller: FileController;
 
         beforeEach(async () => {
-            const database = new MemoryDatabaseService<IFileModel>();
+            const database = new MemoryDatabaseService<IFileModelData>();
             await database.connection.open();
             const repository = new FileRepository(database);
             const service = new FileService(repository);
@@ -45,9 +44,10 @@ describe('FileController', () => {
 
         describe('FileController create', () => {
             it('should throw a bad request error if name is not provided', async () => {
-                let response: IFileAPI | BadRequestResponse;
+                let response: IFileAPIData | BadRequestResponse;
 
                 try {
+                    const result = await controller.create({ body: { } } as any, {} as any);
                     response = await controller.create({ body: { } } as any, {} as any);
                 } catch (e) {
                     response = e as BadRequestResponse;
@@ -90,7 +90,7 @@ describe('FileController', () => {
 
         describe('FileController get', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFileAPI | BadRequestResponse;
+                let response: IFileAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.get({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -106,7 +106,7 @@ describe('FileController', () => {
             });
 
             it('should throw an error if file is not found', async () => {
-                let response: IFileAPI | NotFoundResponse;
+                let response: IFileAPIData | NotFoundResponse;
 
                 try {
                     response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
@@ -137,7 +137,7 @@ describe('FileController', () => {
 
         describe('FileController update', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFileAPI | BadRequestResponse;
+                let response: IFileAPIData | BadRequestResponse;
 
                 const request = { params: { uuid: undefined }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -155,7 +155,7 @@ describe('FileController', () => {
             });
 
             it('should throw an error if file is not found', async () => {
-                let response: IFileAPI | NotFoundResponse;
+                let response: IFileAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -189,7 +189,7 @@ describe('FileController', () => {
 
         describe('FileController delete', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFileAPI | BadRequestResponse;
+                let response: IFileAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.delete({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -205,7 +205,7 @@ describe('FileController', () => {
             });
 
             it('should throw an error if file is not found', async () => {
-                let response: IFileAPI | NotFoundResponse;
+                let response: IFileAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;

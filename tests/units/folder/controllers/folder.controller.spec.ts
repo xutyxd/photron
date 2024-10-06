@@ -6,10 +6,9 @@ import { beforeEach, describe, it } from "node:test";
 import { BadRequestResponse, NotFoundResponse } from "../../../../src/server/crosscutting/common/responses";
 import { MemoryDatabaseService } from "../../../../src/server/crosscutting/database/services/memory-database.service";
 import { FolderController } from "../../../../src/server/folder/controllers/folder.controller";
-import { IFolderAPI } from "../../../../src/server/folder/interfaces/folder-api.interface";
-import { IFolderModel } from "../../../../src/server/folder/interfaces/folder-model.interface";
 import { FolderRepository } from "../../../../src/server/folder/repository/folder.repository";
 import { FolderService } from "../../../../src/server/folder/services/folder.service";
+import { IFolderAPIData, IFolderModelData } from "../../../../src/server/folder/interfaces/data";
 
 describe('FolderController', () => {
 
@@ -18,7 +17,7 @@ describe('FolderController', () => {
             let instance: FolderController | Error;
 
             try {
-                const database = new MemoryDatabaseService<IFolderModel>();
+                const database = new MemoryDatabaseService<IFolderModelData>();
                 const repository = new FolderRepository(database);
                 const service = new FolderService(repository);
 
@@ -35,7 +34,7 @@ describe('FolderController', () => {
         let controller: FolderController;
 
         beforeEach(async () => {
-            const database = new MemoryDatabaseService<IFolderModel>();
+            const database = new MemoryDatabaseService<IFolderModelData>();
             await database.connection.open();
             const repository = new FolderRepository(database);
             const service = new FolderService(repository);
@@ -45,7 +44,7 @@ describe('FolderController', () => {
 
         describe('FolderController create', () => {
             it('should throw a bad request error if name is not provided', async () => {
-                let response: IFolderAPI | BadRequestResponse;
+                let response: IFolderAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.create({ body: { } } as any, {} as any);
@@ -61,7 +60,7 @@ describe('FolderController', () => {
             });
 
             it('should throw an error if parent folder is not found', async () => {
-                let response: IFolderAPI | NotFoundResponse;
+                let response: IFolderAPIData | NotFoundResponse;
 
                 try {
                     response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 'parent' } } as any, { user: { sub: 1234 } } as any);
@@ -120,7 +119,7 @@ describe('FolderController', () => {
 
         describe('FolderController get', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFolderAPI | BadRequestResponse;
+                let response: IFolderAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.get({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -136,7 +135,7 @@ describe('FolderController', () => {
             });
 
             it('should throw an error if folder is not found', async () => {
-                let response: IFolderAPI | NotFoundResponse;
+                let response: IFolderAPIData | NotFoundResponse;
 
                 try {
                     response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
@@ -167,7 +166,7 @@ describe('FolderController', () => {
 
         describe('FolderController update', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFolderAPI | BadRequestResponse;
+                let response: IFolderAPIData | BadRequestResponse;
 
                 const request = { params: { uuid: undefined }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -185,7 +184,7 @@ describe('FolderController', () => {
             });
 
             it('should throw an error if folder is not found', async () => {
-                let response: IFolderAPI | NotFoundResponse;
+                let response: IFolderAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -219,7 +218,7 @@ describe('FolderController', () => {
 
         describe('FolderController delete', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: IFolderAPI | BadRequestResponse;
+                let response: IFolderAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.delete({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -235,7 +234,7 @@ describe('FolderController', () => {
             });
 
             it('should throw an error if folder is not found', async () => {
-                let response: IFolderAPI | NotFoundResponse;
+                let response: IFolderAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;

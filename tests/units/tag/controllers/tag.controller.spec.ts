@@ -6,10 +6,9 @@ import { beforeEach, describe, it } from "node:test";
 import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../../../../src/server/crosscutting/common/responses";
 import { MemoryDatabaseService } from "../../../../src/server/crosscutting/database/services/memory-database.service";
 import { TagController } from "../../../../src/server/tag/controllers/tag.controller";
-import { ITagAPI } from "../../../../src/server/tag/interfaces/tag-api.interface";
-import { ITagModel } from "../../../../src/server/tag/interfaces/tag-model.interface";
 import { TagRepository } from "../../../../src/server/tag/repository/tag.repository";
 import { TagService } from "../../../../src/server/tag/services/tag.service";
+import { ITagAPIData, ITagModelData } from "../../../../src/server/tag/interfaces/data";
 
 describe('TagController', () => {
 
@@ -18,7 +17,7 @@ describe('TagController', () => {
             let instance: TagController | Error;
 
             try {
-                const database = new MemoryDatabaseService<ITagModel>();
+                const database = new MemoryDatabaseService<ITagModelData>();
                 const repository = new TagRepository(database);
                 const service = new TagService(repository);
 
@@ -35,7 +34,7 @@ describe('TagController', () => {
         let controller: TagController;
 
         beforeEach(async () => {
-            const database = new MemoryDatabaseService<ITagModel>();
+            const database = new MemoryDatabaseService<ITagModelData>();
             await database.connection.open();
             const repository = new TagRepository(database);
             const service = new TagService(repository);
@@ -45,7 +44,7 @@ describe('TagController', () => {
 
         describe('TagController create', () => {
             it('should throw a bad request error if name is not provided', async () => {
-                let response: ITagAPI | BadRequestResponse;
+                let response: ITagAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.create({ body: { } } as any, {} as any);
@@ -90,7 +89,7 @@ describe('TagController', () => {
 
         describe('TagController get', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: ITagAPI | BadRequestResponse;
+                let response: ITagAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.get({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -106,7 +105,7 @@ describe('TagController', () => {
             });
 
             it('should throw an error if tag is not found', async () => {
-                let response: ITagAPI | NotFoundResponse;
+                let response: ITagAPIData | NotFoundResponse;
 
                 try {
                     response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
@@ -138,7 +137,7 @@ describe('TagController', () => {
 
         describe('TagController update', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: ITagAPI | BadRequestResponse;
+                let response: ITagAPIData | BadRequestResponse;
 
                 const request = { params: { uuid: undefined }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -156,7 +155,7 @@ describe('TagController', () => {
             });
 
             it('should throw an error if tag is not found', async () => {
-                let response: ITagAPI | NotFoundResponse;
+                let response: ITagAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' }, body: { } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
@@ -191,7 +190,7 @@ describe('TagController', () => {
 
         describe('TagController delete', () => {
             it('should throw a bad request error if uuid is not provided', async () => {
-                let response: ITagAPI | BadRequestResponse;
+                let response: ITagAPIData | BadRequestResponse;
 
                 try {
                     response = await controller.delete({ params: {} } as any, { user: { sub: 1234 } } as any);
@@ -207,7 +206,7 @@ describe('TagController', () => {
             });
 
             it('should throw an error if tag is not found', async () => {
-                let response: ITagAPI | NotFoundResponse;
+                let response: ITagAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' } } as any;
                 const context = { user: { sub: 1234, name: '1234-test' } } as any;
