@@ -1,8 +1,8 @@
-import { IRecordModel } from "../../common/interfaces";
+import { IEntityModelData } from "../../common/interfaces/data";
 import { DbWhereOperands } from "../enums/db-where-operands.enum";
 import { IIndexDbQueryWhere } from "../interfaces";
 
-export class IDDbQueryWhere<T extends IRecordModel> implements IIndexDbQueryWhere<T> {
+export class IDDbQueryWhere<T extends IEntityModelData> implements IIndexDbQueryWhere<T> {
 
     public A = 'id ' as keyof T;
     public B: number;
