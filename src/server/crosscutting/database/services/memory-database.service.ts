@@ -5,10 +5,10 @@ import { IDatabase, IIndexDbQueryWhere, IDbQueryWhere } from "../interfaces";
 import { IEntityData, IEntityModelData } from "../../common/interfaces/data";
 
 @injectable()
-export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModelData,T extends IEntityModel<D, M>> implements IDatabase<T & IEntityModel<D, M>> {
+export class MemoryDatabaseService<MD extends IEntityModelData> implements IDatabase<MD> {
 
     private connected: boolean = false;
-    private data: { [from: string]: T[] | undefined } = {};
+    private data: { [from: string]: MD[] | undefined } = {};
 
     constructor() { }
 
@@ -25,7 +25,7 @@ export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModel
         }
     }
 
-    public async insert(from: string, data: T): Promise<T> {
+    public async insert(from: string, data: MD): Promise<MD> {
 
         if (!this.connected) {
             throw new InternalError('Database not connected');
@@ -40,7 +40,7 @@ export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModel
         return data;
     }
 
-    public async get(from: string, toIndex: IIndexDbQueryWhere<T>): Promise<T | undefined> {
+    public async get(from: string, toIndex: IIndexDbQueryWhere<MD>): Promise<MD | undefined> {
 
         if (!this.connected) {
             throw new InternalError('Database not connected');
@@ -51,7 +51,7 @@ export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModel
         return structuredClone(this.data[from]?.find((item) => item[property] === value));
     }
 
-    public async list(from: string, wheres: IDbQueryWhere<T>[]): Promise<T[]> {
+    public async list(from: string, wheres: IDbQueryWhere<MD>[]): Promise<MD[]> {
 
         if (!this.connected) {
             throw new InternalError('Database not connected');
@@ -60,7 +60,7 @@ export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModel
         return this.data[from]?.filter((item) => wheres.every((where) => item)) || [];
     }
 
-    public async update(from: string, toIndex: IIndexDbQueryWhere<T>, data: T): Promise<T> {
+    public async update(from: string, toIndex: IIndexDbQueryWhere<MD>, data: MD): Promise<MD> {
 
         if (!this.connected) {
             throw new InternalError('Database not connected');
@@ -85,7 +85,7 @@ export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModel
         return data;
     }
 
-    public async delete(from: string, toIndex: IIndexDbQueryWhere<T>): Promise<T> {
+    public async delete(from: string, toIndex: IIndexDbQueryWhere<MD>): Promise<MD> {
 
         if (!this.connected) {
             throw new InternalError('Database not connected');
