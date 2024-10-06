@@ -1,50 +1,94 @@
-import { Record } from "../../crosscutting/common/classes";
-import { IRecord } from "../../crosscutting/common/interfaces";
-import { Optional } from "../../crosscutting/common/types/optional.type";
-import { IPhoto, IPhotoModel } from "../interfaces";
+import { Entity } from "../../crosscutting/common/classes";
+import { Optional } from "../../crosscutting/common/types";
+import { IPhotoAPIData, IPhotoData, IPhotoModelData } from "../interfaces/data";
+import { IPhoto, IPhotoModel } from "../interfaces/dto";
 import { PhotoModel } from "./photo-model.class";
 
-export class Photo extends Record implements IPhoto {
+export class Photo extends Entity implements IPhoto {
 
-    public file_id: number;
+    public fileIndex: string;
     public file?: string;
-    public version_id: number;
-    public ownerIndex: number;
+    public versionIndex: string;
+    public ownerIndex: string;
     public owner?: string;
-    public url_photo: string;
-    public url_delete: string;
+    public url;
     public size: number;
     public order: number;
 
-    constructor(photo: Optional<IPhoto, IRecord>) {
+    constructor(photo: Partial<IPhotoData>) {
         super(photo);
 
-        this.file_id = photo.file_id;
+        this.fileIndex = photo.fileIndex || '';
         this.file = photo.file;
-        this.version_id = photo.version_id;
-        this.ownerIndex = photo.ownerIndex;
-        this.owner = photo.owner;
-        this.url_photo = photo.url_photo;
-        this.url_delete = photo.url_delete;
-        this.size = photo.size;
-        this.order = photo.order;
+        this.versionIndex = photo.versionIndex || '';
+        this.ownerIndex = photo.ownerIndex || '';
+        this.url = photo.url || { get: '', delete: '' };
+        this.size = photo.size || 0;
+        this.order = photo.order || 0;
+    }
+
+    public toApi() {
+        const base = super.toApi();
+
+        return {
+            ...base,
+            fileIndex: this.fileIndex,
+            file: this.file,
+            versionIndex: this.versionIndex,
+            ownerIndex: this.ownerIndex,
+            url: this.url,
+            size: this.size,
+            order: this.order
+        };
+    }
+
+    public toDomain() {
+        const base = super.toDomain();
+
+        return {
+            ...base,
+            fileIndex: this.fileIndex,
+            file: this.file,
+            versionIndex: this.versionIndex,
+            ownerIndex: this.ownerIndex,
+            url: this.url,
+            size: this.size,
+            order: this.order
+        };
     }
 
     public toModel() {
-        return new PhotoModel(this).export();
+        const base = super.toModel();
+
+        return {
+            ...base,
+            file_uuid: this.fileIndex,
+            version_uuid: this.versionIndex,
+            owner_uuid: this.ownerIndex,
+            url_photo: this.url.get,
+            url_delete: this.url.delete,
+            size: this.size,
+            order: this.order
+        };
     }
 
-    public static fromModel(photo: IPhotoModel): Photo {
+    public static fromAPI(photo: IPhotoAPIData): Photo {
+        return new Photo(photo);
+    }
+
+    public static fromModel(photo: IPhotoModelData): Photo {
         return new Photo({
             id: photo.id,
             uuid: photo.uuid,
             createdAt: photo.created_at,
             updatedAt: photo.updated_at,
-            file_id: photo.file_id,
-            version_id: photo.version_id,
-            ownerIndex: photo.owner_id,
-            url_photo: photo.url_photo,
-            url_delete: photo.url_delete,
+            fileIndex: photo.file_uuid,
+            versionIndex: photo.version_uuid,
+            ownerIndex: photo.owner_uuid,
+            url: {
+                get: photo.url_photo,
+                delete: photo.url_delete
+            },
             size: photo.size,
             order: photo.order
         });

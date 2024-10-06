@@ -1,44 +1,52 @@
-import { RecordAPI } from "../../crosscutting/common/classes";
-import { IPhotoAPI, IPhoto } from "../interfaces";
+import { EntityAPI } from "../../crosscutting/common/classes";
+import { IPhotoAPIData } from "../interfaces/data";
+import { IPhotoAPI } from "../interfaces/dto";
+import { Photo } from "./photo.class";
 
-export class PhotoAPI extends RecordAPI implements IPhotoAPI {
 
-    public file_id: number;
+export class PhotoAPI extends EntityAPI implements IPhotoAPI {
+
+    public fileIndex: string;
     public file?: string;
-    public version_id: number;
-    public ownerIndex: number;
+    public versionIndex: string;
+    public ownerIndex: string;
     public owner?: string;
-    public url_photo: string;
-    public url_delete: string;
+    public url;
     public size: number;
     public order: number;
 
-    constructor(photo: Omit<IPhoto, 'toModel'>) {
+    constructor(photo: IPhotoAPIData) {
         super(photo);
 
-        this.file_id = photo.file_id;
+        this.fileIndex = photo.fileIndex;
         this.file = photo.file;
-        this.version_id = photo.version_id;
+        this.versionIndex = photo.versionIndex;
         this.ownerIndex = photo.ownerIndex;
-        this.owner = photo.owner;
-        this.url_photo = photo.url_photo;
-        this.url_delete = photo.url_delete;
+        this.url = photo.url;
         this.size = photo.size;
         this.order = photo.order;
     }
 
-    public export() {
+    public toApi() {
+        const base = super.toApi();
+
         return {
-            ...super.export(),
-            file_id: this.file_id,
+            ...base,
+            fileIndex: this.fileIndex,
             file: this.file,
-            version_id: this.version_id,
+            versionIndex: this.versionIndex,
             ownerIndex: this.ownerIndex,
-            owner: this.owner,
-            url_photo: this.url_photo,
-            url_delete: this.url_delete,
+            url: this.url,
             size: this.size,
             order: this.order
         };
+    }
+
+    public toDomain() {
+        return new Photo(this).toDomain();
+    }
+
+    public static fromDomain(entity: IPhotoAPIData) {
+        return new PhotoAPI({ ...entity });
     }
 }

@@ -1,13 +1,14 @@
 import { inject, injectable } from "inversify";
-import { RecordController } from "../../crosscutting/common/controllers/record.controller";
-import { PhotoService } from "../services/photo.service";
-import { Photo, PhotoAPI } from "../classes";
-import { IPhoto, IPhotoModel } from "../interfaces";
-import { photoBase, photoCreate, photoUpdate } from "../schemas";
 import { IHTTPController } from "server-over-express";
+import { EntityController } from "../../crosscutting/common";
+import { PhotoAPI } from "../classes";
+import { IPhotoAPIData, IPhotoData, IPhotoModelData } from "../interfaces/data";
+import { IPhotoAPIStatic } from "../interfaces/static";
+import { photoBase, photoCreate, photoUpdate } from "../schemas";
+import { PhotoService } from "../services/photo.service";
 
 @injectable()
-export class PhotoController extends RecordController<typeof Photo, IPhoto, IPhotoModel> implements IHTTPController {
+export class PhotoController extends EntityController<IPhotoAPIData, IPhotoData, IPhotoModelData, IPhotoAPIStatic> implements IHTTPController {
 
     public path = 'photos';
 
@@ -16,7 +17,7 @@ export class PhotoController extends RecordController<typeof Photo, IPhoto, IPho
             base: photoBase,
             create: photoCreate,
             update: photoUpdate,
-            ref: 'photo-base.request.json'
+            ref: '#/components/schemas/photo-base.request.json'
         };
 
         super(photoService, schemas, PhotoAPI);
