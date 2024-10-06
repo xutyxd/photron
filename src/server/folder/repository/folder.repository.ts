@@ -1,15 +1,14 @@
 import { inject, injectable } from "inversify";
-import { IDatabase } from "../../crosscutting/database/interfaces/database.interface";
-import { RecordRepositoryService } from "../../crosscutting/common/services/record-repository.service";
-import { Folder } from "../classes/folder.class";
-import { IFolderModel } from "../interfaces/folder-model.interface";
-import { IFolder } from "../interfaces/folder.interface";
+import { EntityRepositoryService } from "../../crosscutting/common";
+import { IDatabase } from "../../crosscutting/database/interfaces";
+import { FolderModel } from "../classes";
+import { IFolderData, IFolderModelData } from "../interfaces/data";
 
 @injectable()
-export class FolderRepository extends RecordRepositoryService<IFolder, IFolderModel, typeof Folder> {
+export class FolderRepository extends EntityRepositoryService<IFolderData, IFolderModelData> {
 
-    constructor(@inject('IDatabase') readonly dataBaseService: IDatabase<IFolderModel>) {
+    constructor(@inject('IDatabase') readonly dataBaseService: IDatabase<IFolderModelData>) {
         const table = 'folders';
-        super(dataBaseService, table, Folder);
+        super(dataBaseService, table, FolderModel);
     }
 }

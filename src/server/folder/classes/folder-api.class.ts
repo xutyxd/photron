@@ -1,20 +1,18 @@
-import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
-import { IFile } from "../../file/interfaces/file.interface";
-import { IFolder, IFolderAPI } from "../interfaces";
+import { EntityAPI } from "../../crosscutting/common/classes";
+import { IFolderAPIData } from "../interfaces/data";
+import { IFolderAPI } from "../interfaces/dto";
+import { Folder } from "./folder.class";
 
-export class FolderAPI extends RecordAPI implements IFolderAPI {
+export class FolderAPI extends EntityAPI implements IFolderAPI {
 
     public owner?: string;
     public parent?: string;
     public name: string;
     public description?: string;
-    public files: IFile[] = [];
-    public tags: IFolderAPI['tags'] = {
-        include: [],
-        exclude: []
-    };
+    public files: string[] = [];
+    public tags;
 
-    constructor(folder: Omit<IFolder, 'toModel'>) {
+    constructor(folder: IFolderAPIData) {
         super(folder);
 
         this.owner = folder.owner;
@@ -25,15 +23,24 @@ export class FolderAPI extends RecordAPI implements IFolderAPI {
         this.tags = folder.tags;
     }
 
-    public export(){
+    public toApi() {
+        const base = super.toApi();
+
         return {
-            ...super.export(),
-            owner: this.owner,
-            parent: this.parent,
-            name: this.name,
-            description: this.description,
+            ...base,
+            ownerIndex: '',
+            parentIndex: '',
+            name: this.name,  
             files: this.files,
             tags: this.tags
         };
+    }
+
+    public toDomain() {
+        return new Folder(this).toDomain();
+    }
+
+    public static fromDomain(entity: IFolderAPIData) {
+        return new FolderAPI({ ...entity });
     }
 }

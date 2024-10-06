@@ -1,11 +1,10 @@
-import { Record } from "../../crosscutting/common/classes/record.class";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
-import { Optional } from "../../crosscutting/common/types/optional.type";
-import { File } from "../../file/classes/file.class";
-import { IFolder, IFolderModel } from "../interfaces";
-import { FolderModel } from "./folder-model.class";
 
-export class Folder extends Record implements IFolder {
+import { Entity } from "../../crosscutting/common/classes";
+import { File } from "../../file/classes";
+import { IFolderAPIData, IFolderData, IFolderModelData } from "../interfaces/data";
+import { IFolder } from "../interfaces/dto";
+
+export class Folder extends Entity implements IFolder {
 
     public ownerIndex: string;
     public parentIndex?: string;
@@ -15,28 +14,66 @@ export class Folder extends Record implements IFolder {
     public owner?: string;
     public parent?: string | undefined;
     public files: File[];
-    public tags: IFolder['tags'] = {
-        include: [],
-        exclude: []
-    };
+    public tags;
 
-    constructor(folder: Optional<IFolder, IRecord>) {
+    constructor(folder: Partial<IFolderData>) {
         super(folder);
 
-        this.ownerIndex = folder.ownerIndex;
+        this.ownerIndex = folder.ownerIndex || '';
         this.owner = folder.owner;
         this.parentIndex = folder.parentIndex;
         this.parent = folder.parent;
-        this.files = (folder.files || []).map((file) => new File(file));
-        this.name = folder.name;
+        this.files = (folder.files || []).map((file) => new File({ uuid: file }));
+        this.name = folder.name || '';
         this.description = folder.description;
+        this.tags = folder.tags || { include: [], exclude: [] };
+    }
+
+    public toApi() {
+        const base = super.toApi();
+
+        return {
+            ...base,
+            ownerIndex: '',
+            parentIndex: '',
+            name: this.name,
+            files: this.files.map((file) => file.uuid),
+            tags: this.tags
+        };
+    }
+
+    public toDomain() {
+        const base = super.toDomain();
+
+        return {
+            ...base,
+            ownerIndex: '',
+            parentIndex: '',
+            name: this.name,
+            files: this.files.map((file) => file.uuid),
+            tags: this.tags,
+        };
     }
 
     public toModel() {
-        return new FolderModel(this).export();
+        const base = super.toModel();
+
+        return {
+            ...base,
+            owner_id: '',
+            parent_id: '',
+            name: this.name,
+            files_ids: this.files.map(({ uuid }) => uuid),
+            tags_include: this.tags.include,
+            tags_exclude: this.tags.exclude
+        };
     }
 
-    public static fromModel(folder: IFolderModel): Folder {
+    public static fromAPI(folder: IFolderAPIData) {
+        return new Folder(folder);
+    }
+
+    public static fromModel(folder: IFolderModelData): Folder {
         return new Folder({
             id: folder.id,
             uuid: folder.uuid,
