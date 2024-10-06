@@ -1,12 +1,11 @@
 import { injectable } from "inversify";
 import { InternalError, NotFoundError } from "../../common/errors";
-import { IRecordModel } from "../../common/interfaces/record-model.interface";
-import { IIndexDbQueryWhere } from "../interfaces";
-import { IDatabase } from "../interfaces/database.interface";
-import { IDbQueryWhere } from "../interfaces/db-query-where.interface";
+import { IEntityModel } from "../../common/interfaces/dto";
+import { IDatabase, IIndexDbQueryWhere, IDbQueryWhere } from "../interfaces";
+import { IEntityData, IEntityModelData } from "../../common/interfaces/data";
 
 @injectable()
-export class MemoryDatabaseService<T extends IRecordModel> implements IDatabase<T & IRecordModel> {
+export class MemoryDatabaseService<D extends IEntityData, M extends IEntityModelData,T extends IEntityModel<D, M>> implements IDatabase<T & IEntityModel<D, M>> {
 
     private connected: boolean = false;
     private data: { [from: string]: T[] | undefined } = {};

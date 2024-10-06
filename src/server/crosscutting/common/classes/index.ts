@@ -1,4 +1,4 @@
+export { EntityAPI } from "./entity-api.class";
+export { EntityModel } from "./entity-model.class";
+export { Entity } from "./entity.class";
 
-export { Record } from "./record.class";
-export { RecordAPI } from "./record-api.class";
-export { RecordModel } from "./record-model.class";

@@ -1,5 +1,5 @@
 
-export interface IRecordModel {
+export interface IEntityModelData {
     id: number;
     uuid: string;
     created_at: number;
