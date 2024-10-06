@@ -1,11 +1,10 @@
-import { RecordModel } from "../../crosscutting/common/classes/record-model.class";
-import { IFileModel } from "../interfaces/file-model.interface";
-import { IFile } from "../interfaces/file.interface";
+import { EntityModel } from "../../crosscutting/common/classes";
+import { IFileData, IFileModelData } from "../interfaces/data";
+import { IFileModel } from "../interfaces/dto";
 
-export class FileModel extends RecordModel implements IFileModel {
+export class FileModel extends EntityModel implements IFileModel {
 
     public owner_id: string;
-    public owner?: string;
     public name: string;
     public description?: string;
     public size: number;
@@ -13,11 +12,10 @@ export class FileModel extends RecordModel implements IFileModel {
     public tags: string[];
     public deleted: boolean;
 
-    constructor(file: IFile) {
+    constructor(file: IFileModelData) {
         super(file);
 
-        this.owner_id = file.ownerIndex;
-        this.owner = file.owner;
+        this.owner_id = file.owner_id;
         this.name = file.name;
         this.description = file.description;
         this.size = file.size;
@@ -26,11 +24,12 @@ export class FileModel extends RecordModel implements IFileModel {
         this.deleted = file.deleted;
     }
 
-    public export() {
+    public toDomain() {
+        const base = super.toDomain();
+        
         return {
-            ...super.export(),
-            owner_id: this.owner_id,
-            owner: this.owner,
+            ...base,
+            ownerIndex: this.owner_id,
             name: this.name,
             description: this.description,
             size: this.size,
@@ -38,5 +37,33 @@ export class FileModel extends RecordModel implements IFileModel {
             tags: this.tags,
             deleted: this.deleted
         };
+    }
+    
+    public toRepository() {
+        const base = super.toRepository();
+        
+        return {
+            ...base,
+            owner_id: this.owner_id,
+            name: this.name,
+            description: this.description,
+            size: this.size,
+            type: this.type,
+            tags: this.tags,
+            deleted: this.deleted
+        };
+    }
+
+    public static fromEntity(file: IFileData): FileModel {
+        return new FileModel({
+            ...file,
+            created_at: file.createdAt,
+            updated_at: file.updatedAt,
+            owner_id: file.ownerIndex
+        });
+    }
+
+    public static fromRepository(file: IFileModelData): FileModel {
+        return new FileModel({ ...file });
     }
 }

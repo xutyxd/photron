@@ -1,15 +1,14 @@
 import { inject, injectable } from "inversify";
-import { IDatabase } from "../../crosscutting/database/interfaces/database.interface";
-import { RecordRepositoryService } from "../../crosscutting/common/services/record-repository.service";
-import { File } from "../classes/file.class";
-import { IFileModel } from "../interfaces/file-model.interface";
-import { IFile } from "../interfaces/file.interface";
+import { IDatabase } from "../../crosscutting/database/interfaces";
+import { EntityRepositoryService } from "../../crosscutting/common/services";
+import { IFileData, IFileModelData } from "../interfaces/data";
+import { FileModel } from "../classes";
 
 @injectable()
-export class FileRepository extends RecordRepositoryService<IFile, IFileModel, typeof File> {
+export class FileRepository extends EntityRepositoryService<IFileData, IFileModelData> {
 
-    constructor(@inject('IDatabase') readonly dataBaseService: IDatabase<IFileModel>) {
+    constructor(@inject('IDatabase') readonly dataBaseService: IDatabase<IFileModelData>) {
         const table = 'files';
-        super(dataBaseService, table, File);
+        super(dataBaseService, table, FileModel);
     }
 }

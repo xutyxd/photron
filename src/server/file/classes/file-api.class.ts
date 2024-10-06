@@ -1,21 +1,21 @@
-import { RecordAPI } from "../../crosscutting/common/classes/record-api.class";
-import { IFileAPI, IFile } from "../interfaces";
+import { EntityAPI } from "../../crosscutting/common/classes";
+import { IFileAPIData } from "../interfaces/data";
+import { IFileAPI } from "../interfaces/dto";
+import { File } from "./file.class";
 
-export class FileAPI extends RecordAPI implements IFileAPI {
+export class FileAPI extends EntityAPI implements IFileAPI {
 
     public ownerIndex: string;
-    public owner?: string;
     public name: string;
     public description?: string;
     public size: number;
     public type: string;
     public tags: string[];
 
-    constructor(file: Omit<IFile, 'toModel' | 'deleted'>) {
+    constructor(file: IFileAPIData) {
         super(file);
 
         this.ownerIndex = file.ownerIndex;
-        this.owner = file.owner;
         this.name = file.name;
         this.description = file.description;
         this.size = file.size;
@@ -23,16 +23,25 @@ export class FileAPI extends RecordAPI implements IFileAPI {
         this.tags = file.tags || [];
     }
 
-    public export() {
+    public toApi = () => {
+        const base = super.toApi();
+        
         return {
-            ...super.export(),
+            ...base,
             ownerIndex: this.ownerIndex,
-            owner: this.owner,
             name: this.name,
             description: this.description,
             size: this.size,
             type: this.type,
             tags: this.tags
         };
+    }
+
+    public toDomain() {
+        return new File(this).toDomain();
+    }
+
+    public static fromDomain(entity: IFileAPIData): FileAPI {
+        return new FileAPI(entity);
     }
 }

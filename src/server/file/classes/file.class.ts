@@ -1,11 +1,8 @@
-import { Record } from "../../crosscutting/common/classes/record.class";
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
-import { Optional } from "../../crosscutting/common/types/optional.type";
-import { IFileModel } from "../interfaces/file-model.interface";
-import { IFile } from "../interfaces/file.interface";
-import { FileModel } from "./file-model.class";
+import { Entity } from "../../crosscutting/common/classes";
+import { IFileAPIData, IFileData, IFileModelData } from "../interfaces/data";
+import { IFile } from "../interfaces/dto";
 
-export class File extends Record implements IFile {
+export class File extends Entity implements IFile {
 
     public ownerIndex: string;
     public name: string;
@@ -17,24 +14,67 @@ export class File extends Record implements IFile {
 
     public owner?: string;
 
-    constructor(file: Optional<IFile, IRecord>) {
+    constructor(file: Partial<IFileData>) {
         super(file);
 
-        this.ownerIndex = file.ownerIndex;
-        this.owner = file.owner;
-        this.name = file.name;
+        this.ownerIndex = file.ownerIndex || crypto.randomUUID();
+        this.name = file.name || '';
         this.description = file.description;
-        this.size = file.size;
-        this.type = file.type;
-        this.tags = file.tags;
-        this.deleted = file.deleted;
+        this.size = file.size || 0;
+        this.type = file.type || '';
+        this.tags = file.tags || [];
+        this.deleted = file.deleted || false;
     }
 
-    public toModel() {
-        return new FileModel(this).export();
+    public toApi(): IFileAPIData {
+        const base = super.toApi();
+        
+        return {
+            ...base,
+            ownerIndex: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            size: this.size,
+            type: this.type,
+            tags: this.tags
+        };
     }
 
-    public static fromModel(file: IFileModel): File {
+    public toDomain(): IFileData {
+        const base = super.toDomain();
+        
+        return {
+            ...base,
+            ownerIndex: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            size: this.size,
+            type: this.type,
+            tags: this.tags,
+            deleted: this.deleted
+        };
+    }
+
+    public toModel(): IFileModelData {
+        const base = super.toModel();
+        
+        return {
+            ...base,
+            owner_id: this.ownerIndex,
+            name: this.name,
+            description: this.description,
+            size: this.size,
+            type: this.type,
+            tags: this.tags,
+            deleted: this.deleted
+        };
+    }
+
+    public static fromAPI(file: IFileAPIData): File {
+        return new File(file);
+    }
+
+    public static fromModel(file: IFileModelData): File {
         return new File({
             id: file.id,
             uuid: file.uuid,

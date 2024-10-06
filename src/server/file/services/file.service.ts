@@ -1,11 +1,12 @@
 import { inject, injectable } from "inversify";
-import { RecordService } from "../../crosscutting/common/services/record.service";
 import { File } from "../classes/file.class";
-import { IFile, IFileModel } from "../interfaces";
 import { FileRepository } from "../repository/file.repository";
+import { EntityService } from "../../crosscutting/common/services";
+import { IFileAPIData, IFileData, IFileModelData } from "../interfaces/data";
+import { IFileStatic } from "../interfaces/static/file-static.interface";
 
 @injectable()
-export class FileService extends RecordService<typeof File, IFile, IFileModel> {
+export class FileService extends EntityService<IFileAPIData, IFileData, IFileModelData, IFileStatic> {
 
     constructor(@inject(FileRepository) readonly fileRepository: FileRepository) {
         super(fileRepository, File);

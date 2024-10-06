@@ -1,8 +1,7 @@
-import { IRecord } from "../../crosscutting/common/interfaces/record.interface";
+import { IEntityData } from "../../../crosscutting/common/interfaces/data";
 
-export interface IFile extends IRecord {
+export interface IFileData extends IEntityData {
     ownerIndex: string;
-    owner?: string;
     name: string;
     description?: string;
     size: number;

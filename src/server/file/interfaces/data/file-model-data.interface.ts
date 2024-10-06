@@ -1,6 +1,6 @@
-import { IRecordModel } from "../../crosscutting/common/interfaces/record-model.interface";
+import { IEntityModelData } from "../../../crosscutting/common/interfaces/data";
 
-export interface IFileModel extends IRecordModel {
+export interface IFileModelData extends IEntityModelData {
     owner_id: string;
     name: string;
     description?: string;
