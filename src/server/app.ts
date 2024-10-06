@@ -8,15 +8,15 @@ import { SetAuthAction } from "./auth/actions/set-auth.action";
 import { ConfigurationContainer } from "./configuration";
 import { ConfigurationService } from "./configuration/services/configuration.service";
 import { CommonContainer } from './crosscutting/common';
-import { IRecordModel } from './crosscutting/common/interfaces/record-model.interface';
 import { Response } from "./crosscutting/common/responses/response.class";
 import { IDatabase } from './crosscutting/database/interfaces/database.interface';
 import { MemoryDatabaseService } from './crosscutting/database/services/memory-database.service';
 import { HealthCheckContainer, HealthCheckController } from "./crosscutting/healt-check";
 import { FileContainer, FileController } from './file';
 import { FolderContainer, FolderController } from './folder';
-import { TagContainer, TagController } from './tag';
 import { PhotoContainer, PhotoController } from './photo';
+import { TagContainer, TagController } from './tag';
+import { IEntityModelData } from './crosscutting/common/interfaces/data';
 
 const App = class {
     public server: HTTPServer;
@@ -45,9 +45,9 @@ const App = class {
         // Services
         const configurationService = appContainer.get(ConfigurationService);
         // Set database
-        appContainer.bind<IDatabase<unknown & IRecordModel>>('IDatabase').to(MemoryDatabaseService).inSingletonScope();
+        appContainer.bind<IDatabase<unknown & IEntityModelData>>('IDatabase').to(MemoryDatabaseService).inSingletonScope();
         // Get database
-        const databaseService = appContainer.get<IDatabase<unknown & IRecordModel>>('IDatabase');
+        const databaseService = appContainer.get<IDatabase<unknown & IEntityModelData>>('IDatabase');
         databaseService.connection.open();
         // Controllers
         const healthCheckController = appContainer.get(HealthCheckController);
