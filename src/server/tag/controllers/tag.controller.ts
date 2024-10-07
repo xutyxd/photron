@@ -17,7 +17,7 @@ export class TagController extends EntityController<ITagAPIData, ITagData, ITagM
             base: tagBase,
             create: tagCreate,
             update: tagUpdate,
-            ref: '#/components/schemas/tag-base.request.json'
+            ref: '#/components/schemas/tag-base.request'
         };
 
         super(tagService, schemas, TagAPI);
