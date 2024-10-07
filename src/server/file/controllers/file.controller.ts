@@ -3,12 +3,11 @@ import { HTTPRequest, IHTTPContextData, IHTTPController } from "server-over-expr
 import { EntityController } from "../../crosscutting/common";
 import { FileAPI } from "../classes";
 import { IFileAPIData, IFileData, IFileModelData } from "../interfaces/data";
-import { IFileAPIStatic } from "../interfaces/static";
 import { fileBase, fileCreate, fileUpdate } from "../schemas";
 import { FileService } from "../services/file.service";
 
 @injectable()
-export class FileController extends EntityController<IFileAPIData, IFileData, IFileModelData, IFileAPIStatic> implements IHTTPController {
+export class FileController extends EntityController<IFileAPIData, IFileData, IFileModelData> implements IHTTPController {
 
     public path = 'files';
 
