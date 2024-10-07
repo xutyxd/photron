@@ -1,11 +1,13 @@
 import { EntityAPI } from "../../crosscutting/common/classes";
-import { IFolderAPIData } from "../interfaces/data";
+import { IFolderAPIData, IFolderData } from "../interfaces/data";
 import { IFolderAPI } from "../interfaces/dto";
 import { Folder } from "./folder.class";
 
 export class FolderAPI extends EntityAPI implements IFolderAPI {
 
+    public ownerIndex: string;
     public owner?: string;
+    public parentIndex?: string;
     public parent?: string;
     public name: string;
     public description?: string;
@@ -15,7 +17,9 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
     constructor(folder: IFolderAPIData) {
         super(folder);
 
+        this.ownerIndex = folder.ownerIndex;
         this.owner = folder.owner;
+        this.parentIndex = folder.parentIndex;
         this.parent = folder.parent;
         this.name = folder.name;
         this.description = folder.description;
@@ -28,9 +32,10 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
 
         return {
             ...base,
-            ownerIndex: '',
-            parentIndex: '',
-            name: this.name,  
+            ownerIndex: this.ownerIndex,
+            parentIndex: this.parent,
+            name: this.name,
+            description: this.description,
             files: this.files,
             tags: this.tags
         };
@@ -40,7 +45,7 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
         return new Folder(this).toDomain();
     }
 
-    public static fromDomain(entity: IFolderAPIData) {
+    public static fromDomain(entity: IFolderData) {
         return new FolderAPI({ ...entity });
     }
 }
