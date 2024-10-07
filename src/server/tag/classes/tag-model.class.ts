@@ -43,7 +43,7 @@ export class TagModel extends EntityModel implements ITagModel {
         };
     }
 
-    public static fromEntity(tag: ITagData) {
+    public static fromDomain(tag: ITagData) {
         return new TagModel({
             ...tag,
             created_at: tag.createdAt,

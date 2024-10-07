@@ -56,7 +56,7 @@ export class PhotoModel extends EntityModel implements IPhotoModel {
         };
     }
 
-    public static fromEntity(photo: IPhotoData) {
+    public static fromDomain(photo: IPhotoData) {
         return new PhotoModel({
             ...photo,
             created_at: photo.createdAt,

@@ -37,7 +37,7 @@ export class EntityModel implements IEntityModel<IEntityData, IEntityModelData> 
         };
     }
 
-    public static fromEntity(record: IEntityData): EntityModel {
+    public static fromDomain(record: IEntityData): EntityModel {
         return new EntityModel({
             id: record.id,
             uuid: record.uuid,

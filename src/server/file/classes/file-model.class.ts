@@ -54,7 +54,7 @@ export class FileModel extends EntityModel implements IFileModel {
         };
     }
 
-    public static fromEntity(file: IFileData): FileModel {
+    public static fromDomain(file: IFileData): FileModel {
         return new FileModel({
             ...file,
             created_at: file.createdAt,

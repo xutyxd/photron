@@ -55,7 +55,7 @@ export class FolderModel extends EntityModel implements IFolderModel {
         };
     }
 
-    public static fromEntity(folder: IFolderData) {
+    public static fromDomain(folder: IFolderData) {
         return new FolderModel({
             ...folder,
             created_at: folder.createdAt,
