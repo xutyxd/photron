@@ -3,11 +3,10 @@ import { EntityService } from "../../crosscutting/common";
 import { NotFoundError } from "../../crosscutting/common/errors";
 import { Folder } from "../classes";
 import { IFolderAPIData, IFolderData, IFolderModelData } from "../interfaces/data";
-import { IFolderStatic } from "../interfaces/static";
 import { FolderRepository } from "../repository/folder.repository";
 
 @injectable()
-export class FolderService extends EntityService<IFolderAPIData, IFolderData, IFolderModelData, IFolderStatic> {
+export class FolderService extends EntityService<IFolderAPIData, IFolderData, IFolderModelData> {
 
     constructor(@inject(FolderRepository) readonly folderRepository: FolderRepository) {
         super(folderRepository, Folder);

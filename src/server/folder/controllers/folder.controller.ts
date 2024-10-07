@@ -3,12 +3,11 @@ import { HTTPRequest, IHTTPContextData, IHTTPController } from "server-over-expr
 import { EntityController } from "../../crosscutting/common";
 import { FolderAPI } from "../classes/folder-api.class";
 import { IFolderAPIData, IFolderData, IFolderModelData } from "../interfaces/data";
-import { IFolderAPIStatic } from "../interfaces/static";
 import { folderBase, folderCreate, folderUpdate } from "../schemas";
 import { FolderService } from "../services/folder.service";
 
 @injectable()
-export class FolderController extends EntityController<IFolderAPIData, IFolderData, IFolderModelData, IFolderAPIStatic> implements IHTTPController {
+export class FolderController extends EntityController<IFolderAPIData, IFolderData, IFolderModelData> implements IHTTPController {
 
     public path = 'folders';
 
