@@ -1,6 +1,6 @@
 import { UUIDDbQueryWhere, IDDbQueryWhere } from "../../database/classes";
 import { IIndexDbQueryWhere, IDbQueryWhere } from "../../database/interfaces";
-import { InternalError } from "../errors";
+import { BaseError, InternalError } from "../errors";
 import { IEntityAPIData, IEntityData, IEntityModelData } from "../interfaces/data";
 import { IEntityRepository } from "../interfaces/services";
 import { IEntityStatic } from "../interfaces/static";
@@ -37,6 +37,10 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             // Transform to domain data type
             entityCreated = entity.toDomain();
         } catch (error) {
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
             throw new InternalError('Error creating entity');
         }
 
@@ -56,7 +60,11 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             // Transform to domain data type
             entityGetted = entity.toDomain();
         } catch (error) {
-            throw new InternalError('Error instancianting entity from model');
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
+            throw new InternalError('Error getting entity from model');
         }
 
         return entityGetted;
@@ -76,7 +84,11 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
                 return entity.toDomain();
             });
         } catch (error) {
-            throw new Error('Error getting entities');
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
+            throw new InternalError('Error getting entities');
         }
 
         return entitiesGetted || [];
@@ -97,7 +109,11 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             // Transform to domain data type
             entityUpdated = entity.toDomain();
         } catch (error) {
-            throw new Error('Error instancianting entity from model');
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
+            throw new InternalError('Error updating entity from model');
         }
 
         return entityUpdated;
@@ -115,7 +131,11 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             // Transform to domain data type
             entityDeleted = entity.toDomain();
         } catch (error) {
-            throw new Error('Error deleting entity');
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
+            throw new InternalError('Error deleting entity');
         }
 
         return entityDeleted;
