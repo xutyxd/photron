@@ -3,12 +3,11 @@ import { HTTPRequest, IHTTPContextData, IHTTPController } from "server-over-expr
 import { EntityController } from "../../crosscutting/common";
 import { TagAPI } from "../classes";
 import { ITagAPIData, ITagData, ITagModelData } from "../interfaces/data";
-import { ITagAPIStatic } from "../interfaces/static";
 import { tagBase, tagCreate, tagUpdate } from "../schemas";
 import { TagService } from "../services/tag.service";
 
 @injectable()
-export class TagController extends EntityController<ITagAPIData, ITagData, ITagModelData, ITagAPIStatic> implements IHTTPController {
+export class TagController extends EntityController<ITagAPIData, ITagData, ITagModelData> implements IHTTPController {
 
     public path = 'tags';
 
