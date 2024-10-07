@@ -7,7 +7,7 @@ import { BadRequestResponse, InternalErrorResponse, NotFoundResponse } from "../
 import { idRequest } from "../schemas";
 import { EntityService } from "../services";
 
-export class EntityController<A extends IEntityAPIData, D extends IEntityData, M extends IEntityModelData, SA extends IEntityAPIStatic<A, D>> {
+export class EntityController<A extends IEntityAPIData, D extends IEntityData, M extends IEntityModelData, SA extends IEntityAPIStatic<A, D> = IEntityAPIStatic<A, D>> {
 
     constructor(private service: EntityService<A, D, M>,
                 private schemas: { base: object, create: object, update: object, ref: string },
