@@ -8,7 +8,7 @@ import { FolderRepository } from "../repository/folder.repository";
 @injectable()
 export class FolderService extends EntityService<IFolderAPIData, IFolderData, IFolderModelData> {
 
-    constructor(@inject(FolderRepository) readonly folderRepository: FolderRepository) {
+    constructor(@inject(FolderRepository) private readonly folderRepository: FolderRepository) {
         super(folderRepository, Folder);
     }
 
