@@ -8,15 +8,16 @@ import { SetAuthAction } from "./auth/actions/set-auth.action";
 import { ConfigurationContainer } from "./configuration";
 import { ConfigurationService } from "./configuration/services/configuration.service";
 import { CommonContainer } from './crosscutting/common';
+import { IEntityModelData } from './crosscutting/common/interfaces/data';
 import { Response } from "./crosscutting/common/responses/response.class";
 import { IDatabase } from './crosscutting/database/interfaces/database.interface';
 import { MemoryDatabaseService } from './crosscutting/database/services/memory-database.service';
 import { HealthCheckContainer, HealthCheckController } from "./crosscutting/healt-check";
+import { DirectoryContainer, DirectoryController } from './directory';
 import { FileContainer, FileController } from './file';
 import { FolderContainer, FolderController } from './folder';
 import { PhotoContainer, PhotoController } from './photo';
 import { TagContainer, TagController } from './tag';
-import { IEntityModelData } from './crosscutting/common/interfaces/data';
 
 const App = class {
     public server: HTTPServer;
@@ -30,6 +31,7 @@ const App = class {
             HealthCheckContainer,
             AuthContainer,
             CommonContainer,
+            DirectoryContainer,
             FileContainer,
             FolderContainer,
             PhotoContainer,
@@ -52,6 +54,7 @@ const App = class {
         // Controllers
         const healthCheckController = appContainer.get(HealthCheckController);
         const authController = appContainer.get(AuthController);
+        const directoryController = appContainer.get(DirectoryController);
         const fileController = appContainer.get(FileController);
         const folderController = appContainer.get(FolderController);
         const photoController = appContainer.get(PhotoController);
@@ -73,6 +76,7 @@ const App = class {
         // Set controllers
         httpServer.controllers.add(healthCheckController);
         httpServer.controllers.add(authController);
+        httpServer.controllers.add(directoryController);
         httpServer.controllers.add(fileController);
         httpServer.controllers.add(folderController);
         httpServer.controllers.add(photoController);
