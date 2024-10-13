@@ -47,8 +47,13 @@ const App = class {
         const setAuthAction = appContainer.get(SetAuthAction);
         // Services
         const configurationService = appContainer.get(ConfigurationService);
+        // Get database
+        let database: new (...args: any[]) => IDatabase<IEntityModelData> = MemoryDatabaseService;
+        if (process.env.DATABASE === 'mongodb') {
+            database = MongoDatabaseService;
+        }
         // Set database
-        appContainer.bind<IDatabase<unknown & IEntityModelData>>('IDatabase').to(MongoDatabaseService).inSingletonScope();
+        appContainer.bind<IDatabase<unknown & IEntityModelData>>('IDatabase').to(database).inSingletonScope();
         // Get database
         const databaseService = appContainer.get<IDatabase<unknown & IEntityModelData>>('IDatabase');
         databaseService.connection.open({ uri: 'mongodb://localhost:27017/', database: 'photron' });
