@@ -9,7 +9,12 @@ export class SetAuthAction implements IHTTPIntermediateAction {
     public paths = {
         include: [
             '/auth/status',
-            '/folders'
+            '/files',
+            '/folders',
+            '/photos',
+            '/tags',
+            '/users',
+            '/versions'
         ],
         exclude: [
             '/auth/google'
