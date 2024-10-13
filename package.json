@@ -14,7 +14,7 @@
     "package:build:cjs": "rm -fr package/cjs/* && tsc -p ./configurations/package/tsconfig-cjs.json && bash ./scripts/package/cjs-formatter.sh",
     "package:build:mjs": "rm -fr package/mjs/* && tsc -p ./configurations/package/tsconfig-mjs.json && bash ./scripts/package/mjs-formatter.sh",
     "package:build": "npm run package:build:cjs && npm run package:build:mjs && ./scripts/package/fixup.sh",
-    "start": "npm run server:build && node ./server/cjs/index.js",
+    "start": "npm run server:build && node --env-file=.env ./server/cjs/index.js",
     "clean": "npm prune --production",
     "test:ts:server": "tsc --noEmit -p ./configurations/server/tsconfig-cjs.json",
     "test:ts:package": "tsc --noEmit -p ./configurations/package/tsconfig-cjs.json",
@@ -56,6 +56,7 @@
     "ajv": "^8.17.1",
     "google-auth-library": "^9.14.0",
     "inversify": "^6.0.2",
+    "mongodb": "^6.9.0",
     "openapi-fetch": "^0.12.0",
     "reflect-metadata": "^0.2.2",
     "server-over-express": "^1.6.1"

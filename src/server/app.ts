@@ -18,6 +18,7 @@ import { FileContainer, FileController } from './file';
 import { FolderContainer, FolderController } from './folder';
 import { PhotoContainer, PhotoController } from './photo';
 import { TagContainer, TagController } from './tag';
+import { MongoDatabaseService } from './crosscutting/database/services/mongo-database.service';
 
 const App = class {
     public server: HTTPServer;
@@ -47,10 +48,10 @@ const App = class {
         // Services
         const configurationService = appContainer.get(ConfigurationService);
         // Set database
-        appContainer.bind<IDatabase<unknown & IEntityModelData>>('IDatabase').to(MemoryDatabaseService).inSingletonScope();
+        appContainer.bind<IDatabase<unknown & IEntityModelData>>('IDatabase').to(MongoDatabaseService).inSingletonScope();
         // Get database
         const databaseService = appContainer.get<IDatabase<unknown & IEntityModelData>>('IDatabase');
-        databaseService.connection.open();
+        databaseService.connection.open({ uri: 'mongodb://localhost:27017/', database: 'photron' });
         // Controllers
         const healthCheckController = appContainer.get(HealthCheckController);
         const authController = appContainer.get(AuthController);

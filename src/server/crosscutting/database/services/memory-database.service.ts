@@ -1,8 +1,7 @@
 import { injectable } from "inversify";
 import { InternalError, NotFoundError } from "../../common/errors";
-import { IEntityModel } from "../../common/interfaces/dto";
-import { IDatabase, IIndexDbQueryWhere, IDbQueryWhere } from "../interfaces";
-import { IEntityData, IEntityModelData } from "../../common/interfaces/data";
+import { IEntityModelData } from "../../common/interfaces/data";
+import { IDatabase, IDbQueryWhere, IIndexDbQueryWhere } from "../interfaces";
 
 @injectable()
 export class MemoryDatabaseService<MD extends IEntityModelData> implements IDatabase<MD> {

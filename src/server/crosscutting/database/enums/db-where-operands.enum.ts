@@ -6,5 +6,6 @@ export enum DbWhereOperands {
     IS = " IS ",
     ISNOT = " IS NOT ",
     LIKE = " LIKE ",
-    NOTLIKE = " NOT LIKE "
+    NOTLIKE = " NOT LIKE ",
+    ALL = " ALL ",
 }
