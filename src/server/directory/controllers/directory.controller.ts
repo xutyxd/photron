@@ -5,7 +5,7 @@ import { DirectoryService } from '../services/directory.service';
 @injectable()
 export class DirectoryController implements IHTTPController {
 
-    public path = 'directory';
+    public path = 'directories';
 
     public handlers: IHTTPControllerHandler<unknown>[] = [
         {

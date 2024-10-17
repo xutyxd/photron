@@ -17,6 +17,10 @@
             "description": "Operation related to a crosscutting actions"
         },
         {
+            "name": "Directories",
+            "description": "Operation related to directories"
+        },
+        {
             "name": "Files",
             "description": "Operation related to files"
         },
@@ -40,6 +44,9 @@
     "paths": {
         "/health-check": {
             "$ref": "./crosscutting/health-check/paths/health-check.path.json"
+        },
+        "/directories": {
+            "$ref": "./directory/paths/directories.path.json"
         },
         "/files": {
             "$ref": "./file/paths/files.path.json"

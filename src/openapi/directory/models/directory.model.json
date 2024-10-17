@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "required": [ "folders", "files" ],
+    "additionalProperties": false,
+    "properties": {
+        "folders": {
+            "type": "array",
+            "items": {
+                "$ref": "../../folder/models/folder.model.json"
+            }
+        },
+        "files": {
+            "type": "array",
+            "items": {
+                "$ref": "../../file/models/file.model.json"
+            }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "get": {
+        "tags": [
+            "Directories"
+        ],
+        "summary": "List directories",
+        "parameters": [
+            {
+                "name": "path",
+                "in": "query",
+                "description": "Path to the directory",
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }            
+        ],
+        "responses": {
+            "200": {
+                "description": "List of directories",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "$ref": "../examples/directory.example.json"
+                            },
+                            "allOf": [
+                                {
+                                    "$ref": "../../common/response.model.json"
+                                },
+                                {
+                                    "type": "object",
+                                    "required": ["data"],
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "../models/directory.model.json"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }                
+                }
+            
+            }
+        }		
+    }
+}
