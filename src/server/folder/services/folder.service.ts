@@ -1,4 +1,6 @@
 import { inject, injectable } from "inversify";
+import { IHTTPContextData } from "server-over-express";
+import { IAuth } from "../../auth/interfaces/auth.interface";
 import { EntityService } from "../../crosscutting/common";
 import { NotFoundError } from "../../crosscutting/common/errors";
 import { Folder } from "../classes";
@@ -12,7 +14,7 @@ export class FolderService extends EntityService<IFolderAPIData, IFolderData, IF
         super(folderRepository, Folder);
     }
 
-    public async create(data: IFolderData) {
+    public async create(data: IFolderData, context: IHTTPContextData) {
         // Check if the parent folder exists
         if (data.parentIndex) {
             try {
@@ -21,7 +23,7 @@ export class FolderService extends EntityService<IFolderAPIData, IFolderData, IF
                 throw new NotFoundError('Parent folder not found');
             }
         }
-
-        return await super.create(data);
+        const user = context.user as IAuth;
+        return await super.create({ ...data, ownerIndex: user.uuid });
     }
 }

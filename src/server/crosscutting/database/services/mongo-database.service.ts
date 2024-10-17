@@ -20,11 +20,14 @@ export class MongoDatabaseService <MD extends IEntityModelData> implements IData
         open: async (configuration: { uri: string, database: string }) => {
             const { uri, database } = configuration;
             const client = new MongoClient(uri);
-            await client.connect();
-            this.db = client.db(database);
-            this.connected = true;
-            this.mongoClient = client;
-            
+            try {
+                await client.connect();
+                this.db = client.db(database);
+                this.connected = true;
+                this.mongoClient = client;
+            } catch (error) {
+                console.log('Error connecting to database: ', error);
+            }
         },
         close: async () => {
             await this.mongoClient?.close();

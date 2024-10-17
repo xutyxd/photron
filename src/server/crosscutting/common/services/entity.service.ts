@@ -1,5 +1,6 @@
-import { UUIDDbQueryWhere, IDDbQueryWhere } from "../../database/classes";
-import { IIndexDbQueryWhere, IDbQueryWhere } from "../../database/interfaces";
+import { IHTTPContextData } from "server-over-express";
+import { IDDbQueryWhere, UUIDDbQueryWhere } from "../../database/classes";
+import { IDbQueryWhere, IIndexDbQueryWhere } from "../../database/interfaces";
 import { BaseError, InternalError } from "../errors";
 import { IEntityAPIData, IEntityData, IEntityModelData } from "../interfaces/data";
 import { IEntityRepository } from "../interfaces/services";
@@ -23,7 +24,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             return query;
         }
     }
-    public async create(data: Partial<D>) {
+    public async create(data: Partial<D>, context?: IHTTPContextData) {
 
         let entityCreated: D;
 
@@ -47,7 +48,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityCreated;
     }
 
-    public async get(index: number | string) {
+    public async get(index: number | string, context?: IHTTPContextData) {
         let entityGetted: D;
 
         try {
@@ -70,7 +71,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityGetted;
     }
 
-    public async list(where?: IDbQueryWhere<M>[]) {
+    public async list(where?: IDbQueryWhere<M>[], context?: IHTTPContextData) {
         let entitiesGetted: D[] | undefined;
 
         try {
@@ -94,7 +95,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entitiesGetted || [];
     }
 
-    public async update(index: number | string, data: D) {
+    public async update(index: number | string, data: D, context?: IHTTPContextData) {
         let entityUpdated: D;
 
         try {
@@ -119,7 +120,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityUpdated;
     }
 
-    public async delete(index: number | string) {
+    public async delete(index: number | string, context?: IHTTPContextData) {
         let entityDeleted: D;
         try {
             // Get query to index entity

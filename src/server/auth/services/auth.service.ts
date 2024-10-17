@@ -1,6 +1,7 @@
+import { Credentials, OAuth2Client } from "google-auth-library";
 import { inject, injectable } from "inversify";
 import { ConfigurationService } from "../../configuration/services/configuration.service";
-import { Credentials, OAuth2Client } from "google-auth-library";
+import { IAuth } from "../interfaces/auth.interface";
 import { IOAuthKeys } from "../interfaces/oauth-keys.interface";
 
 @injectable()
@@ -58,7 +59,7 @@ export class AuthService {
         return result;
     }
 
-    public async status(access_token: string) {
+    public async status(access_token: string): Promise<IAuth> {
         
         let result;
 
@@ -69,8 +70,15 @@ export class AuthService {
             const userinfo = await client.request({
                 url: 'https://www.googleapis.com/oauth2/v3/userinfo'
             });
-    
-            result = userinfo.data;
+
+            const { sub, name, picture, email } = userinfo.data as any;
+
+            result = {
+                uuid: sub,
+                name,
+                picture,
+                email
+            };
         } catch (error) {
             console.log('Error: ', error);
             throw new Error('Error trying to authenticate with Google');
