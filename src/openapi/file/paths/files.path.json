@@ -29,9 +29,9 @@
                                 },
                                 {
                                     "type": "object",
-                                    "required": ["response"],
+                                    "required": ["data"],
                                     "properties": {
-                                        "response": {
+                                        "data": {
                                             "$ref": "../models/file.model.json"
                                         }
                                     }
@@ -61,9 +61,9 @@
                                 },
                                 {
                                     "type": "object",
-                                    "required": ["response"],
+                                    "required": ["data"],
                                     "properties": {
-                                        "response": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "$ref": "../models/file.model.json"

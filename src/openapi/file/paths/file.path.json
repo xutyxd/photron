@@ -28,9 +28,9 @@
                                 },
                                 {
                                     "type": "object",
-                                    "required": ["response"],
+                                    "required": ["data"],
                                     "properties": {
-                                        "response": {
+                                        "data": {
                                             "$ref": "../models/file.model.json"
                                         }
                                     }
@@ -61,9 +61,9 @@
                                 },
                                 {
                                     "type": "object",
-                                    "required": ["response"],
+                                    "required": ["data"],
                                     "properties": {
-                                        "response": {
+                                        "data": {
                                             "type": "string",
                                             "example": "Not found: File not found"
                                         }
@@ -160,9 +160,9 @@
                             },
                             {
                                 "type": "object",
-                                "required": ["response"],
+                                "required": ["data"],
                                 "properties": {
-                                    "response": {
+                                    "data": {
                                         "type": "string",
                                         "example": "Not found: File not found"
                                     }
@@ -247,9 +247,9 @@
                             },
                             {
                                 "type": "object",
-                                "required": ["response"],
+                                "required": ["data"],
                                 "properties": {
-                                    "response": {
+                                    "data": {
                                         "type": "string",
                                         "example": "Not found: File not found"
                                     }
