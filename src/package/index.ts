@@ -46,6 +46,12 @@ export class PhotronAPIClient {
         return this.client.GET('/health-check');
     }
 
+    public directories = {
+        list: async (path: string[] = []) => {
+            return this.client.GET('/directories', { params: { query: { path } } });
+        }
+    }
+
     public files = {
         create: async (data: fileCreate) => {
             return this.client.POST('/files', { body: data });
