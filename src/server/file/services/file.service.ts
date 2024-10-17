@@ -15,6 +15,6 @@ export class FileService extends EntityService<IFileAPIData, IFileData, IFileMod
 
     public async create(data: IFileData, context: IHTTPContextData) {
         const user = context.user as IAuth;
-        return await super.create({ ...data, ownerIndex: user.uuid });
+        return await super.create({ ...data, ownerIndex: user.uuid }, context);
     }
 }

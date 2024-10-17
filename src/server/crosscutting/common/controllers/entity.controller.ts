@@ -80,7 +80,7 @@ export class EntityController<A extends IEntityAPIData, D extends IEntityData, M
             // Transform to domain
             const domainEntity = apiEntity.toDomain();
             // Create the entity
-            const entityCreated = await this.service.create(domainEntity);
+            const entityCreated = await this.service.create(domainEntity, context);
             // Transform to api
             const apiCreated = this.api.fromDomain(entityCreated);
             // Transform to data
@@ -102,7 +102,7 @@ export class EntityController<A extends IEntityAPIData, D extends IEntityData, M
         let result: A[];
 
         try {
-            const entities = await this.service.list();
+            const entities = await this.service.list([], context);
 
             result = entities.map((entity) => this.api.fromDomain(entity).toApi());
         } catch (error) {
@@ -121,7 +121,7 @@ export class EntityController<A extends IEntityAPIData, D extends IEntityData, M
 
         try {
             // Find the entity
-            const entity = await this.service.get(uuid);
+            const entity = await this.service.get(uuid, context);
             // Transform to api
             const apiEntity = this.api.fromDomain(entity);
             // Transform to data
@@ -151,7 +151,7 @@ export class EntityController<A extends IEntityAPIData, D extends IEntityData, M
             // Transform to domain
             const domainEntity = apiEntity.toDomain();
             // Create the entity
-            const entityUpdated = await this.service.update(uuid, domainEntity);
+            const entityUpdated = await this.service.update(uuid, domainEntity, context);
             // Transform to api
             const apiUpdated = this.api.fromDomain(entityUpdated);
             // Transform to data
@@ -175,7 +175,7 @@ export class EntityController<A extends IEntityAPIData, D extends IEntityData, M
 
         try {
             // Find the entity
-            const entity = await this.service.delete(uuid);
+            const entity = await this.service.delete(uuid, context);
             // Transform to api
             const apiEntity = this.api.fromDomain(entity);
             // Transform to data

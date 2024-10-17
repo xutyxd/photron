@@ -79,7 +79,10 @@ describe('SetAuthAction', () => {
             try {
                 setAuthAction['authService'].status = async (token: string) => {
                     return {
-                        name: token
+                        uuid: 'access_token',
+                        name: token,
+                        picture: '',
+                        email: ''
                     };
                 }
 
@@ -105,7 +108,10 @@ describe('SetAuthAction', () => {
             try {
                 setAuthAction['authService'].status = async (token: string) => {
                     return {
-                        name: token
+                        uuid: 'access_token',
+                        name: token,
+                        picture: '',
+                        email: ''
                     };
                 }
 

@@ -63,7 +63,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | NotFoundResponse;
 
                 try {
-                    response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 'parent' } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.create({ body: { name: 'test', description: 'test', parentIndex: 'parent' } } as any, { user: { uuid: 1234 } } as any);
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
@@ -79,7 +79,7 @@ describe('FolderController', () => {
 
                 const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folder = await controller.create(request, context);
 
@@ -93,7 +93,7 @@ describe('FolderController', () => {
         describe('FolderController list', () => {
             it('should return a list of folders', async () => {
                 const request = { params: {} } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folders = await controller.list(request, context);
 
@@ -103,7 +103,7 @@ describe('FolderController', () => {
             it('should create a folder and return it', async () => {
                 const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folderCreated = await controller.create(request, context);
 
@@ -122,7 +122,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | BadRequestResponse;
 
                 try {
-                    response = await controller.get({ params: {} } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.get({ params: {} } as any, { user: { uuid: 1234 } } as any);
                 } catch (e) {
                     response = e as BadRequestResponse;
                 }
@@ -138,7 +138,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | NotFoundResponse;
 
                 try {
-                    response = await controller.get({ params: { uuid: 'test' } } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.get({ params: { uuid: 'test' } } as any, { user: { uuid: 1234 } } as any);
                 } catch (e) {
                     response = e as NotFoundResponse;
                 }
@@ -153,7 +153,7 @@ describe('FolderController', () => {
             it('should get a folder', async () => {
                 const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folderCreated = await controller.create(request, context);
                 const folder = await controller.get({ params: { uuid: folderCreated.uuid } } as any, context);
@@ -169,7 +169,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | BadRequestResponse;
 
                 const request = { params: { uuid: undefined }, body: { } } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
                 try {
                     response = await controller.update(request, context);
                 } catch (e) {
@@ -187,7 +187,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' }, body: { } } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 try {
                     response = await controller.update(request, context);
@@ -205,7 +205,7 @@ describe('FolderController', () => {
             it('should update a folder', async () => {
                 const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folderCreated = await controller.create(request, context);
                 const folder = await controller.update({ params: { uuid: folderCreated.uuid }, ...request }, context);
@@ -221,7 +221,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | BadRequestResponse;
 
                 try {
-                    response = await controller.delete({ params: {} } as any, { user: { sub: 1234 } } as any);
+                    response = await controller.delete({ params: {} } as any, { user: { uuid: 1234 } } as any);
                 } catch (e) {
                     response = e as BadRequestResponse;
                 }
@@ -237,7 +237,7 @@ describe('FolderController', () => {
                 let response: IFolderAPIData | NotFoundResponse;
 
                 const request = { params: { uuid: 'test' } } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 try {
                     response = await controller.delete(request, context);
@@ -255,7 +255,7 @@ describe('FolderController', () => {
             it('should delete a folder', async () => {
                 const body = { name: 'test', description: 'test' };
                 const request = { body } as any;
-                const context = { user: { sub: 1234, name: '1234-test' } } as any;
+                const context = { user: { uuid: 1234, name: '1234-test' } } as any;
 
                 const folderCreated = await controller.create(request, context);
                 const folder = await controller.delete({ params: { uuid: folderCreated.uuid } } as any, context);

@@ -18,12 +18,12 @@ export class FolderService extends EntityService<IFolderAPIData, IFolderData, IF
         // Check if the parent folder exists
         if (data.parentIndex) {
             try {
-                await this.get(data.parentIndex);
+                await this.get(data.parentIndex, context);
             } catch (error) {
                 throw new NotFoundError('Parent folder not found');
             }
         }
         const user = context.user as IAuth;
-        return await super.create({ ...data, ownerIndex: user.uuid });
+        return await super.create({ ...data, ownerIndex: user.uuid }, context);
     }
 }
