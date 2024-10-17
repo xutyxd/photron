@@ -24,7 +24,7 @@ export class DirectoryController implements IHTTPController {
         }
 
         const foldersIndex = params[0].split('/').filter(Boolean);
-        const directory = await this.directoryService.get(foldersIndex);
+        const directory = await this.directoryService.get(foldersIndex, context);
 
         return { code: 200, data: directory };
     }
