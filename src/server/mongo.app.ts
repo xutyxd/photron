@@ -10,9 +10,9 @@ const configuration = {
 };
 // Set database
 app.set.database(MongoDatabaseService, configuration);
-// Start app
-app.start();
 // Override auth
 app.set.auth();
+// Start app
+app.start();
 
 export { app };
