@@ -27,8 +27,6 @@ export class DirectoryService {
         const ownerFolderQuery: IDbQueryWhere<IFolderModelData> = { A: 'owner_uuid', B: context.user.uuid, op: DbWhereOperands.EQUALS };
         // Get all with this parent ids
         const folders = await this.folderService.list([ folderQuery, ownerFolderQuery ], context);
-        console.log('Folders: ', folders);
-        console.log('Path:', path);
         // Check if path is correct
         path.forEach((folder, index) => {
             if (folder === folders[index]?.parentIndex) {

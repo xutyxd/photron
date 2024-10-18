@@ -77,7 +77,6 @@ export class Folder extends Entity implements IFolder {
     }
 
     public static fromModel(folder: IFolderModelData): Folder {
-        console.log('fromModel: ', folder);
         return new Folder({
             id: folder.id,
             uuid: folder.uuid,
