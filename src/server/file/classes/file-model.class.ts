@@ -4,7 +4,7 @@ import { IFileModel } from "../interfaces/dto";
 
 export class FileModel extends EntityModel implements IFileModel {
 
-    public owner_id: string;
+    public owner_uuid: string;
     public name: string;
     public description?: string;
     public size: number;
@@ -15,7 +15,7 @@ export class FileModel extends EntityModel implements IFileModel {
     constructor(file: IFileModelData) {
         super(file);
 
-        this.owner_id = file.owner_id;
+        this.owner_uuid = file.owner_uuid;
         this.name = file.name;
         this.description = file.description;
         this.size = file.size;
@@ -29,7 +29,7 @@ export class FileModel extends EntityModel implements IFileModel {
         
         return {
             ...base,
-            ownerIndex: this.owner_id,
+            ownerIndex: this.owner_uuid,
             name: this.name,
             description: this.description,
             size: this.size,
@@ -44,7 +44,7 @@ export class FileModel extends EntityModel implements IFileModel {
         
         return {
             ...base,
-            owner_id: this.owner_id,
+            owner_uuid: this.owner_uuid,
             name: this.name,
             description: this.description,
             size: this.size,
@@ -59,7 +59,7 @@ export class FileModel extends EntityModel implements IFileModel {
             ...file,
             created_at: file.createdAt,
             updated_at: file.updatedAt,
-            owner_id: file.ownerIndex
+            owner_uuid: file.ownerIndex
         });
     }
 

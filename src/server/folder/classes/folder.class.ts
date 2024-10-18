@@ -62,11 +62,11 @@ export class Folder extends Entity implements IFolder {
 
         return {
             ...base,
-            owner_id: '',
-            parent_id: this.parentIndex,
+            owner_uuid: '',
+            parent_uuid: this.parentIndex,
             name: this.name,
             description: this.description,
-            files_ids: this.files.map(({ uuid }) => uuid),
+            files_uuids: this.files.map(({ uuid }) => uuid),
             tags_include: this.tags.include,
             tags_exclude: this.tags.exclude
         };
@@ -82,8 +82,8 @@ export class Folder extends Entity implements IFolder {
             uuid: folder.uuid,
             createdAt: folder.created_at,
             updatedAt: folder.updated_at,
-            ownerIndex: folder.owner_id,
-            parentIndex: folder.parent_id,
+            ownerIndex: folder.owner_uuid,
+            parentIndex: folder.parent_uuid,
             name: folder.name,
             description: folder.description,
             files: [],

@@ -17,7 +17,7 @@ export class DirectoryService {
 
     public async get(path: string[], context: IHTTPContextData) {
         // Create query to get folders on path
-        const folderQuery: IDbQueryWhere<IFolderModelData> = { A: 'parent_id', B: path, op: DbWhereOperands.IN };
+        const folderQuery: IDbQueryWhere<IFolderModelData> = { A: 'parent_uuid', B: path, op: DbWhereOperands.IN };
         // Get all with this parent ids
         const folders = await this.folderService.list([ folderQuery ], context);
         // Check if path is correct

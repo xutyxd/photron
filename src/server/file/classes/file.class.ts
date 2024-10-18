@@ -60,7 +60,7 @@ export class File extends Entity implements IFile {
         
         return {
             ...base,
-            owner_id: this.ownerIndex,
+            owner_uuid: this.ownerIndex,
             name: this.name,
             description: this.description,
             size: this.size,
@@ -80,7 +80,7 @@ export class File extends Entity implements IFile {
             uuid: file.uuid,
             createdAt: file.created_at,
             updatedAt: file.updated_at,
-            ownerIndex: file.owner_id,
+            ownerIndex: file.owner_uuid,
             name: file.name,
             description: file.description,
             size: file.size,

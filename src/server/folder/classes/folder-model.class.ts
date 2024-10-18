@@ -4,8 +4,8 @@ import { IFolderModel } from "../interfaces/dto";
 
 export class FolderModel extends EntityModel implements IFolderModel {
 
-    public owner_id: string;
-    public parent_id?: string;
+    public owner_uuid: string;
+    public parent_uuid?: string;
     public name: string;
     public description?: string;
     public owner?: string;
@@ -16,8 +16,8 @@ export class FolderModel extends EntityModel implements IFolderModel {
     constructor(folder: IFolderModelData) {
         super(folder);
 
-        this.owner_id = folder.owner_id;
-        this.parent_id = folder.parent_id;
+        this.owner_uuid = folder.owner_uuid;
+        this.parent_uuid = folder.parent_uuid;
         this.name = folder.name;
         this.description = folder.description;
         this.tags_include = folder.tags_include;
@@ -29,8 +29,8 @@ export class FolderModel extends EntityModel implements IFolderModel {
 
         return {
             ...base,
-            ownerIndex: this.owner_id,
-            parentIndex: this.parent_id,
+            ownerIndex: this.owner_uuid,
+            parentIndex: this.parent_uuid,
             name: this.name,
             description: this.description,
             files: [],
@@ -46,8 +46,8 @@ export class FolderModel extends EntityModel implements IFolderModel {
 
         return {
             ...base,
-            owner_id: this.owner_id,
-            parent_id: this.parent_id,
+            owner_uuid: this.owner_uuid,
+            parent_uuid: this.parent_uuid,
             name: this.name,
             description: this.description,
             tags_include: this.tags_include,
@@ -60,8 +60,8 @@ export class FolderModel extends EntityModel implements IFolderModel {
             ...folder,
             created_at: folder.createdAt,
             updated_at: folder.updatedAt,
-            owner_id: folder.ownerIndex,
-            parent_id: folder.parentIndex,
+            owner_uuid: folder.ownerIndex,
+            parent_uuid: folder.parentIndex,
             tags_include: folder.tags.include,
             tags_exclude: folder.tags.exclude,
         });
