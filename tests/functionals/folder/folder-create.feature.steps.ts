@@ -10,19 +10,8 @@ import { PhotronAPIClient } from '../../../src/package';
 process.env.PORT = "0";
 
 const app = new App();
-// Mock auth action
-const authAction = new SetAuthAction({
-    status: async (access_token: string) => {
-        return {
-            name: access_token,
-            sub: Math.random()
-        };
-    }
-} as any);
-// Desactivate the auth action
-app.server.request.before.remove(authAction.execute);
-// Add the auth action
-app.server.request.before.add(authAction);
+app.set.database();
+app.start();
 
 const client = new PhotronAPIClient(`http://localhost:${app.server.port}`);
 

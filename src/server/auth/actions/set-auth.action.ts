@@ -2,24 +2,12 @@ import { inject, injectable } from "inversify";
 import { HTTPRequest, IHTTPContextData, IHTTPIntermediateAction } from "server-over-express";
 import { UnauthorizedResponse } from "../../crosscutting/common/responses/unauthorized.response.class";
 import { AuthService } from "../services/auth.service";
+import { authPaths } from "../consts/auth-path.const";
 
 @injectable()
 export class SetAuthAction implements IHTTPIntermediateAction {
 
-    public paths = {
-        include: [
-            '/auth/status',
-            '/files',
-            '/folders',
-            '/photos',
-            '/tags',
-            '/users',
-            '/versions'
-        ],
-        exclude: [
-            '/auth/google'
-        ]
-    };
+    public paths = authPaths;
 
     constructor(@inject(AuthService) private readonly authService: AuthService) { }
 
@@ -44,7 +32,8 @@ export class SetAuthAction implements IHTTPIntermediateAction {
         }
         // Get user information from the authorization
         const userinfo = await this.authService.status(authorization);
-
+        console.log('User: ', userinfo);
+        console.log('Context user: ', context.user);
         context.user = userinfo;
         return;
     }

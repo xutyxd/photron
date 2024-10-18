@@ -8,6 +8,10 @@ import { PhotronAPIClient } from '../../../../src/package';
 process.env.PORT = "0";
 
 const app = new App();
+
+app.set.database();
+app.start();
+
 const client = new PhotronAPIClient(`http://localhost:${app.server.port}`);
 let request: ReturnType<PhotronAPIClient["healthCheck"]>;
 let response: Awaited<typeof request>;
