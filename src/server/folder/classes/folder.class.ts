@@ -34,7 +34,7 @@ export class Folder extends Entity implements IFolder {
 
         return {
             ...base,
-            ownerIndex: '',
+            ownerIndex: this.ownerIndex,
             parentIndex: this.parentIndex,
             name: this.name,
             description: this.description,
@@ -48,7 +48,7 @@ export class Folder extends Entity implements IFolder {
 
         return {
             ...base,
-            ownerIndex: '',
+            ownerIndex: this.ownerIndex,
             parentIndex: this.parentIndex,
             name: this.name,
             description: this.description,
@@ -62,7 +62,7 @@ export class Folder extends Entity implements IFolder {
 
         return {
             ...base,
-            owner_uuid: '',
+            owner_uuid: this.ownerIndex,
             parent_uuid: this.parentIndex,
             name: this.name,
             description: this.description,
@@ -77,6 +77,7 @@ export class Folder extends Entity implements IFolder {
     }
 
     public static fromModel(folder: IFolderModelData): Folder {
+        console.log('fromModel: ', folder);
         return new Folder({
             id: folder.id,
             uuid: folder.uuid,
