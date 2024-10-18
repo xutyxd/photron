@@ -93,7 +93,7 @@ export class MongoDatabaseService <MD extends IEntityModelData> implements IData
             }
 
             const filter = { [property as keyof MD]: value as MD[keyof MD] } as Filter<MD>;
-            return { ...filters, filter };
+            return { ...filters, ...filter };
         }, {} as Filter<MD>);
 
         const queried = await collection.find(filters).toArray();
