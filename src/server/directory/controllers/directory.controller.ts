@@ -13,6 +13,10 @@ export class DirectoryController implements IHTTPController {
 
     public handlers: IHTTPControllerHandler<unknown>[] = [
         {
+            path: { method: HttpMethodEnum.GET },
+            action: this.get.bind(this)
+        },
+        {
             path: { method: HttpMethodEnum.GET, relative: '*' },
             action: this.get.bind(this)
         }
