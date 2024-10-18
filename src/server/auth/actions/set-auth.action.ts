@@ -32,8 +32,7 @@ export class SetAuthAction implements IHTTPIntermediateAction {
         }
         // Get user information from the authorization
         const userinfo = await this.authService.status(authorization);
-        console.log('User: ', userinfo);
-        console.log('Context user: ', context.user);
+        // Set on context
         context.user = userinfo;
         return;
     }
