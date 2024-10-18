@@ -1,10 +1,4 @@
 
-import { App } from "./app";
-
-const app = new App();
-
-app.set.database();
-app.set.auth();
-app.start();
+import { app } from "./mongo.app";
 
 export { app };
