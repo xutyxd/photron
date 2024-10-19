@@ -18,21 +18,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 1: Install dependencies to run Semantic Release
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '21.6.2'
-
-      - name: Install Dependencies
-        run: npm i
-
-      # Step 2: Get the latest version from Semantic Release
-      - name: Run Semantic Release
-        id: semantic_release
-        run: npx semantic-release --dry-run
-
-      # Step 3: Build and tag Docker image
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -44,11 +29,10 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          version=$(echo "${{ steps.semantic_release.outputs.nextRelease.version }}")
+          version=$(echo $(git describe --tags --abbrev=0))
           docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64
           docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
 
-      # Step 4: Push image to Docker Hub
       - name: Push image to Docker Hub
         run: |
           version=$(echo "${{ steps.semantic_release.outputs.nextRelease.version }}")
