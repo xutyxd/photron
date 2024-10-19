@@ -3,9 +3,8 @@ import { NotFoundError } from "../errors";
 import { IEntityData, IEntityModelData } from "../interfaces/data";
 import { IEntityRepository } from "../interfaces/services";
 import { IEntityModelStatic } from "../interfaces/static";
-import { ModelData } from "../types";
 
-export class EntityRepositoryService<D extends IEntityData, M extends IEntityModelData, SM extends IEntityModelStatic<D, M> = IEntityModelStatic<D, M>> implements IEntityRepository<ModelData<M>> {
+export class EntityRepositoryService<D extends IEntityData, M extends IEntityModelData, SM extends IEntityModelStatic<D, M> = IEntityModelStatic<D, M>> implements IEntityRepository<M> {
 
     constructor(private readonly database: IDatabase<M>,
                 private readonly table: string,
