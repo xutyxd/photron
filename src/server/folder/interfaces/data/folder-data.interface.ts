@@ -7,7 +7,6 @@ export interface IFolderData extends IEntityData {
     parent?: string;
     name: string;
     description?: string;
-    files: string[];
     tags: {
         include: string[];
         exclude: string[];

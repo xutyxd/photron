@@ -11,7 +11,6 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
     public parent?: string;
     public name: string;
     public description?: string;
-    public files: string[] = [];
     public tags;
 
     constructor(folder: IFolderAPIData) {
@@ -23,7 +22,6 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
         this.parent = folder.parent;
         this.name = folder.name;
         this.description = folder.description;
-        this.files = folder.files;
         this.tags = folder.tags;
     }
 
@@ -36,7 +34,6 @@ export class FolderAPI extends EntityAPI implements IFolderAPI {
             parentIndex: this.parent,
             name: this.name,
             description: this.description,
-            files: this.files,
             tags: this.tags
         };
     }

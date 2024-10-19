@@ -33,7 +33,6 @@ export class FolderModel extends EntityModel implements IFolderModel {
             parentIndex: this.parent_uuid,
             name: this.name,
             description: this.description,
-            files: [],
             tags: {
                 include: this.tags_include,
                 exclude: this.tags_exclude

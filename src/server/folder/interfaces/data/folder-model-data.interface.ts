@@ -5,7 +5,6 @@ export interface IFolderModelData extends IEntityModelData {
     parent_uuid?: string;
     name: string;
     description?: string;
-    // files_ids: string[];
     tags_include: string[];
     tags_exclude: string[];
 }
