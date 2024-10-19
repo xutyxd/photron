@@ -1,4 +1,3 @@
-
 export interface IAuth {
     uuid: string;
     name: string;

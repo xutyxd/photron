@@ -1,4 +1,3 @@
-
 export interface IOAuthKeys {
     web: {
         client_id: string;

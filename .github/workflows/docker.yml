@@ -8,6 +8,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/docker.yml'
 
 jobs:
   build:
@@ -30,7 +32,8 @@ jobs:
       - name: Build and tag Docker image
         run: |
           version=$(echo $(git describe --tags --abbrev=0))
-          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64
+          echo $version
+          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --load
           docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
 
       - name: Push image to Docker Hub
