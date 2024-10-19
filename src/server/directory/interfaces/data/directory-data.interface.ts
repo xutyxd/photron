@@ -1,8 +1,7 @@
-import { IEntityData } from "../../../crosscutting/common/interfaces/data";
 import { IFileData } from "../../../file/interfaces/data";
 import { IFolderData } from "../../../folder/interfaces/data";
 
-export interface IDirectoryData extends IEntityData {
+export interface IDirectoryData {
     folders: IFolderData[];
     files: IFileData[];
 }

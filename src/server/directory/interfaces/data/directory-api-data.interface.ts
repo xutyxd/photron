@@ -1,8 +1,7 @@
-import { IEntityAPIData } from "../../../crosscutting/common/interfaces/data";
 import { IFileAPIData } from "../../../file/interfaces/data";
 import { IFolderAPIData } from "../../../folder/interfaces/data";
 
-export interface IDirectoryAPIData extends IEntityAPIData {
+export interface IDirectoryAPIData {
     folders: IFolderAPIData[];
     files: IFileAPIData[];
 }
