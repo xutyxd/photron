@@ -1,10 +1,6 @@
 name: Package build and release
 
 on:
-  workflow_run:
-    workflows: ["Server build"] # The name of the other workflow you want to depend on
-    types:
-      - completed
   push:
     branches:
       - main

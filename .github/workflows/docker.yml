@@ -5,12 +5,6 @@ on:
     workflows: ["Server build"]
     types:
       - completed
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/docker.yml'
-      - 'Dockerfile'
 
 jobs:
   build:
@@ -34,19 +28,6 @@ jobs:
           git fetch --tags
           version=$(echo $(git tag --sort=-creatordate | head -n 1))
           version=${version#v}
-          echo $version
 
           docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm64/v8,linux/amd64 --push
-          echo 'Version built!'
           docker buildx imagetools create -t docker.io/${{ secrets.DOCKER_USERNAME }}/photron:latest docker.io/${{ secrets.DOCKER_USERNAME }}/photron:$version
-          # docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
-          echo 'Version retagged!'
-
-      - name: Push image to Docker Hub
-        run: |
-          version=$(echo $(git tag --sort=-creatordate | head -n 1))
-          version=${version#v}
-          echo $version
-
-          docker push ${{ secrets.DOCKER_USERNAME }}/photron:$version
-          docker push ${{ secrets.DOCKER_USERNAME }}/photron:latest
