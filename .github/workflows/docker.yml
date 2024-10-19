@@ -2,9 +2,12 @@ name: Docker Build and Push
 
 on:
   workflow_run:
-    workflows: ["Build Workflow"]
+    workflows: ["Server build"]
     types:
       - completed
+  push:
+    branches:
+      - main
 
 jobs:
   build:
