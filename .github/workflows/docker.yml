@@ -36,9 +36,10 @@ jobs:
           version=${version#v}
           echo $version
 
-          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm64/v8,linux/amd64
+          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm64/v8,linux/amd64 --push
           echo 'Version built!'
-          docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
+          docker buildx imagetools create -t docker.io/${{ secrets.DOCKER_USERNAME }}/photron:latest docker.io/${{ secrets.DOCKER_USERNAME }}/photron:$version
+          # docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
           echo 'Version retagged!'
 
       - name: Push image to Docker Hub
