@@ -10,7 +10,7 @@
     "openapi:types": "openapi-typescript src/openapi/specification.json -o src/openapi/specification.d.ts",
     "server:build:cjs": "rm -fr server/cjs/* && tsc -p ./configurations/server/tsconfig-cjs.json && sh ./scripts/server/cjs-formatter.sh",
     "server:build:mjs": "rm -fr server/mjs/* && tsc -p ./configurations/server/tsconfig-mjs.json && sh ./scripts/server/mjs-formatter.sh",
-    "server:build": "npm run server:build:cjs && ./scripts/server/fixup.sh",
+    "server:build": "npm run server:build:cjs && sh ./scripts/server/fixup.sh",
     "package:build:cjs": "rm -fr package/cjs/* && tsc -p ./configurations/package/tsconfig-cjs.json && sh ./scripts/package/cjs-formatter.sh",
     "package:build:mjs": "rm -fr package/mjs/* && tsc -p ./configurations/package/tsconfig-mjs.json && sh ./scripts/package/mjs-formatter.sh",
     "package:build": "npm run package:build:cjs && npm run package:build:mjs && ./scripts/package/fixup.sh",
