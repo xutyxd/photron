@@ -1,6 +1,6 @@
 import { IEntityData, IEntityModelData } from "../data";
 
-export interface IEntityModel<D extends IEntityData, M extends IEntityModelData> extends IEntityModelData {
+export interface IEntityModel<D = IEntityData, M = IEntityModelData> extends IEntityModelData {
     toDomain: () => D;
     toRepository: () => M;
 }
