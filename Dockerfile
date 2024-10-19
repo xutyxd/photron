@@ -5,6 +5,7 @@ RUN apk add 'npm<11'
 WORKDIR /user/src/app
 ADD . .
 RUN npm install
+RUN npm run openapi:bundle
 RUN npm run server:build
 RUN npm run clean
 
