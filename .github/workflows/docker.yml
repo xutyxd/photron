@@ -31,13 +31,13 @@ jobs:
       - name: Build and tag Docker image
         run: |
           git fetch --tags
-          version=$(echo $(git describe --tags --abbrev=0))
+          version=$(echo $(git tag --sort=-creatordate | head -n 1))
           echo $version
-          docker buildx build -t xutyxd/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --load
-          docker tag xutyxd/photron:$version xutyxd/photron:latest
+          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --load
+          docker tag ${{ secrets.DOCKER_USERNAME }}/photron:$version ${{ secrets.DOCKER_USERNAME }}/photron:latest
 
       - name: Push image to Docker Hub
         run: |
-          version=$(echo $(git describe --tags --abbrev=0))
-          docker push xutyxd/photron:$version
-          docker push xutyxd/photron:latest
+          version=$(echo $(git tag --sort=-creatordate | head -n 1))
+          docker push ${{ secrets.DOCKER_USERNAME }}/photron:$version
+          docker push ${{ secrets.DOCKER_USERNAME }}/photron:latest
