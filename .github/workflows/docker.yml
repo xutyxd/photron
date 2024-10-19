@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: Docker build and release
 
 on:
   workflow_run:

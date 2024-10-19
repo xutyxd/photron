@@ -9,9 +9,9 @@ RUN npm run server:build
 RUN npm run clean
 
 FROM alpine as runner
-RUN apk add 'nodejs<19'
+RUN apk add 'nodejs<21'
 RUN node --version
-RUN apk add 'npm<10'
+RUN apk add 'npm<11'
 WORKDIR /user/src/app
 COPY --from=builder /user/src/app/server/cjs /user/src/app/server/cjs
 COPY --from=builder /user/src/app/package.json /user/src/app/package.json
