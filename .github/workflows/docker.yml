@@ -30,6 +30,7 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
+          git fetch --tags
           version=$(echo $(git describe --tags --abbrev=0))
           echo $version
           docker buildx build -t xutyxd/photron:$version . --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --load
