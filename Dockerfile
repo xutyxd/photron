@@ -1,4 +1,4 @@
-FROM alpine as builder
+FROM alpine AS builder
 RUN apk add 'nodejs<21'
 RUN node --version
 RUN apk add 'npm<11'
@@ -9,7 +9,7 @@ RUN npm run openapi:bundle
 RUN npm run server:build
 RUN npm run clean
 
-FROM alpine as runner
+FROM alpine AS runner
 RUN apk add 'nodejs<21'
 RUN node --version
 RUN apk add 'npm<11'
