@@ -37,6 +37,6 @@ jobs:
 
       - name: Push image to Docker Hub
         run: |
-          version=$(echo "${{ steps.semantic_release.outputs.nextRelease.version }}")
+          version=$(echo $(git describe --tags --abbrev=0))
           docker push xutyxd/photron:$version
           docker push xutyxd/photron:latest
