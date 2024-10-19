@@ -15,7 +15,7 @@ RUN node --version
 RUN apk add 'npm<11'
 WORKDIR /user/src/app
 COPY --from=builder /user/src/app/server/cjs /user/src/app/server/cjs
-COPY --from=builder /user/src/app/openapi /user/src/app/server/openapi
+COPY --from=builder /user/src/app/server/openapi /user/src/app/server/openapi
 COPY --from=builder /user/src/app/package.json /user/src/app/package.json
 COPY --from=builder /user/src/app/node_modules /user/src/app/node_modules
 CMD [ "npm", "start" ]
