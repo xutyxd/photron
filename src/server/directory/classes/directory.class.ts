@@ -19,10 +19,7 @@ export class Directory implements IDirectory {
         const folders = this.folders.map((folder) => new Folder(folder).toApi());
         const files = this.files.map((file) => new File(file).toApi());
 
-        return {
-            folders,
-            files
-        };
+        return { folders, files };
     }
 
     public toDomain() {
@@ -36,29 +33,20 @@ export class Directory implements IDirectory {
         const folders = this.folders.map((folder) => new Folder(folder).toModel());
         const files = this.files.map((file) => new File(file).toModel());
 
-        return {
-            folders,
-            files
-        };
+        return { folders, files };
     }
 
     public static fromAPI(entity: IDirectoryAPIData) {
         const folders = entity.folders.map((folder) => Folder.fromAPI(folder).toDomain());
         const files = entity.files.map((file) => File.fromAPI(file).toDomain());
 
-        return new Directory({
-            folders,
-            files
-        });
+        return new Directory({ folders, files });
     }
 
     public static fromModel(entity: IDirectoryModelData) {
         const folders = entity.folders.map((folder) => Folder.fromModel(folder).toDomain());
         const files = entity.files.map((file) => File.fromModel(file).toDomain());
 
-        return new Directory({
-            folders,
-            files
-        });
+        return new Directory({ folders, files });
     }
 }
