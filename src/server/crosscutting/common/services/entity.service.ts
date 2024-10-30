@@ -24,7 +24,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
             return query;
         }
     }
-    public async create(data: Partial<D>, context: IHTTPContextData) {
+    public async create(data: Partial<D>, context?: IHTTPContextData) {
 
         let entityCreated: D;
 
@@ -48,7 +48,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityCreated;
     }
 
-    public async get(index: number | string, context: IHTTPContextData) {
+    public async get(index: number | string, context?: IHTTPContextData) {
         let entityGetted: D;
 
         try {
@@ -71,7 +71,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityGetted;
     }
 
-    public async list(where: IDbQueryWhere<M>[], context: IHTTPContextData) {
+    public async list(where: IDbQueryWhere<M>[], context?: IHTTPContextData) {
         let entitiesGetted: D[] | undefined;
 
         try {
@@ -95,7 +95,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entitiesGetted || [];
     }
 
-    public async update(index: number | string, data: D, context: IHTTPContextData) {
+    public async update(index: number | string, data: D, context?: IHTTPContextData) {
         let entityUpdated: D;
 
         try {
@@ -120,7 +120,7 @@ export class EntityService<A extends IEntityAPIData, D extends IEntityData, M ex
         return entityUpdated;
     }
 
-    public async delete(index: number | string, context: IHTTPContextData) {
+    public async delete(index: number | string, context?: IHTTPContextData) {
         let entityDeleted: D;
         try {
             // Get query to index entity
