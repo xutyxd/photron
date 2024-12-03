@@ -24,7 +24,7 @@
 ## 📥 Installation
 
 ```sh
-npm i photron
+npm i photron-api
 ```
 
 <!-- ## 🕹️ Playground

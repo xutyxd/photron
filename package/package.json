@@ -1,5 +1,5 @@
 {
-    "name": "photron",
+    "name": "photron-api",
     "version": "1.0.0",
     "description": "A server to manage resources splitting into chunks for parallel download",
     "type": "module",
